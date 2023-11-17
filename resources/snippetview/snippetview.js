@@ -6,6 +6,7 @@ var vscodeApi;
 (function() {
     vscodeApi = acquireVsCodeApi();
     tikzInitialise();
+    TeX3RInitialise(); // Ajout pour initialisation snippet TeX3R
 })();
 
 async function loadMathSymbols() {
@@ -108,5 +109,19 @@ function openTab(evt, tabName) {
     document.getElementById(tabName).style.display = 'block';
     evt.currentTarget.className += ' active';
 }
+
+// fonction insertion snippet TeX3R
+function TeX3RInitialise() {
+    document.querySelectorAll('#TeX3R a.cmd').forEach(elem => {
+        elem.addEventListener('click', _evt => {
+            vscodeApi.postMessage({
+                type: 'insertSnippet',
+                snippet: elem.getAttribute('data-snippet').replace(/\\n/g, '\n')
+            });
+        });
+    });
+}
+// Fin ajout fonction TeX3R
+
 
 document.querySelector('.tablinks.active').click();
