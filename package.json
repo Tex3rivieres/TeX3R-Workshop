@@ -793,63 +793,42 @@
           },
           "default": [
             {
-              "name": "latexmk",
+              "name": "lualatex",
               "tools": [
-                "latexmk"
+                "lualatex"
               ]
             },
             {
-              "name": "latexmk (latexmkrc)",
+              "name": "lualatex x2",
               "tools": [
-                "latexmk_rconly"
+                "lualatex",
+                "lualatex"
               ]
             },
             {
-              "name": "latexmk (lualatex)",
+              "name": "pdflatex",
               "tools": [
-                "lualatexmk"
+                "pdflatex"
               ]
             },
             {
-              "name": "latexmk (xelatex)",
+              "name": "pdflatex x2",
               "tools": [
-                "xelatexmk"
-              ]
-            },
-            {
-              "name": "pdflatex -> bibtex -> pdflatex * 2",
-              "tools": [
-                "pdflatex",
-                "bibtex",
                 "pdflatex",
                 "pdflatex"
               ]
             },
             {
-              "name": "Compile Rnw files",
+              "name": "xelatex",
               "tools": [
-                "rnw2tex",
-                "latexmk"
+                "xelatex"
               ]
             },
             {
-              "name": "Compile Jnw files",
+              "name": "xelatex x2",
               "tools": [
-                "jnw2tex",
-                "latexmk"
-              ]
-            },
-            {
-              "name": "Compile Pnw files",
-              "tools": [
-                "pnw2tex",
-                "latexmk"
-              ]
-            },
-            {
-              "name": "tectonic",
-              "tools": [
-                "tectonic"
+                "xelatex",
+                "xelatex"
               ]
             }
           ],
