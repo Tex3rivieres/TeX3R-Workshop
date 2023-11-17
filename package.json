@@ -1,15 +1,15 @@
 {
-  "name": "latex-workshop",
-  "displayName": "LaTeX Workshop",
-  "description": "Boost LaTeX typesetting efficiency with preview, compile, autocomplete, colorize, and more.",
+  "name": "tex3r",
+  "displayName": "TeX3R",
+  "description": "Environnement basé sur latex worshop pour facilter la rédaction de cours de maths.",
   "icon": "icons/icon.png",
-  "version": "9.15.0",
-  "publisher": "James-Yu",
+  "version": "3.0.0",
+  "publisher": "Tex3R",
   "license": "MIT",
-  "homepage": "https://github.com/James-Yu/LaTeX-Workshop",
+  "homepage": "https://github.com/Tex3rivieres/TeX3R-Workshop",
   "repository": {
     "type": "git",
-    "url": "https://github.com/James-Yu/LaTeX-Workshop.git"
+    "url": "https://github.com/Tex3rivieres/TeX3R-Workshop.git"
   },
   "engines": {
     "vscode": "^1.74.0"
