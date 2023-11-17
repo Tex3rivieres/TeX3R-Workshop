@@ -255,3 +255,63 @@ input[type='text']:focus {
     display: inline-block;
     vertical-align: top;
 }
+
+/*********************** Style div id=TeX3R *****************************/
+
+#TeX3R .grid {
+    display: block;
+    align-items: baseline;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+#TeX3R .grid div {
+    display: inline-block;
+    position: relative;
+    min-width: 2ex;
+    cursor: pointer;
+    border: var(--vscode-editor-background) 1px solid;
+}
+#TeX3R .grid div:hover {
+    background-color: var(--vscode-list-hoverBackground);
+    transform: scale(1.15);
+}
+#TeX3R a.cmd {
+    position: relative;
+    display: block;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    margin-left: 0.3em;
+    font-stretch: 200%;
+    letter-spacing: 0.05em;
+    opacity: 0.8;
+    color:var(--vscode-editor-foreground);  /* couleur pour le texte */
+    stroke: currentColor; /* couleur pour les SVG */
+    stroke-width: 1;
+    fill: currentColor;
+}
+
+a.cmd::after {
+    content: attr(data-description); /* Ou utiliser var(--description-content) */
+    position: absolute;
+    bottom: 100%;
+    left:0;
+    /* transform: translateX(-40%); */
+    /* transform: scale(0.7); */
+    white-space: nowrap;
+    z-index: 1;
+    background-color: var(--vscode-list-hoverBackground);
+    color: var(--vscode-editor-foreground);
+    border-radius: 4px;
+    font-size: 8px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    border: var(--vscode-editor-background) 1px solid;
+}
+
+a.cmd:hover::after {
+    opacity: 1;
+}
+
+/************************** Fin Style div id=TeX3R *****************************************/
