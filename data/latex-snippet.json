@@ -625,6 +625,13 @@
 			"\\\\overparen{\\\\mathrm{$TM_SELECTED_TEXT$1}}$0"
 		],
 		"description": "Arc de cercle"
+	},
+	"Math text": {
+		"prefix": ["mathrm"],
+		"body": [
+			"\\\\mathrm{$TM_SELECTED_TEXT$1}$0"
+		],
+		"description": "Flèche de définition d'une fonction"
 	}
 
 }
