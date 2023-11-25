@@ -3,15 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; connect-src %VSCODE_CSP%; script-src %VSCODE_CSP% 'unsafe-inline' blob:; style-src %VSCODE_CSP% 'unsafe-inline';"> -->
 
-    <!-- Ajout autorisation chargement des images locales -->
-    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; connect-src %VSCODE_CSP%; script-src %VSCODE_CSP% 'unsafe-inline' blob:; style-src %VSCODE_CSP% 'unsafe-inline'; img-src 'self' vscode-resource:;"> -->
-
-    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; connect-src %VSCODE_CSP%; script-src %VSCODE_CSP% 'unsafe-inline' blob:; style-src %VSCODE_CSP% 'unsafe-inline'; img-src 'self' vscode-resource:; font-src 'self' vscode-resource:; style-src 'self' 'unsafe-inline' vscode-resource:;"> -->
-
-    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; connect-src %VSCODE_CSP%; script-src %VSCODE_CSP% 'unsafe-inline' blob:; style-src %VSCODE_CSP% 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' vscode-resource:; font-src 'self' https://cdnjs.cloudflare.com;"> -->
-
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; connect-src %VSCODE_CSP%; script-src %VSCODE_CSP% 'unsafe-inline' blob:; style-src %VSCODE_CSP% 'unsafe-inline' vscode-resource:; img-src 'self' vscode-resource:; font-src 'self' vscode-resource:;">
 
     <script>
         var mathSymbolsJsonUrl = '%VSCODE_RES%/snippetview/snippetpanel.json';
@@ -25,7 +18,7 @@
     <link rel="stylesheet" href="%VSCODE_RES%/snippetview/snippetview.css">
     <!-- Pour font awesome -->
     <link rel="stylesheet" href="%VSCODE_RES%/snippetview/assets/fontawesome-free/css/all.min.css">
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> -->
+
 </head>
 
 <body>
@@ -142,14 +135,14 @@
 
 <div>
     <a class="cmd" data-snippet="\textcolor{Blue}{$TM_SELECTED_TEXT$1}$0"
-    data-description="bleu">
+    data-description="Encadrer">
     <i class="fa-solid fa-fill-drip" style="color:Blue; font-size: 24px;"></i>
     </a>
 </div>
 
 <div>
     <a class="cmd" data-snippet="\hl{$TM_SELECTED_TEXT$1}$0"
-    data-description="bleu">
+    data-description="Surligner">
     <i class="fa-solid fa-highlighter" style="color:currentColor; font-size: 24px;"></i>
     </a>
 </div>
@@ -253,7 +246,7 @@
     $TM_SELECTED_TEXT$1                     
 \end{visible}
 \begin{visible}[false]
-    \tracecarreaux{${2:nb lignes}}
+    ${2: Texte alternatif}
 \end{visible}$0"
     data-description="texte/lignes">
     <i class="fa-solid fa-eye-low-vision" style="font-size: 24px; color: currentColor;"></i>
@@ -358,7 +351,7 @@
 
 <div>
     <a class="cmd" data-snippet="%%%% REMARQUE %%%%
-begin{remarque}
+\begin{remarque}
     $TM_SELECTED_TEXT$1
 \end{remarque}$0"
     data-description="Remarque">
@@ -432,7 +425,7 @@ begin{remarque}
     \hline
     \rowcolor{gray} ${2:Cellule 1} & ${3:Cellule 2}\\\ 
     \hline
-    \cellcolor{gray} ${4:Cellule 3} & ${5:Cellule 4}\\\
+    \cellcolor{gray} ${4:Cellule 3} & ${5:Cellule 4}\\\ 
     \hline
 \end{tabular}$0"
     data-description="tableau">
@@ -448,31 +441,30 @@ begin{remarque}
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\begin{tikzpicture}[scale=0.5]
+    <a class="cmd" data-snippet="\begin{tikzpicture}[scale=${1:0.5}] %Echelle de la figure
 
-    % Définition des points
+    ${2:% Définition des points
     \coordinate (A) at (0,0);
-    \draw (A) node[above left] {$A$};
+    \draw (A) node[below left] {\$A\$\}; %Etiquette haut gauche
     
     \coordinate (B) at (7,0);
-    \draw ($(B)+(0.1,0.2)$) node[above] {$B$};
+    \draw (B) node[above right] {\$B\$\}; %Etiquette bas droit
    
     \coordinate (C) at (0,3);
-    \draw (C) node[below left] {$C$};
+    \draw (\$(C)+(-0.5,0.5)\$) node{\$C\$\};%Etiquette décalage manuel
 
      
-    % Dessin des triangles
+    % Dessin du triangle
     \draw (A) -- (B) -- (C) -- cycle;
   
-    % Marquage des angles droits
+    % Marquage de l'angles droits
     \draw (A) rectangle ++(0.5,0.5);
 
-      % Ajout des mesures
-    \draw[<->] ($(A)+(-0.5,0)$) -- node[left] {$8$} ($(B)+(-0.5,0)$);
-    \draw[<->] ($(A)+(0,-0.5)$) -- node[below] {$20$} ($(C)+(0,-0.5)$);
-    \draw[<->] ($(B)+(0.5,0)$) -- node[right] {$11$} ($(C)+(0.5,0)$);
-
-   
+      % Ajout des mesures et côtes avec décalage manuel par rapport aux sommets
+    \draw[<->] (\$(A)+(-0.5,0)\$) -- node[left] {\$AC\$\} (\$(C)+(-0.5,0)\$);
+    \draw[<->] (\$(A)+(0,-0.5)\$) -- node[below] {\$AB\$\} (\$(B)+(0,-0.5)\$);
+    \draw[<->] (\$(B)+(0,0.5)\$) -- node[above right] {\$BC\$\} (\$(C)+(0,0.5)\$);}
+ 
 \end{tikzpicture}$0"
     data-description="Figure TikZ">
     <i class="fa-solid fa-compass-drafting" style="font-size: 24px; color: currentColor;"></i>
@@ -480,19 +472,77 @@ begin{remarque}
 </div>
 
 <div>
+    <a class="cmd" data-snippet="\begin{scratch}
+    \blockinit{quand \greenflag est cliqué}
+    \blockrepeat{répéter \ovalnum{4} fois}
+    {
+        \blockifelse{si \booloperator{\ovalvariable{x} > \ovalnum{1}} alors}
+            {
+                \blockmove{tourner de \turnleft{} de \ovalnum{45} degrés}
+            }
+            {
+                \blockvariable{mettre \selectmenu{ma_variable} à \ovaloperator{\ovalvariable{x} + \ovalnum{10}}}
+            }
+    }
+    \blocklook{dire \ovalnum{fin}}
+\end{scratch}$0"
+    data-description="Scratch">
+    <svg  width="24" height="24">
+        <path
+        d="M11.406 11.312c-.78-.123-1.198-.654-.99-2.295l.023-.198c.175-1.426.321-1.743.996-1.706.198.013.426.14.654.33.211.247.68.568.945 1.204.19.466.254.77.281 1.098l.042.402v-.002a.68.68 0 0 0 1.342-.007c.008-.044.176-4.365.176-4.436 0-.38-.302-.69-.68-.696a.685.685 0 0 0-.682.688c0 .009-.001.605-.014 1.206-.536-.592-1.223-1.123-1.994-1.17-2.058-.11-2.283 1.811-2.419 2.918l-.02.196c-.278 2.189.441 3.569 2.13 3.837 1.838.293 3.063.72 3.074 1.868.007.446-.224.903-.627 1.254a2.163 2.163 0 0 1-1.749.507 3.233 3.233 0 0 1-.539-.141c-.24-.136-.847-.51-1.154-.942-.26-.364-.35-.937-.378-1.3.004-.163.005-.27.005-.283a.69.69 0 0 0-.669-.703.689.689 0 0 0-.696.682c0 .013-.017 1.367-.066 2.183-.07 1.313 0 2.426 0 2.474.028.382.35.67.727.644a.681.681 0 0 0 .635-.733c0-.006-.033-.545-.029-1.29a5.21 5.21 0 0 0 1.938.773 3.451 3.451 0 0 0 2.856-.82c.713-.619 1.122-1.464 1.11-2.32-.024-2.555-2.865-3.004-4.228-3.222M14.174 0a5.51 5.51 0 0 0-2.724.723h-.112c-2.637 0-4.937 1.392-6.15 3.728-.728 1.393-.9 2.75-.999 3.579-.012.089-.018.17-.028.262-.12.974-.123 1.904-.01 2.772a5.824 5.824 0 0 0-.625 2.529v.016a58.919 58.919 0 0 1-.057 1.95 29.72 29.72 0 0 0-.008 2.94l.013.209C3.698 21.676 6.159 24 9.083 24a5.516 5.516 0 0 0 3.463-1.21 8.357 8.357 0 0 0 5.195-2.08c1.826-1.587 2.859-3.845 2.83-6.19-.013-1.362-.346-2.638-.978-3.763.117-1.273.221-4.996.221-5.03 0-3.103-2.484-5.67-5.539-5.727zm.056 2.675c1.642.03 2.978 1.412 2.978 3.081 0 .038-.145 4.497-.215 4.883a3.152 3.152 0 0 1-.203.69c.756.89 1.165 2 1.175 3.256.021 1.555-.681 3.076-1.926 4.16a5.763 5.763 0 0 1-3.8 1.444 5.986 5.986 0 0 1-.718-.048 3.386 3.386 0 0 1-.172.215 2.97 2.97 0 0 1-2.264 1.038c-1.573 0-2.897-1.255-3.013-2.856l-.008-.122a27.366 27.366 0 0 1 .005-2.662c.039-.679.06-1.831.062-2.08a3.124 3.124 0 0 1 .783-2.025c-.237-.835-.312-1.836-.167-3.02l.024-.212c.083-.695.208-1.72.72-2.7.765-1.473 2.168-2.318 3.848-2.318a4.568 4.568 0 0 1 .824.07c.546-.5 1.27-.81 2.067-.794Z"
+        />
+    </svg>
+    </a>
+</div>
+
+<div>
     <a class="cmd" data-snippet="\tracelignes{${1:nb lignes}}$0"
-    data-description="Lignes">
+    data-description="Lignes Seyes">
     <svg  width="24" height="24">
     <path d="
-    M0,4 L24,4 
-    M0,10 L24,10
-    M0,16 L24,16
-    M0,22 L24,22
+    M0,5 L24,5 
+    M0,11 L24,11
+    M0,17 L24,17
+    M0,23 L24,23"
     stroke-width="1"/>
     <path d="M4,1 L4,24" stroke="red" stroke-width="2"/>
     </svg>
     </a>
 </div>
+
+<div>
+    <a class="cmd" data-snippet="\tracecarreaux{${1:nb lignes}}$0"
+    data-description="Lignes carreaux">
+    <svg  width="24" height="24">
+    <path d="
+    M0,5 L24,5 
+    M0,11 L24,11
+    M0,17 L24,17
+    M0,23 L24,23"
+    stroke-width="1"/>
+    <path d="
+    M4,1 L4,24
+    M10,1 L10,24
+    M16,1 L16,24
+    M22,1 L22,24"  
+    stroke-width="1"/>
+    </svg>
+    </a>
+</div>
+<div>
+    <a class="cmd" data-snippet="\sautfiche%\sautdiapo$0"
+    data-description="Nouvelle page">
+    <i class="fa-solid fa-file" style="font-size: 24px; color: currentColor;"></i>
+    </a>
+</div>
+
+<div>
+    <a class="cmd" data-snippet="\sautligne$0"
+    data-description="Saut ligne">
+    <i class="fa-solid fa-xmarks-lines" style="font-size: 24px; color: currentColor;"></i>
+    </a>
+</div>
+
 <div>
     <a class="cmd" data-snippet="\documentclass[../../../main.tex]{subfiles}
 \begin{document}
@@ -755,7 +805,7 @@ begin{remarque}
     <a class="cmd" data-snippet="Ç$0"
     data-description="Ç">
     <svg width="24" height="24">  
-        <text x="0" y="24"
+        <text x="0" y="20"
         font-family="calibri"
         font-weight="bold"
         font-style="normal"
