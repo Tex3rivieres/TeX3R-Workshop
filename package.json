@@ -873,71 +873,61 @@
               "name": "lualatexmk",
               "command": "latexmk",
               "args": [
-                  "--shell-escape",
-                  "-synctex=1",
-                  "-interaction=nonstopmode",
-                  "-file-line-error",
-                  "-lualatex",
-                  "-outdir=%OUTDIR%",
-                  "%DOC%"
+                "--shell-escape",
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-lualatex",
+                "-outdir=%OUTDIR%",
+                "%DOC%"
               ],
               "env": {}
-          },
-          {
+            },
+            {
               "name": "lualatex",
               "command": "lualatex",
               "args": [
-                  "--shell-escape",
-                  "-synctex=1",
-                  "-interaction=nonstopmode",
-                  "-file-line-error",
-                  "%DOC%"
-              ]
-          },
-          {
-              "name": "pdflatex",
-              "command": "pdflatex",
-              "args": [
-                  "--shell-escape",
-                  "-synctex=1",
-                  "-interaction=nonstopmode",
-                  "-file-line-error",
-                  "%DOC%"
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-lualatex",
+                "-outdir=%OUTDIR%",
+                "%DOC%"
               ],
               "env": {}
-          },
-          {
+            },
+            {
               "name": "latexmk",
               "command": "latexmk",
               "args": [
-                  "-synctex=1",
-                  "-interaction=nonstopmode",
-                  "-file-line-error",
-                  "-pdf",
-                  "-outdir=%OUTDIR%",
-                  "%DOC%"
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-pdf",
+                "-outdir=%OUTDIR%",
+                "%DOC%"
               ],
               "env": {}
-          },
-          {
+            },
+            {
               "name": "xelatexmk",
               "command": "latexmk",
               "args": [
-                  "--shell-escape",
-                  "-synctex=1",
-                  "-interaction=nonstopmode",
-                  "-file-line-error",
-                  "-xelatex",
-                  "-outdir=%OUTDIR%",
-                  "%DOC%"
+                "--shell-escape",
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-xelatex",
+                "-outdir=%OUTDIR%",
+                "%DOC%"
               ],
               "env": {}
-          },
-          {
+            },
+            {
               "name": "latexmk_rconly",
               "command": "latexmk",
               "args": [
-                  "%DOC%"
+                "%DOC%"
               ],
               "env": {}
           },
@@ -2561,6 +2551,7 @@
     "watch-viewer": "tsc -watch -p viewer/tsconfig.json"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.4.2",
     "@unified-latex/unified-latex-util-arguments": "1.4.2",
     "@unified-latex/unified-latex-util-parse": "1.4.2",
     "cross-spawn": "7.0.3",
@@ -2571,7 +2562,7 @@
     "micromatch": "4.0.5",
     "pdfjs-dist": "^4.0.189",
     "tmp": "0.2.1",
-    "vsce": "^2.15.0",
+    "vsce": "^1.103.1",
     "workerpool": "8.0.0",
     "ws": "8.14.2"
   },
