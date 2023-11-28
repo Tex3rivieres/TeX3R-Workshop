@@ -34,32 +34,21 @@
         <h3>Accueil</h3>
 
 <div>
-    <a class="cmd" data-snippet="\documentclass[${1:fiche}]{classe-tex3R}
+    <a class="cmd" data-snippet="\documentclass{classe-tex3R}
 \usepackage{style-tex3R}
+\begin{document}
+
+\begin{luacode}
+mesParametres('TD')
+\end{luacode}
+\parametrage
 
 \definirniveau{${2:texte}}
 \definirchapitre{${3:nombre ou nil}}{${4:nom}}
 
-\begin{luacode}
-    Type = 'basique' -- 'activite' ; 'bilan' ; 'corrige' ; 'cours' ; 'DM' ; 'DS' ; 'flash' ; 'interro' ; 'TD'
-    Impression = true -- false
-    Header = true -- false
-    Taille = '14pt' -- nil
-    Stretch = true -- false
+%%%%%%%  Contenu du document %%%%%%%%
 
-    Correction = true -- false
-    Enonce = true -- false
-    Visible = true -- false
 
-    Competence = true -- false
-    Bareme = true -- false
-    Difficulte = true -- false
-    Source = true -- false
-    Theme = true -- false
-\end{luacode}
-\parametrage
-
-\begin{document}
     $TM_SELECTED_TEXT$5
 \end{document}$0" 
     data-description="Nouveau document">
@@ -544,10 +533,7 @@
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\documentclass[../../../main.tex]{subfiles}
-\begin{document}
-    $2
-\end{document}"
+    <a class="cmd" data-snippet="\\subfileinclude{${1:subfile}}$0"
     data-description="Nouveau subfile">
     <i class="fa-solid fa-file-import" style="font-size: 24px; color: currentColor;"></i>
 </a>
