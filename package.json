@@ -887,11 +887,21 @@
               "name": "lualatex",
               "command": "lualatex",
               "args": [
+                "--shell-escape",
                 "-synctex=1",
                 "-interaction=nonstopmode",
                 "-file-line-error",
-                "-lualatex",
-                "-outdir=%OUTDIR%",
+                "%DOC%"
+              ]
+            },
+            {
+              "name": "pdflatex",
+              "command": "pdflatex",
+              "args": [
+                "--shell-escape",
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
                 "%DOC%"
               ],
               "env": {}
@@ -930,72 +940,72 @@
                 "%DOC%"
               ],
               "env": {}
-          },
-          {
+            },
+            {
               "name": "bibtex",
               "command": "bibtex",
               "args": [
-                  "%DOCFILE%"
+                "%DOCFILE%"
               ],
               "env": {}
-          },
-          {
+            },
+            {
               "name": "rnw2tex",
               "command": "Rscript",
               "args": [
-                  "-e",
-                  "knitr::opts_knit$set(concordance = TRUE); knitr::knit('%DOCFILE_EXT%')"
+                "-e",
+                "knitr::opts_knit$set(concordance = TRUE); knitr::knit('%DOCFILE_EXT%')"
               ],
               "env": {}
-          },
-          {
+            },
+            {
               "name": "jnw2tex",
               "command": "julia",
               "args": [
-                  "-e",
-                  "using Weave; weave(\"%DOC_EXT%\", doctype=\"tex\")"
+                "-e",
+                "using Weave; weave(\"%DOC_EXT%\", doctype=\"tex\")"
               ],
               "env": {}
-          },
-          {
+            },
+            {
               "name": "jnw2texminted",
               "command": "julia",
               "args": [
-                  "-e",
-                  "using Weave; weave(\"%DOC_EXT%\", doctype=\"texminted\")"
+                "-e",
+                "using Weave; weave(\"%DOC_EXT%\", doctype=\"texminted\")"
               ],
               "env": {}
-          },
-          {
+            },
+            {
               "name": "pnw2tex",
               "command": "pweave",
               "args": [
-                  "-f",
-                  "tex",
-                  "%DOC_EXT%"
+                "-f",
+                "tex",
+                "%DOC_EXT%"
               ],
               "env": {}
-          },
-          {
+            },
+            {
               "name": "pnw2texminted",
               "command": "pweave",
               "args": [
-                  "-f",
-                  "texminted",
-                  "%DOC_EXT%"
+                "-f",
+                "texminted",
+                "%DOC_EXT%"
               ],
               "env": {}
-          },
-          {
+            },
+            {
               "name": "tectonic",
               "command": "tectonic",
               "args": [
-                  "--synctex",
-                  "--keep-logs",
-                  "%DOC%.tex"
+                "--synctex",
+                "--keep-logs",
+                "%DOC%.tex"
               ],
               "env": {}
-          }
+            }
           ],
           "markdownDescription": "Define LaTeX compiling tools to be used in recipes. Each tool is labeled by its `name`. When invoked, `command` is spawned with arguments defined in `args` and environment variables defined in `env`. Typically no spaces should appear in each argument unless in paths. List of available placeholders: `%DOC%`, `%DOC_W32%, %DOC_EXT%`, `%DOC_EXT_W32%`, `%DOCFILE%`, `%DOCFILE_EXT%`, `%DIR%`, `%DIR_W32%`, `%TMPDIR%` and `%OUTDIR%`, `%OUTDIR_W32%`. Please visit https://github.com/James-Yu/LaTeX-Workshop/wiki/Compile#placeholders for a complete list of all placeholders."
         },
