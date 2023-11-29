@@ -36,25 +36,51 @@
 <div>
     <a class="cmd" data-snippet="\documentclass{classe-tex3R}
 \usepackage{style-tex3R}
-\begin{document}
-
-\begin{luacode}
-mesParametres('TD')
-\end{luacode}
-\parametrage
 
 \definirniveau{${2:texte}}
 \definirchapitre{${3:nombre ou nil}}{${4:nom}}
 
+\begin{document}
+
+\begin{luacode}
+mesParametres('${1:TD}')
+-- Paramètres personnels ici --
+
+\end{luacode}
+\parametrage
+
 %%%%%%%  Contenu du document %%%%%%%%
 
+    $TM_SELECTED_TEXT$2
 
-    $TM_SELECTED_TEXT$5
 \end{document}$0" 
     data-description="Nouveau document">
     <i class="fa-solid fa-file-circle-plus" style="font-size: 24px; color: currentColor;"></i>
     </a>
 </div>
+<div>
+<a class="cmd" data-snippet="Type = 'basique' -- 'activite' ; 'bilan' ; 'corrige' ; 'cours' ; 'DM' ; 'DS' ; 'flash' ; 'interro' ; 'TD'
+Impression = true -- false
+Header = true -- false
+Taille = '14pt' -- nil
+Stretch = true -- false
+
+Correction = false -- false
+Enonce = true -- false
+Visible = true -- false
+
+Competence = true -- false
+Bareme = true -- false
+Difficulte = true -- false
+Source = true -- false
+Theme = true -- false"
+    data-description="Paramètres">
+        <i class="fa-solid fa-sliders" style="font-size: 24px; color: currentColor;"></i>
+    </a>
+</div>
+
+
+
 <div>
     <a class="cmd" data-snippet="%%%% Titre perso %%%%
 \ihead{{\bfseries\LARGE${1:\logoactif}~ \underLine{\textbf{${2:TD}}~|~\mdseries Tableur\hfill {\large ${3:niveau}}}\par}}$0"
@@ -130,7 +156,7 @@ mesParametres('TD')
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\hl{$TM_SELECTED_TEXT$1}$0"
+    <a class="cmd" data-snippet="\important{$TM_SELECTED_TEXT$1}$0"
     data-description="Surligner">
     <i class="fa-solid fa-highlighter" style="color:currentColor; font-size: 24px;"></i>
     </a>
@@ -259,6 +285,22 @@ mesParametres('TD')
 </div>
 
 <div>
+    <a class="cmd" data-snippet="%%%% CONVENTION %%%%
+\begin{convention}
+    $TM_SELECTED_TEXT$1
+\end{convention}$0"
+    data-description="Convention">
+    <svg width="34" height="24">  
+    <text x="0" y="18"
+    font-family="calibri"
+    font-weight="bold"
+    font-style="normal"
+    font-size="16">conv</text>
+    </svg>
+    </a>
+</div>
+
+<div>
     <a class="cmd" data-snippet="%%%% PROPRIETE %%%%
 \begin{propriete}
     $TM_SELECTED_TEXT$1
@@ -302,22 +344,6 @@ mesParametres('TD')
     font-weight="bold"
     font-style="normal"
     font-size="18">app</text>
-    </svg>
-    </a>
-</div>
-
-<div>
-    <a class="cmd" data-snippet="%%%% EXERCICE %%%%
-\begin{exercice}
-    $TM_SELECTED_TEXT$1
-\end{exercice}$0"
-    data-description="Exercice">
-    <svg width="32" height="24">  
-    <text x="2" y="18"
-    font-family="calibri"
-    font-weight="bold"
-    font-style="normal"
-    font-size="18">exo</text>
     </svg>
     </a>
 </div>
@@ -371,41 +397,34 @@ mesParametres('TD')
 </div>
 
 <div>
-    <a class="cmd" data-snippet="%%%% ÉNONCÉ %%%%
-\source{$1}
-\theme{$2}
-\competence{$3}
-\difficulte{$4}
+    <a class="cmd" data-snippet="%%% EXERCICE %%%
+% ÉNONCÉ %
+\source{${1:texte}}
+\theme{${2:texte}}
+\competence{${3:texte}}
+\difficulte{${4:nombre ou nil}}
+\bareme{${5:texte}}
 
 \begin{enonce}
     $TM_SELECTED_TEXT$5
-\end{enonce}$0"
-    data-description="Énoncé">
+\end{enonce}
+
+% CORRECTION %
+\begin{correction}
+    $TM_SELECTED_TEXT$1
+\end{correction}$0"
+    data-description="Exercice">
     <svg width="32" height="24">  
     <text x="2" y="18"
     font-family="calibri"
     font-weight="bold"
     font-style="normal"
-    font-size="18">eno</text>
+    font-size="18">exo</text>
     </svg>
     </a>
 </div>
 
-<div>
-    <a class="cmd" data-snippet="%%%% CORRECTION %%%%
-\begin{correction}
-    $TM_SELECTED_TEXT$1
-\end{correction}$0"
-    data-description="Correction">
-    <svg width="32" height="24">  
-    <text x="2" y="18"
-    font-family="calibri"
-    font-weight="bold"
-    font-style="normal"
-    font-size="18">cor</text>
-    </svg>
-    </a>
-</div>
+
 
 <h3>Insertion</h3>
 
@@ -462,18 +481,18 @@ mesParametres('TD')
 
 <div>
     <a class="cmd" data-snippet="\begin{scratch}
-    \blockinit{quand \greenflag est cliqué}
-    \blockrepeat{répéter \ovalnum{4} fois}
+    ${1:\blockinit{quand \greenflag est cliqué\}
+    \blockrepeat{répéter \ovalnum{4\} fois\}
     {
-        \blockifelse{si \booloperator{\ovalvariable{x} > \ovalnum{1}} alors}
+        \blockifelse{si \booloperator{\ovalvariable{x\} > \ovalnum{1\}\} alors\}
             {
-                \blockmove{tourner de \turnleft{} de \ovalnum{45} degrés}
-            }
+                \blockmove{tourner de \turnleft{\} de \ovalnum{45\} degrés\}
+            \}
             {
-                \blockvariable{mettre \selectmenu{ma_variable} à \ovaloperator{\ovalvariable{x} + \ovalnum{10}}}
-            }
-    }
-    \blocklook{dire \ovalnum{fin}}
+                \blockvariable{mettre \selectmenu{ma_variable\} à \ovaloperator{\ovalvariable{x\} + \ovalnum{10\}\}\}
+            \}
+    \}
+    \blocklook{dire \ovalnum{fin\}\}}
 \end{scratch}$0"
     data-description="Scratch">
     <svg  width="24" height="24">
@@ -485,8 +504,8 @@ mesParametres('TD')
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\tracelignes{${1:nb lignes}}$0"
-    data-description="Lignes Seyes">
+    <a class="cmd" data-snippet="\lignes{${1:carreau/carreaux/surligne/seyes}}{${2:nombre ou nil}}$0"
+    data-description="Lignes">
     <svg  width="24" height="24">
     <path d="
     M0,5 L24,5 
@@ -499,25 +518,6 @@ mesParametres('TD')
     </a>
 </div>
 
-<div>
-    <a class="cmd" data-snippet="\tracecarreaux{${1:nb lignes}}$0"
-    data-description="Lignes carreaux">
-    <svg  width="24" height="24">
-    <path d="
-    M0,5 L24,5 
-    M0,11 L24,11
-    M0,17 L24,17
-    M0,23 L24,23"
-    stroke-width="1"/>
-    <path d="
-    M4,1 L4,24
-    M10,1 L10,24
-    M16,1 L16,24
-    M22,1 L22,24"  
-    stroke-width="1"/>
-    </svg>
-    </a>
-</div>
 <div>
     <a class="cmd" data-snippet="\sautfiche%\sautdiapo$0"
     data-description="Nouvelle page">
@@ -578,21 +578,9 @@ mesParametres('TD')
     </a>
 </div>
 
-<div>
-    <a class="cmd" data-snippet="$TM_SELECTED_TEXT^\circ"
-    data-description="Symbole degrés">
-    <svg width="24" height="24">  
-        <text x="2" y="22"
-        font-family="calibri"
-        font-weight="bold"
-        font-style="normal"
-        font-size="20">x°</text>
-    </svg>
-    </a>
-</div>
 
 <div>
-    <a class="cmd" data-snippet="\widehat{\mathrm{$TM_SELECTED_TEXT$1}}$0"
+    <a class="cmd" data-snippet="\widehat{$TM_SELECTED_TEXT$1}$0"
     data-description="Angle">
     <svg width="32" height="24">  
         <text x="0" y="22"
@@ -606,7 +594,7 @@ mesParametres('TD')
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\overparen{\mathrm{$TM_SELECTED_TEXT$1}}$0"
+    <a class="cmd" data-snippet="\overparen{$TM_SELECTED_TEXT$1}$0"
     data-description="Arc de cercle">
     <svg width="32" height="24">  
         <text x="0" y="22"
@@ -616,6 +604,13 @@ mesParametres('TD')
         font-size="17">ABC</text>
         <path d="M 0,9 A 16,8.5 0 1,1 32,9" stroke="currentColor" stroke-width="2" fill="none"/>
     </svg>
+    </a>
+</div>
+
+<div>
+    <a class="cmd" data-snippet="\mathcal{$TM_SELECTED_TEXT$1}$0"
+    data-description="Calligraphie">
+        <i class="fa-solid fa-pen-fancy" style="font-size: 24px; color: currentColor;"></i>
     </a>
 </div>
 
@@ -662,6 +657,20 @@ mesParametres('TD')
 </div>
 
 <div>
+    <a class="cmd" data-snippet="\times"
+    data-description="Symbole multiplier">
+    <i class="fa-solid fa-xmark" style="font-size: 24px; color: currentColor;"></i>
+    </a>
+</div>
+
+<div>
+    <a class="cmd" data-snippet="\div"
+    data-description="Symbole diviser">
+    <i class="fa-solid fa-divide" style="font-size: 24px; color: currentColor;"></i>
+    </a>
+</div>
+
+<div>
     <a class="cmd" data-snippet="\\ne"
     data-description="Différent de">
     <i class="fa-solid fa-not-equal" style="font-size: 24px; color: currentColor;"></i>
@@ -678,16 +687,20 @@ mesParametres('TD')
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\times"
-    data-description="Symbole multiplier">
-    <i class="fa-solid fa-xmark" style="font-size: 24px; color: currentColor;"></i>
+    <a class="cmd" data-snippet="\leqslant"
+    data-description="Inférieur ou égal">
+    <svg width="24" height="24" viewbox="0 0 24 24"> 
+        <path d="M2,12 L22,4 M2,12 L22,20 M2,16 L22,24" stroke="currentColor" stroke-width="2" fill="none"/> 
+    </svg>
     </a>
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\div"
-    data-description="Symbole diviser">
-    <i class="fa-solid fa-divide" style="font-size: 24px; color: currentColor;"></i>
+    <a class="cmd" data-snippet="\geqslant"
+    data-description="Supérieur ou égal">
+    <svg width="24" height="24" viewbox="0 0 24 24"> 
+        <path d="M22,12 L2,4 M22,12 L2,20 M22,16 L2,24" stroke="currentColor" stroke-width="2" fill="none"/> 
+    </svg>
     </a>
 </div>
 
@@ -714,25 +727,40 @@ mesParametres('TD')
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\mathcal{$TM_SELECTED_TEXT$1}$0"
-    data-description="Calligraphie">
-        <i class="fa-solid fa-pen-fancy" style="font-size: 24px; color: currentColor;"></i>
+    <a class="cmd" data-snippet="\perp"
+    data-description="Perpendiculaire">
+    <svg width="24" height="24" viewbox="0 0 24 24"> 
+        <path d="M12,4 L12,23 M2,23 L22,23" stroke="currentColor" stroke-width="2" fill="none"/> 
+    </svg>
     </a>
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\leq$0"
-    data-description="Inférieur ou égal">
-        <i class="fa-solid fa-less-than-equal" style="font-size: 24px; color: currentColor;"></i>
+    <a class="cmd" data-snippet="\notin"
+    data-description="n'appartient pas à">
+    <svg width="24" height="24">  
+        <text x="0" y="20"
+        font-family="calibri"
+        font-weight="bold"
+        font-style="normal"
+        font-size="22">∉</text>
+    </svg>
     </a>
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\geq$0"
-    data-description="Supérieur ou égal">
-        <i class="fa-solid fa-greater-than-equal" style="font-size: 24px; color: currentColor;"></i>
+    <a class="cmd" data-snippet="\notin"
+    data-description="appartient à">
+    <svg width="24" height="24">  
+        <text x="0" y="20"
+        font-family="calibri"
+        font-weight="bold"
+        font-style="normal"
+        font-size="22">∈</text>
+    </svg>
     </a>
 </div>
+
 <h3>Autre</h3>
 
 <div style="height: 24px;">
@@ -746,7 +774,6 @@ mesParametres('TD')
         </svg>
     </a>
 </div>
-
 
 <div>
     <a class="cmd" data-snippet="É$0"

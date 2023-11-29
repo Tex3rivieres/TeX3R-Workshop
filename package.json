@@ -806,6 +806,14 @@
               ]
             },
             {
+              "name": "lualatex x3",
+              "tools": [
+                "lualatex",
+                "lualatex",
+                "lualatex"
+              ]
+            },
+            {
               "name": "pdflatex",
               "tools": [
                 "pdflatex"
