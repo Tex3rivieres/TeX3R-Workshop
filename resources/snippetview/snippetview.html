@@ -34,7 +34,7 @@
         <h3>Accueil</h3>
 
 <div>
-    <a class="cmd" data-snippet="\documentclass{classe-tex3R}
+    <a class="cmd" data-snippet="\documentclass[${1:fiche}]{classe-tex3R}
 \usepackage{style-tex3R}
 
 \definirniveau{${2:texte}}
@@ -43,7 +43,7 @@
 \begin{document}
 
 \begin{luacode}
-mesParametres('${1:TD}')
+mesParametres('${5:basique}')
 -- Paramètres personnels ici --
 
 \end{luacode}
@@ -51,7 +51,7 @@ mesParametres('${1:TD}')
 
 %%%%%%%  Contenu du document %%%%%%%%
 
-    $TM_SELECTED_TEXT$2
+    $TM_SELECTED_TEXT$6
 
 \end{document}$0" 
     data-description="Nouveau document">
@@ -403,7 +403,7 @@ Theme = true -- false"
 \theme{${2:texte}}
 \competence{${3:texte}}
 \difficulte{${4:nombre ou nil}}
-\bareme{${5:texte}}
+\bareme{${5:nombre ou nil}}
 
 \begin{enonce}
     $TM_SELECTED_TEXT$5

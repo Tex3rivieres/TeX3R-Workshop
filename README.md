@@ -7,7 +7,7 @@ TeX3R utilise la classe **classe-tex3R.cls** et le package **style-tex3R.sty** d
 
 Auteurs : Vincent Crombez et Frédéric Léothaud
 
-**TeX3R necessite au minimum la version `1.74.0` de VScodium et est incompatible avec l'extension Latex-workshop.**
+**TeX3R necessite au minimum la version `1.74.0` de VScode et est incompatible avec l'extension Latex-workshop.**
 
 
 ## License
