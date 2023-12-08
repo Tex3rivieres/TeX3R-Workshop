@@ -34,47 +34,45 @@
         <h3>Accueil</h3>
 
 <div>
-    <a class="cmd" data-snippet="\documentclass[${1:fiche}]{classe-tex3R}
+    <a class="cmd" data-snippet=
+"\documentclass[${1:fiche}]{classe-tex3R} %#1=diapo (optionnel)
 \usepackage{style-tex3R}
 
-\definirniveau{${2:texte}}
-\definirchapitre{${3:nombre ou nil}}{${4:nom}}
+\definirchapitre{$2}{$3} %#1=nombre, #2=nom
+\definirniveau{$4} %#1=nombre ou nom
 
 \begin{document}
 
 \begin{luacode}
-mesParametres('${5:basique}')
--- Paramètres personnels ici --
-
+    mesParametres('${5:basique}') --activite/bilan/corrige/cours/DM/DS/flash/interro/TD
 \end{luacode}
 \parametrage
 
-%%%%%%%  Contenu du document %%%%%%%%
+    ${0:%Le texte du document}
 
-    $TM_SELECTED_TEXT$6
-
-\end{document}$0" 
+\end{document}" 
     data-description="Nouveau document">
     <i class="fa-solid fa-file-circle-plus" style="font-size: 24px; color: currentColor;"></i>
     </a>
 </div>
 <div>
-<a class="cmd" data-snippet="Type = 'basique' -- 'activite' ; 'bilan' ; 'corrige' ; 'cours' ; 'DM' ; 'DS' ; 'flash' ; 'interro' ; 'TD'
-Impression = true -- false
-Header = true -- false
-Taille = '14pt' -- nil
-Stretch = true -- false
+<a class="cmd" data-snippet=
+"Type = '${1:basique}' --activite/bilan/corrige/cours/DM/DS/flash/interro/TD
+Impression = ${2:false} --true
+Header = ${3:false} --true
+Taille = ${4:nil} --'14pt'
+Stretch = ${5:false} --true
 
-Correction = false -- false
-Enonce = true -- false
-Visible = true -- false
+Correction = ${5:false} --true
+Enonce = ${6:false} --true
+Visible = ${7:false} --true
 
-Competence = true -- false
-Bareme = true -- false
-Difficulte = true -- false
-Source = true -- false
-Theme = true -- false"
-    data-description="Paramètres">
+Bareme = ${8:false} --true
+Competence = ${9:false} --true
+Difficulte = ${10:false} --true
+Source = ${11:false} --true
+Theme = ${12:false} --true"
+    data-description="Paramètres complets">
         <i class="fa-solid fa-sliders" style="font-size: 24px; color: currentColor;"></i>
     </a>
 </div>
@@ -82,24 +80,25 @@ Theme = true -- false"
 
 
 <div>
-    <a class="cmd" data-snippet="%%%% Titre perso %%%%
-\ihead{{\bfseries\LARGE${1:\logoactif}~ \underLine{\textbf{${2:TD}}~|~\mdseries Tableur\hfill {\large ${3:niveau}}}\par}}$0"
-    data-description="Titre perso">
+    <a class="cmd" data-snippet=
+"\montitre[\hspace{-0.25em}]{$TM_SELECTED_TEXT$1} ${0:%#1=logo (optionnel), #2=contenu}"
+    data-description="Titre personnalisé">
         <i class="fa-solid fa-heading" style="font-size: 24px; color: currentColor;"></i>
     </a>
 </div>
 
 <div>
-    <a class="cmd" data-snippet="%%% Signature %%%
-\iffiche\ofoot{\ccbyncsaeu\\\\\vspace{-0.2em}\tiny ${1:mon.mail@ac-dijon.fr}}\fi$0"
+    <a class="cmd" data-snippet=
+"\iffiche\ofoot{\ccbyncsaeu\\\\\vspace{-0.2em}\tiny ${1:mon.mail@ac-dijon.fr}}\fi$0"
     data-description="Signature">
         <i class="fa-solid fa-signature" style="font-size: 24px; color: currentColor;"></i>
     </a>
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\iffiche\cfoot{\pagemark}\fi$0"
-    data-description="Numéros pages">
+    <a class="cmd" data-snippet=
+"\iffiche\cfoot{\pagemark}\fi$0"
+    data-description="Numérotation">
         <i class="fa-solid fa-hashtag" style="font-size: 24px; color: currentColor;"></i>
     </a>
 </div>
@@ -107,63 +106,72 @@ Theme = true -- false"
 <h3>Police</h3>
 
 <div>
-    <a class="cmd" data-snippet="\textbf{$TM_SELECTED_TEXT$1}$0"
-    data-description="gras">
+    <a class="cmd" data-snippet=
+"\textbf{$TM_SELECTED_TEXT$1}$0"
+    data-description="Gras">
     <i class="fa-solid fa-bold" style="font-size: 24px; color: currentColor;"></i> 
     </a>
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\textit{$TM_SELECTED_TEXT$1}$0" 
+    <a class="cmd" data-snippet=
+"\textit{$TM_SELECTED_TEXT$1}$0" 
     data-description="Italique">
     <i class="fa-solid fa-italic" style="font-size: 24px; color: currentColor;"></i>
     </a>
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\underline{$TM_SELECTED_TEXT$1}$0"
-    data-description="Souligne">
+    <a class="cmd" data-snippet=
+"\ul{$TM_SELECTED_TEXT$1}$0"
+    data-description="Souligné">
     <i class="fa-solid fa-underline" style="font-size: 24px; color: currentColor;"></i>
     </a>
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\st{$TM_SELECTED_TEXT$1}$0"
-    data-description="Raye">
+    <a class="cmd" data-snippet=
+"\st{$TM_SELECTED_TEXT$1}$0"
+    data-description="Rayé">
     <i class="fa-solid fa-strikethrough" style="font-size: 24px; color: currentColor;"></i>
     </a>
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\textcolor{Red}{$TM_SELECTED_TEXT$1}$0"
-    data-description="Rouge">
+    <a class="cmd" data-snippet=
+"\textcolor{rouge}{$TM_SELECTED_TEXT$1}$0"
+    data-description="Texte en rouge">
     <i class="fa-solid fa-fill-drip" style="color:Red; font-size: 24px;"></i>
     </a>
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\textcolor{Green}{$TM_SELECTED_TEXT$1}$0"
-    data-description="Vert">
+    <a class="cmd" data-snippet=
+"\textcolor{vert}{$TM_SELECTED_TEXT$1}$0"
+    data-description="Texte en vert">
     <i class="fa-solid fa-fill-drip" style="color:Green; font-size: 24px;"></i>
     </a>
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\textcolor{Blue}{$TM_SELECTED_TEXT$1}$0"
-    data-description="Bleu">
+    <a class="cmd" data-snippet=
+"\textcolor{bleu}{$TM_SELECTED_TEXT$1}$0"
+    data-description="Texte en bleu">
     <i class="fa-solid fa-fill-drip" style="color:Blue; font-size: 24px;"></i>
     </a>
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\important{$TM_SELECTED_TEXT$1}$0"
-    data-description="Surligner">
+    <a class="cmd" data-snippet=
+"\important{$TM_SELECTED_TEXT$1}$0"
+    data-description="Texte important">
     <i class="fa-solid fa-highlighter" style="color:currentColor; font-size: 24px;"></i>
     </a>
 </div>
 
 <div>
-    <a class="cmd" data-snippet="{\tailletexte{${1:-4 à 4}}$TM_SELECTED_TEXT}$0"
+    <a class="cmd" data-snippet=
+"\tailletexte{${1:0}} ${0:%#1=-4/-3/-2/-1/0/1/2/3/4}"
     data-description="Taille du texte">
     <i class="fa-solid fa-text-height" style="font-size: 24px; color: currentColor;"></i>
     </a>
@@ -173,7 +181,8 @@ Theme = true -- false"
 
 <p style="font-style:italic">Classique</p>
 <div>
-    <a class="cmd" data-snippet="\begin{center}
+    <a class="cmd" data-snippet=
+"\begin{center}
     $TM_SELECTED_TEXT$1
 \end{center}"
     data-description="Centrer">
@@ -182,17 +191,19 @@ Theme = true -- false"
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\begin{flushright}
+    <a class="cmd" data-snippet=
+"\begin{flushright}
     $TM_SELECTED_TEXT$1
 \end{flushright}"
-    data-description="Droite">
+    data-description="Aligner à droite">
     <i class="fa-solid fa-align-right" style="font-size: 24px; color: currentColor;"></i>
     </a>
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\subsection{$TM_SELECTED_TEXT$1}$0"
-    data-description="Sous-section">
+    <a class="cmd" data-snippet=
+"\partie{$TM_SELECTED_TEXT$1}$0"
+    data-description="Partie">
     <svg width="24" height="24">  
     <text x="0" y="21" "
     font-family="calibri"
@@ -204,8 +215,9 @@ Theme = true -- false"
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\subsubsection{$TM_SELECTED_TEXT$1}$0"
-    data-description="Sous-sous-section">
+    <a class="cmd" data-snippet=
+"\souspartie{$TM_SELECTED_TEXT$1}$0"
+    data-description="Sous-partie">
     <svg width="24" height="24">  
     <text x="0" y="21"
     font-family="calibri"
@@ -217,13 +229,14 @@ Theme = true -- false"
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\adjustbox{valign=t}{\begin{minipage}{0.48\linewidth}%
+    <a class="cmd" data-snippet=
+"\adjustbox{valign=t}{\begin{minipage}{0.48\linewidth}%
     $TM_SELECTED_TEXT$1
 \end{minipage}}\hfill%
 \adjustbox{valign=t}{\begin{minipage}{0.48\linewidth}%
     $2
 \end{minipage}}%$0"
-    data-description="Minipage Double">
+    data-description="Double minipage">
     <i class="fa-solid fa-table-columns" style="font-size: 24px; color: currentColor;"></i>
     </a>
 </div>
@@ -232,22 +245,34 @@ Theme = true -- false"
     <a class="cmd" data-snippet="\begin{itemize}
     \item $TM_SELECTED_TEXT$1
 \end{itemize}$0"
-    data-description="Liste à Puces">
+    data-description="Liste à puces">
     <i class="fa-solid fa-list-ul" style="font-size: 24px; color: currentColor;"></i>
     </a>
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\begin{enumerate}
+    <a class="cmd" data-snippet=
+"\begin{enumerate}
     \item $TM_SELECTED_TEXT$1
 \end{enumerate}$0"
-    data-description="Liste Numérotée">
+    data-description="Liste numérotée">
     <i class="fa-solid fa-list-ol" style="font-size: 24px; color: currentColor;"></i>
     </a>
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\begin{tcolorbox}
+    <a class="cmd" data-snippet=
+"\begin{tasks}[style=enumerate](${1:1})
+\task $2
+\end{tasks}$0"
+    data-description="Liste flexible">
+    <i class="fa-solid fa-rectangle-list" style="font-size: 24px; color: currentColor;"></i>
+    </a>
+</div>
+
+<div>
+    <a class="cmd" data-snippet=
+"\begin{tcolorbox}
     $TM_SELECTED_TEXT$2
 \end{tcolorbox}$0" data-description="Encadrer">
     <i class="fa-solid fa-rectangle-ad" style="font-size: 22px; color: currentColor;"></i>
@@ -257,86 +282,64 @@ Theme = true -- false"
 <p style="font-style:italic">TeX3R</p>
 
 <div>
-    <a class="cmd" data-snippet="\begin{visible}[true]
-    $TM_SELECTED_TEXT$1                     
+    <a class="cmd" data-snippet=
+"\begin{visible}[false]
+    $TM_SELECTED_TEXT$1 %Texte visible si Visible = false
 \end{visible}
-\begin{visible}[false]
-    ${2: Texte alternatif}
+
+\begin{visible}[true]
+    $2 %Texte visible si Visible = true
 \end{visible}$0"
-    data-description="Visible/Masqué">
+    data-description="Environnement visible">
     <i class="fa-solid fa-eye-low-vision" style="font-size: 24px; color: currentColor;"></i>
     </a>
 </div>
 
 <div>
-    <a class="cmd" data-snippet="%%%% DÉFINITION %%%%
-\begin{definition}
-    $TM_SELECTED_TEXT$1
-\end{definition}$0"
-    data-description="Définition">
+    <a class="cmd" data-snippet=
+"\visiblecmd[${1:true}]{$TM_SELECTED_TEXT$2}$0"
+    data-description="Commande visible">
+    <i class="fa-solid fa-eye-low-vision" style="font-size: 18px; color: currentColor;"></i>
+    </a>
+</div>
+
+<div>
+    <a class="cmd" data-snippet=
+"%%% DÉBUT EXERCICE %%%
+\bareme{$1} %#1=nombre
+\competence{$2} %#1=nom
+\difficulte{$3} %#1=nombre
+\source{$4} %#1=nom
+\theme{$5} %#1=nom
+
+\begin{enonce}
+    $TM_SELECTED_TEXT$6
+\end{enonce}
+
+\begin{correction}
+    $7
+\end{correction}
+%%% FIN EXERCICE %%%$0"
+    data-description="Exercice">
     <svg width="32" height="24">  
     <text x="2" y="18"
     font-family="calibri"
     font-weight="bold"
     font-style="normal"
-    font-size="18">def</text>
+    font-size="18">exo</text>
     </svg>
     </a>
 </div>
 
-<div>
-    <a class="cmd" data-snippet="%%%% CONVENTION %%%%
-\begin{convention}
-    $TM_SELECTED_TEXT$1
-\end{convention}$0"
-    data-description="Convention">
-    <svg width="34" height="24">  
-    <text x="0" y="18"
-    font-family="calibri"
-    font-weight="bold"
-    font-style="normal"
-    font-size="16">conv</text>
-    </svg>
-    </a>
-</div>
+<br>
 
 <div>
-    <a class="cmd" data-snippet="%%%% PROPRIETE %%%%
-\begin{propriete}
-    $TM_SELECTED_TEXT$1
-\end{propriete}$0"
-    data-description="Propriété">
-    <svg width="32" height="24">  
-    <text x="0" y="18"
-    font-family="calibri"
-    font-weight="bold"
-    font-style="normal"
-    font-size="15">prop</text>
-    </svg>
-    </a>
-</div>
-
-<div>
-    <a class="cmd" data-snippet="%%%% MÉTHODE %%%%
-\begin{methode}
-    $TM_SELECTED_TEXT$1
-\end{methode}$0"
-    data-description="Méthode">
-    <svg width="32" height="24">  
-    <text x="0" y="18"
-    font-family="calibri"
-    font-weight="bold"
-    font-style="normal"
-    font-size="18">mtd</text>
-    </svg>
-    </a>
-</div>
-
-<div>
-    <a class="cmd" data-snippet="%%%% APPLICATION %%%%
+    <a class="cmd" data-snippet=
+"%%% DÉBUT APPLICATION %%%
 \begin{application}
     $TM_SELECTED_TEXT$1
-\end{application}$0"
+\end{application}
+%%% FIN APPLICATION %%%$0"
     data-description="Application">
     <svg width="32" height="24">  
     <text x="2" y="18"
@@ -349,10 +352,48 @@ Theme = true -- false"
 </div>
 
 <div>
-    <a class="cmd" data-snippet="%%%% EXEMPLE %%%%
+    <a class="cmd" data-snippet=
+"%%% DÉBUT CONVENTION %%%
+\begin{convention}
+    $TM_SELECTED_TEXT$1
+\end{convention}
+%%% FIN CONVENTION %%%$0"
+    data-description="Convention">
+    <svg width="34" height="24">  
+    <text x="0" y="18"
+    font-family="calibri"
+    font-weight="bold"
+    font-style="normal"
+    font-size="16">conv</text>
+    </svg>
+    </a>
+</div>
+
+<div>
+    <a class="cmd" data-snippet=
+"%%% DÉBUT DÉFINITION %%%
+\begin{definition}
+    $TM_SELECTED_TEXT$1
+\end{definition}
+%%% FIN DÉFINITION %%%$0"
+    data-description="Définition">
+    <svg width="32" height="24">  
+    <text x="2" y="18"
+    font-family="calibri"
+    font-weight="bold"
+    font-style="normal"
+    font-size="18">def</text>
+    </svg>
+    </a>
+</div>
+
+<div>
+    <a class="cmd" data-snippet=
+"%%% DÉBUT EXEMPLE %%%
 \begin{exemple}
     $TM_SELECTED_TEXT$1
-\end{exemple}$0"
+\end{exemple}
+%%% FIN EXEMPLE %%%$0"
     data-description="Exemple">
     <svg width="32" height="24">  
     <text x="2" y="18"
@@ -365,26 +406,49 @@ Theme = true -- false"
 </div>
 
 <div>
-    <a class="cmd" data-snippet="%%%% REMARQUE %%%%
-\begin{remarque}
+    <a class="cmd" data-snippet=
+"%%% DÉBUT MÉTHODE %%%
+\begin{methode}
     $TM_SELECTED_TEXT$1
-\end{remarque}$0"
-    data-description="Remarque">
+\end{methode}
+%%% FIN MÉTHODE %%%$0"
+    data-description="Méthode">
     <svg width="32" height="24">  
-    <text x="1" y="18"
+    <text x="0" y="18"
     font-family="calibri"
     font-weight="bold"
     font-style="normal"
-    font-size="18">rmq</text>
+    font-size="18">mtd</text>
+    </svg>
+    </a>
+</div>
+
+
+<div>
+    <a class="cmd" data-snippet=
+"%%% DÉBUT PROPRIÉTÉ %%%
+\begin{propriété}
+    $TM_SELECTED_TEXT$1
+\end{propriété}
+%%% FIN PROPRIÉTÉ %%%$0"
+    data-description="Propriété">
+    <svg width="32" height="24">  
+    <text x="0" y="18"
+    font-family="calibri"
+    font-weight="bold"
+    font-style="normal"
+    font-size="15">prop</text>
     </svg>
     </a>
 </div>
 
 <div>
-    <a class="cmd" data-snippet="%%%% PREUVE %%%%
+    <a class="cmd" data-snippet=
+"%%% DÉBUT PREUVE %%%
 \begin{preuve}
     $TM_SELECTED_TEXT$1
-\end{preuve}$0"
+\end{preuve}
+%%% FIN PREUVE %%%$0"
     data-description="Preuve">
     <svg width="32" height="24">  
     <text x="2" y="18"
@@ -396,40 +460,30 @@ Theme = true -- false"
     </a>
 </div>
 
+
 <div>
-    <a class="cmd" data-snippet="%%% EXERCICE %%%
-% ÉNONCÉ %
-\source{${1:texte}}
-\theme{${2:texte}}
-\competence{${3:texte}}
-\difficulte{${4:nombre ou nil}}
-\bareme{${5:nombre ou nil}}
-
-\begin{enonce}
-    $TM_SELECTED_TEXT$5
-\end{enonce}
-
-% CORRECTION %
-\begin{correction}
+    <a class="cmd" data-snippet=
+"%%% DÉBUT REMARQUE %%%
+\begin{remarque}
     $TM_SELECTED_TEXT$1
-\end{correction}$0"
-    data-description="Exercice">
+\end{remarque}
+%%% FIN REMARQUE %%%$0"
+    data-description="Remarque">
     <svg width="32" height="24">  
-    <text x="2" y="18"
+    <text x="1" y="18"
     font-family="calibri"
     font-weight="bold"
     font-style="normal"
-    font-size="18">exo</text>
+    font-size="18">rmq</text>
     </svg>
     </a>
 </div>
 
-
-
 <h3>Insertion</h3>
 
 <div>
-    <a class="cmd" data-snippet="\begin{tabular}{${1:|c|c|}}%l|c|r|p{1cm}
+    <a class="cmd" data-snippet=
+"\begin{tabular}{${1:|c|c|}} %l|c|r|p{1cm}|P{1cm}
     \hline
     \rowcolor{gray} ${2:Cellule 1} & ${3:Cellule 2}\\\ 
     \hline
@@ -449,7 +503,8 @@ Theme = true -- false"
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\begin{tikzpicture}[scale=${1:0.5}] %Echelle de la figure
+    <a class="cmd" data-snippet=
+"\begin{tikzpicture}[scale=${1:0.5}] %Echelle de la figure
 
     ${2:% Définition des points
     \coordinate (A) at (0,0);
@@ -480,7 +535,8 @@ Theme = true -- false"
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\begin{scratch}
+    <a class="cmd" data-snippet=
+"\begin{scratch}
     ${1:\blockinit{quand \greenflag est cliqué\}
     \blockrepeat{répéter \ovalnum{4\} fois\}
     {
@@ -504,7 +560,8 @@ Theme = true -- false"
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\lignes{${1:carreau/carreaux/surligne/seyes}}{${2:nombre ou nil}}$0"
+    <a class="cmd" data-snippet=
+"\lignes{${1:seyes}}{${2:1}} ${0:%#1=carreau/surligne, #2=nombre}"
     data-description="Lignes">
     <svg  width="24" height="24">
     <path d="
@@ -519,32 +576,28 @@ Theme = true -- false"
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\sautfiche%\sautdiapo$0"
-    data-description="Nouvelle page">
-    <i class="fa-solid fa-file" style="font-size: 24px; color: currentColor;"></i>
-    </a>
-</div>
-
-<div>
-    <a class="cmd" data-snippet="\sautligne$0"
-    data-description="Saut ligne">
+    <a class="cmd" data-snippet=
+"\saut{${1:ligne}} ${0:%#1=fiche/diapo}"
+    data-description="Saut">
     <i class="fa-solid fa-xmarks-lines" style="font-size: 24px; color: currentColor;"></i>
     </a>
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\\subfileinclude{${1:subfile}}$0"
-    data-description="Nouveau subfile">
+    <a class="cmd" data-snippet=
+"\subfileinclude{${1:./chemin/vers/le/fichier}}$0"
+    data-description="Insertion subfile">
     <i class="fa-solid fa-file-import" style="font-size: 24px; color: currentColor;"></i>
 </a>
 </div>
 
 
 <div>
-    <a class="cmd" data-snippet="\begin{$1}
+    <a class="cmd" data-snippet=
+"\begin{$1}
     $TM_SELECTED_TEXT$2
 \end{$1}$0"
-    data-description="Environnement vide">
+    data-description="Environnement générique">
     <svg width="32" height="24">  
     <text x="2" y="18"
     font-family="calibri"
@@ -555,7 +608,34 @@ Theme = true -- false"
     </a>
 </div>
 
-<h3>Maths mode</h3>
+<h3>Math mode</h3>
+
+<div>
+    <a class="cmd" data-snippet=
+"$$TM_SELECTED_TEXT$1$$0"
+    data-description="Math mode">
+    <svg width="32" height="24">  
+    <text x="2" y="18"
+    font-family="calibri"
+    font-weight="bold"
+    font-style="normal"
+    font-size="18">math</text>
+    </svg>
+    </a>
+</div>
+
+<div>
+    <a class="cmd" data-snippet="\np[$1]{$TM_SELECTED_TEXT$2}$0"
+    data-description="Formatage nombre/unité">
+    <svg width="24" height="24">  
+        <text x="1" y="18"
+        font-family="calibri"
+        font-weight="bold"
+        font-style="normal"
+        font-size="18">np</text>
+    </svg>
+    </a>
+</div>
 
 <div>
     <a class="cmd" data-snippet="^{$TM_SELECTED_TEXT$1}$0"
@@ -573,44 +653,8 @@ Theme = true -- false"
 
 <div>
     <a class="cmd" data-snippet="\sqrt{$TM_SELECTED_TEXT$1}$0"
-    data-description="Racine Carrée">
+    data-description="Racine carrée">
     <i class="fa-solid fa-square-root-variable" style="font-size: 24px; color: currentColor;"></i>
-    </a>
-</div>
-
-
-<div>
-    <a class="cmd" data-snippet="\widehat{$TM_SELECTED_TEXT$1}$0"
-    data-description="Angle">
-    <svg width="32" height="24">  
-        <text x="0" y="22"
-        font-family="calibri"
-        font-weight="bold"
-        font-style="normal"
-        font-size="17">ABC</text>
-        <path d="M0,8 L14,1 L32,8" stroke="currentColor" stroke-width="2" fill="none"/>
-    </svg>
-    </a>
-</div>
-
-<div>
-    <a class="cmd" data-snippet="\overparen{$TM_SELECTED_TEXT$1}$0"
-    data-description="Arc de Cercle">
-    <svg width="32" height="24">  
-        <text x="0" y="22"
-        font-family="calibri"
-        font-weight="bold"
-        font-style="normal"
-        font-size="17">ABC</text>
-        <path d="M 0,9 A 16,8.5 0 1,1 32,9" stroke="currentColor" stroke-width="2" fill="none"/>
-    </svg>
-    </a>
-</div>
-
-<div>
-    <a class="cmd" data-snippet="\mathcal{$TM_SELECTED_TEXT$1}$0"
-    data-description="Calligraphie">
-        <i class="fa-solid fa-pen-fancy" style="font-size: 24px; color: currentColor;"></i>
     </a>
 </div>
 
@@ -634,7 +678,7 @@ Theme = true -- false"
 
 <div>
     <a class="cmd" data-snippet="\dfrac{$1}{$2}$0"
-    data-description="Grande Fraction">
+    data-description="Grande fraction">
     <svg width="24" height="24">  
         <text x="6" y="9" font-family="calibri" font-weight="bold" font-style="normal" font-size="12">X</text>
         <rect x="2" y="11.5" width="15" height="1.5" fill="currentColor"/>
@@ -644,35 +688,22 @@ Theme = true -- false"
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\\np[$1]{$TM_SELECTED_TEXT$2}$0"
-    data-description="Formatage et Unités">
-    <svg width="24" height="24">  
-        <text x="1" y="18"
-        font-family="calibri"
-        font-weight="bold"
-        font-style="normal"
-        font-size="18">np</text>
-    </svg>
-    </a>
-</div>
-
-<div>
     <a class="cmd" data-snippet="\times"
-    data-description="Symbole Multiplier">
+    data-description="Multiplier">
     <i class="fa-solid fa-xmark" style="font-size: 24px; color: currentColor;"></i>
     </a>
 </div>
 
 <div>
     <a class="cmd" data-snippet="\div"
-    data-description="Symbole Diviser">
+    data-description="Diviser">
     <i class="fa-solid fa-divide" style="font-size: 24px; color: currentColor;"></i>
     </a>
 </div>
 
 <div>
     <a class="cmd" data-snippet="\\ne"
-    data-description="Différent de">
+    data-description="Différent">
     <i class="fa-solid fa-not-equal" style="font-size: 24px; color: currentColor;"></i>
     </a>
 </div>
@@ -706,7 +737,7 @@ Theme = true -- false"
 
 <div>
     <a class="cmd" data-snippet="\left($TM_SELECTED_TEXT$1\\right)$0"
-    data-description="Grandes Parenthèses">
+    data-description="Grandes parenthèses">
     <svg width="24" height="24">  
         <text x="0" y="20"
         font-family="calibri"
@@ -719,7 +750,7 @@ Theme = true -- false"
 
 <div>
     <a class="cmd" data-snippet="\longmapsto"
-    data-description="Flèche de Fonction">
+    data-description="Flèche de fonction">
     <svg width="24" height="24" > 
         <path d="M1,11 L1,17 M1,14 L22,14 M16,10 L22,14 L16,18" stroke="currentColor" stroke-width="2" fill="none"/> 
     </svg>
@@ -727,23 +758,46 @@ Theme = true -- false"
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\perp"
-    data-description="Perpendiculaire">
-    <svg width="24" height="24" viewbox="0 0 24 24"> 
-        <path d="M12,4 L12,23 M2,23 L22,23" stroke="currentColor" stroke-width="2" fill="none"/> 
+    <a class="cmd" data-snippet="\widehat{$TM_SELECTED_TEXT$1}$0"
+    data-description="Angle">
+    <svg width="32" height="24">  
+        <text x="0" y="22"
+        font-family="calibri"
+        font-weight="bold"
+        font-style="normal"
+        font-size="17">ABC</text>
+        <path d="M0,8 L14,1 L32,8" stroke="currentColor" stroke-width="2" fill="none"/>
     </svg>
     </a>
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\notin"
-    data-description="Appartient Pas">
-    <svg width="24" height="24">  
-        <text x="0" y="20"
+    <a class="cmd" data-snippet="\overparen{$TM_SELECTED_TEXT$1}$0"
+    data-description="Arc de cercle">
+    <svg width="32" height="24">  
+        <text x="0" y="22"
         font-family="calibri"
         font-weight="bold"
         font-style="normal"
-        font-size="22">∉</text>
+        font-size="17">ABC</text>
+        <path d="M 0,9 A 16,8.5 0 1,1 32,9" stroke="currentColor" stroke-width="2" fill="none"/>
+    </svg>
+    </a>
+</div>
+
+<div>
+    <a class="cmd" data-snippet="\mathcal{$TM_SELECTED_TEXT$1}$0"
+    data-description="Calligraphie">
+        <i class="fa-solid fa-pen-fancy" style="font-size: 24px; color: currentColor;"></i>
+    </a>
+</div>
+
+
+<div>
+    <a class="cmd" data-snippet="\perp"
+    data-description="Perpendiculaire">
+    <svg width="24" height="24" viewbox="0 0 24 24"> 
+        <path d="M12,4 L12,23 M2,23 L22,23" stroke="currentColor" stroke-width="2" fill="none"/> 
     </svg>
     </a>
 </div>
@@ -760,6 +814,20 @@ Theme = true -- false"
     </svg>
     </a>
 </div>
+
+<div>
+    <a class="cmd" data-snippet="\notin"
+    data-description="N'appartient pas">
+    <svg width="24" height="24">  
+        <text x="0" y="20"
+        font-family="calibri"
+        font-weight="bold"
+        font-style="normal"
+        font-size="22">∉</text>
+    </svg>
+    </a>
+</div>
+
 
 <h3>Autre</h3>
 
@@ -826,7 +894,58 @@ Theme = true -- false"
     </svg>
     </a>
 </div>
-     
+
+<div>
+    <a class="cmd" data-snippet="\%$0"
+    data-description="Pourcent">
+    <svg width="24" height="24">  
+        <text x="0" y="20"
+        font-family="calibri"
+        font-weight="bold"
+        font-style="normal"
+        font-size="24">%</text>
+    </svg>
+    </a>
+</div>
+
+ <div>
+    <a class="cmd" data-snippet="\{$1\\}$0"
+    data-description="Accolades">
+    <svg width="24" height="24">  
+        <text x="0" y="20"
+        font-family="calibri"
+        font-weight="bold"
+        font-style="normal"
+        font-size="24">{}</text>
+    </svg>
+    </a>
+</div>
+
+<div>
+    <a class="cmd" data-snippet="\textbackslash$0"
+    data-description="Antislash">
+    <svg width="24" height="24">  
+        <text x="0" y="20"
+        font-family="calibri"
+        font-weight="bold"
+        font-style="normal"
+        font-size="24">\</text>
+    </svg>
+    </a>
+</div>
+
+<div>
+    <a class="cmd" data-snippet="\\$$0"
+    data-description="Dollar">
+    <svg width="24" height="24">  
+        <text x="0" y="20"
+        font-family="calibri"
+        font-weight="bold"
+        font-style="normal"
+        font-size="24">$</text>
+    </svg>
+    </a>
+</div>
 
 </div></div>
 <!------------------------ Fin Partie à modifier pour snippets Tex3R ---------------------------->
