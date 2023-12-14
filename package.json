@@ -3,7 +3,7 @@
   "displayName": "TeX3R",
   "description": "Environnement basé sur latex worshop pour facilter la rédaction de cours de maths.",
   "icon": "icons/icon.png",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "publisher": "Tex3R",
   "license": "MIT",
   "homepage": "https://github.com/Tex3rivieres/TeX3R-Workshop",
