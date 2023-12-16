@@ -291,6 +291,36 @@ input[type='text']:focus {
     fill: currentColor;
 }
 
+/*********************** Style div id=tkz-eucl *****************************/
+
+#tkz-eucl .grid div {
+    display: inline-block;
+    position: relative;
+    min-width: 2ex;
+    cursor: pointer;
+    border: var(--vscode-editor-background) 1px solid;
+}
+#tkz-eucl .grid div:hover {
+    background-color: var(--vscode-list-hoverBackground);
+    transform: scale(1.15);
+}
+#tkz-eucl a.cmd {
+    position: relative;
+    display: block;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    margin-left: 0.3em;
+    font-stretch: 200%;
+    letter-spacing: 0.05em;
+    opacity: 0.8;
+    color:var(--vscode-editor-foreground);  /* couleur pour le texte */
+    stroke: currentColor; /* couleur pour les SVG */
+    stroke-width: 1;
+    fill: currentColor;
+}
+
+/* Fin style div */
+
 a.cmd::after {
     content: attr(data-description); /* Ou utiliser var(--description-content) */
     position: absolute;
