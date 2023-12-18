@@ -1,4 +1,4 @@
-# Extension Tex3R (VSCode/VSCodium)
+# TeX3R (Extension VSCode/VSCodium)
 
 ## Description de l'extension
 
@@ -8,7 +8,7 @@
 
 ## Le projet TeX3R
 
-TeX3R prend tout son sens en utilisant la classe **classe-tex3R.cls** et le package **style-tex3R.sty** disponibles à cette adresse : [https://github.com/Tex3rivieres/TeX3R-ClasseStyle/](https://github.com/Tex3rivieres/TeX3R-ClasseStyle)
+TeX3R c'est avant tout une classe **classe-tex3R.cls** et un style **style-tex3R.sty** pour LaTeX, disponibles à cette adresse : [https://github.com/Tex3rivieres/TeX3R-ClasseStyle/](https://github.com/Tex3rivieres/TeX3R-ClasseStyle)
 
 TeX3R c'est aussi un environnement LaTeX portable : [https://github.com/Tex3rivieres/TeX3R-Portable](https://github.com/Tex3rivieres/TeX3R-Portable)
 
