@@ -26,3 +26,4 @@ test/fixtures/**/*.blg
 test/fixtures/**/*.out
 test/log/
 .DS_Store
+.vsix
