@@ -8,6 +8,7 @@ var vscodeApi;
     tikzInitialise();
     TeX3RInitialise(); // Ajout pour initialisation snippet TeX3R
     TkzEuclInitialise(); // Ajout pour initialisation snippet tkz-eucl
+    ScratchInitialise(); // Ajout pour initialisation snippet scratch
 })();
 
 async function loadMathSymbols() {
@@ -127,6 +128,19 @@ function TeX3RInitialise() {
 // fonction insertion snippet tkz-eucl
 function TkzEuclInitialise() {
     document.querySelectorAll('#tkz-eucl a.cmd').forEach(elem => {
+        elem.addEventListener('click', _evt => {
+            vscodeApi.postMessage({
+                type: 'insertSnippet',
+                snippet: elem.getAttribute('data-snippet').replace(/\\n/g, '\n')
+            });
+        });
+    });
+}
+// Fin ajout fonction tkz-eucl
+
+// fonction insertion snippet scratch
+function ScratchInitialise() {
+    document.querySelectorAll('#scratch a.cmd').forEach(elem => {
         elem.addEventListener('click', _evt => {
             vscodeApi.postMessage({
                 type: 'insertSnippet',
