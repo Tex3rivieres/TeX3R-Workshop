@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; connect-src %VSCODE_CSP%; script-src %VSCODE_CSP% 'unsafe-inline' blob:; style-src %VSCODE_CSP% 'unsafe-inline' vscode-resource:; img-src 'self' vscode-resource:; font-src 'self' vscode-resource:;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; connect-src %VSCODE_CSP%; script-src 'self' %VSCODE_CSP% 'unsafe-inline' blob: ; style-src %VSCODE_CSP% 'unsafe-inline' vscode-resource:; img-src 'self' vscode-resource:; font-src 'self' vscode-resource:;">
 
     <script>
         var mathSymbolsJsonUrl = '%VSCODE_RES%/snippetview/snippetpanel.json';
@@ -18,21 +18,23 @@
     <link rel="stylesheet" href="%VSCODE_RES%/snippetview/snippetview.css">
     <!-- Pour font awesome -->
     <link rel="stylesheet" href="%VSCODE_RES%/snippetview/assets/fontawesome-free/css/all.min.css">
-
+    <script src="%VSCODE_RES%/snippetview/assets/scratchblocks/build/scratchblocks.min.js"></script>
+    <script src="%VSCODE_RES%/snippetview/assets/scratchblocks/build/translations.js"></script>
 </head>
 
 <body>
 <div class="tab">
     <button class="tablinks active" onclick="openTab(event, 'TeX3R')">TeX3R</button> <!-- Ajout onglet TeX3R actif -->
-    <button class="tablinks" onclick="openTab(event, 'Symbols')">Symbols</button><!-- suppression tab active onglet Symbols -->
-    <button class="tablinks" onclick="openTab(event, 'TikZ')">TikZ</button>
-    <button class="tablinks" onclick="openTab(event, 'tkz-eucl')">tkz-eucl</button><!--Ajout de l'onglet tkz-eucl-->
+    <!-- <button class="tablinks" onclick="openTab(event, 'Symbols')">Symbols</button> -->
+    <!-- <button class="tablinks" onclick="openTab(event, 'TikZ')">TikZ</button> -->
+    <button class="tablinks" onclick="openTab(event, 'tkz-eucl')">tkz-euclide</button><!--Ajout de l'onglet tkz-eucl-->
+    <button class="tablinks" onclick="openTab(event, 'scratch')">scratch3</button><!--Ajout de l'onglet tkz-eucl-->
 </div>
 
 <!-- Début Partie à modifier pour snippets Tex3R -->
 <div id="TeX3R" class="tabcontent">
     <div class="grid" > 
-        <h3>Accueil</h3>
+        <h3>Général</h3>
 
 <div>
     <a class="cmd" data-snippet=
@@ -45,11 +47,11 @@
 \begin{document}
 
 \begin{luacode}
-    mesParametres('${5:basique}') --activite/bilan/corrige/cours/DM/DS/flash/interro/TD
+  mesParametres('${5:basique}') --activite/bilan/corrige/cours/DM/DS/flash/interro/TD
 \end{luacode}
 \parametrage
 
-    ${0:%Le texte du document}
+  ${0:%Le texte du document}
 
 \end{document}" 
     data-description="Nouveau document">
@@ -184,7 +186,7 @@ Theme = ${12:false} --true"
 <div>
     <a class="cmd" data-snippet=
 "\begin{center}
-    $TM_SELECTED_TEXT$1
+  $TM_SELECTED_TEXT$1
 \end{center}"
     data-description="Centrer">
     <i class="fa-solid fa-align-center" style="font-size: 24px; color: currentColor;"></i>
@@ -194,7 +196,7 @@ Theme = ${12:false} --true"
 <div>
     <a class="cmd" data-snippet=
 "\begin{flushright}
-    $TM_SELECTED_TEXT$1
+  $TM_SELECTED_TEXT$1
 \end{flushright}"
     data-description="Aligner à droite">
     <i class="fa-solid fa-align-right" style="font-size: 24px; color: currentColor;"></i>
@@ -232,10 +234,10 @@ Theme = ${12:false} --true"
 <div>
     <a class="cmd" data-snippet=
 "\adjustbox{valign=t}{\begin{minipage}{0.48\linewidth}%
-    $TM_SELECTED_TEXT$1
+  $TM_SELECTED_TEXT$1
 \end{minipage}}\hfill%
 \adjustbox{valign=t}{\begin{minipage}{0.48\linewidth}%
-    $2
+  $2
 \end{minipage}}%$0"
     data-description="Double minipage">
     <i class="fa-solid fa-table-columns" style="font-size: 24px; color: currentColor;"></i>
@@ -243,8 +245,9 @@ Theme = ${12:false} --true"
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\begin{itemize}
-    \item $TM_SELECTED_TEXT$1
+    <a class="cmd" data-snippet=
+"\begin{itemize}
+  \item $TM_SELECTED_TEXT$1
 \end{itemize}$0"
     data-description="Liste à puces">
     <i class="fa-solid fa-list-ul" style="font-size: 24px; color: currentColor;"></i>
@@ -254,7 +257,7 @@ Theme = ${12:false} --true"
 <div>
     <a class="cmd" data-snippet=
 "\begin{enumerate}
-    \item $TM_SELECTED_TEXT$1
+  \item $TM_SELECTED_TEXT$1
 \end{enumerate}$0"
     data-description="Liste numérotée">
     <i class="fa-solid fa-list-ol" style="font-size: 24px; color: currentColor;"></i>
@@ -264,7 +267,7 @@ Theme = ${12:false} --true"
 <div>
     <a class="cmd" data-snippet=
 "\begin{tasks}[style=enumerate](${1:1})
-\task $2
+  \task $2
 \end{tasks}$0"
     data-description="Liste flexible">
     <i class="fa-solid fa-rectangle-list" style="font-size: 24px; color: currentColor;"></i>
@@ -274,7 +277,7 @@ Theme = ${12:false} --true"
 <div>
     <a class="cmd" data-snippet=
 "\begin{tcolorbox}
-    $TM_SELECTED_TEXT$2
+  $TM_SELECTED_TEXT$2
 \end{tcolorbox}$0" data-description="Encadrer">
     <i class="fa-solid fa-rectangle-ad" style="font-size: 22px; color: currentColor;"></i>
     </a>
@@ -285,11 +288,11 @@ Theme = ${12:false} --true"
 <div>
     <a class="cmd" data-snippet=
 "\begin{visible}[false]
-    $TM_SELECTED_TEXT$1 %Texte visible si Visible = false
+  $TM_SELECTED_TEXT$1 %Texte visible si Visible = false
 \end{visible}
 
 \begin{visible}[true]
-    $2 %Texte visible si Visible = true
+  $2 %Texte visible si Visible = true
 \end{visible}$0"
     data-description="Environnement visible">
     <i class="fa-solid fa-eye-low-vision" style="font-size: 24px; color: currentColor;"></i>
@@ -314,11 +317,11 @@ Theme = ${12:false} --true"
 \theme{$5} %#1=nom
 
 \begin{enonce}
-    $TM_SELECTED_TEXT$6
+  $TM_SELECTED_TEXT$6
 \end{enonce}
 
 \begin{correction}
-    $7
+  $7
 \end{correction}
 %%% FIN EXERCICE %%%$0"
     data-description="Exercice">
@@ -338,7 +341,7 @@ Theme = ${12:false} --true"
     <a class="cmd" data-snippet=
 "%%% DÉBUT APPLICATION %%%
 \begin{application}
-    $TM_SELECTED_TEXT$1
+  $TM_SELECTED_TEXT$1
 \end{application}
 %%% FIN APPLICATION %%%$0"
     data-description="Application">
@@ -356,7 +359,7 @@ Theme = ${12:false} --true"
     <a class="cmd" data-snippet=
 "%%% DÉBUT CONVENTION %%%
 \begin{convention}
-    $TM_SELECTED_TEXT$1
+  $TM_SELECTED_TEXT$1
 \end{convention}
 %%% FIN CONVENTION %%%$0"
     data-description="Convention">
@@ -374,7 +377,7 @@ Theme = ${12:false} --true"
     <a class="cmd" data-snippet=
 "%%% DÉBUT DÉFINITION %%%
 \begin{definition}
-    $TM_SELECTED_TEXT$1
+  $TM_SELECTED_TEXT$1
 \end{definition}
 %%% FIN DÉFINITION %%%$0"
     data-description="Définition">
@@ -392,7 +395,7 @@ Theme = ${12:false} --true"
     <a class="cmd" data-snippet=
 "%%% DÉBUT EXEMPLE %%%
 \begin{exemple}
-    $TM_SELECTED_TEXT$1
+  $TM_SELECTED_TEXT$1
 \end{exemple}
 %%% FIN EXEMPLE %%%$0"
     data-description="Exemple">
@@ -410,7 +413,7 @@ Theme = ${12:false} --true"
     <a class="cmd" data-snippet=
 "%%% DÉBUT MÉTHODE %%%
 \begin{methode}
-    $TM_SELECTED_TEXT$1
+  $TM_SELECTED_TEXT$1
 \end{methode}
 %%% FIN MÉTHODE %%%$0"
     data-description="Méthode">
@@ -429,7 +432,7 @@ Theme = ${12:false} --true"
     <a class="cmd" data-snippet=
 "%%% DÉBUT PROPRIÉTÉ %%%
 \begin{propriété}
-    $TM_SELECTED_TEXT$1
+  $TM_SELECTED_TEXT$1
 \end{propriété}
 %%% FIN PROPRIÉTÉ %%%$0"
     data-description="Propriété">
@@ -447,7 +450,7 @@ Theme = ${12:false} --true"
     <a class="cmd" data-snippet=
 "%%% DÉBUT PREUVE %%%
 \begin{preuve}
-    $TM_SELECTED_TEXT$1
+  $TM_SELECTED_TEXT$1
 \end{preuve}
 %%% FIN PREUVE %%%$0"
     data-description="Preuve">
@@ -466,7 +469,7 @@ Theme = ${12:false} --true"
     <a class="cmd" data-snippet=
 "%%% DÉBUT REMARQUE %%%
 \begin{remarque}
-    $TM_SELECTED_TEXT$1
+  $TM_SELECTED_TEXT$1
 \end{remarque}
 %%% FIN REMARQUE %%%$0"
     data-description="Remarque">
@@ -485,11 +488,11 @@ Theme = ${12:false} --true"
 <div>
     <a class="cmd" data-snippet=
 "\begin{tabular}{${1:|c|c|}} %l|c|r|p{1cm}|P{1cm}
-    \hline
-    \rowcolor{gray} ${2:Cellule 1} & ${3:Cellule 2}\\\ 
-    \hline
-    \cellcolor{gray} ${4:Cellule 3} & ${5:Cellule 4}\\\ 
-    \hline
+  \hline
+  \rowcolor{gray} ${2:Cellule 1} & ${3:Cellule 2}\\\ 
+  \hline
+  \cellcolor{gray} ${4:Cellule 3} & ${5:Cellule 4}\\\ 
+  \hline
 \end{tabular}$0"
     data-description="Tableau">
     <i class="fa-solid fa-table" style="font-size: 24px; color: currentColor;"></i>
@@ -503,7 +506,7 @@ Theme = ${12:false} --true"
     </a>
 </div>
 
-<div>
+<!-- <div>
     <a class="cmd" data-snippet=
 "\begin{tikzpicture}[scale=${1:0.5}] %Echelle de la figure
 
@@ -533,9 +536,9 @@ Theme = ${12:false} --true"
     data-description="Figure TikZ">
     <i class="fa-solid fa-compass-drafting" style="font-size: 24px; color: currentColor;"></i>
     </a>
-</div>
+</div> -->
 
-<div>
+<!-- <div>
     <a class="cmd" data-snippet=
 "\begin{scratch}
     ${1:\blockinit{quand \greenflag est cliqué\}
@@ -558,7 +561,7 @@ Theme = ${12:false} --true"
         />
     </svg>
     </a>
-</div>
+</div> -->
 
 <div>
     <a class="cmd" data-snippet=
@@ -571,7 +574,7 @@ Theme = ${12:false} --true"
     M0,17 L24,17
     M0,23 L24,23"
     stroke-width="1"/>
-    <path d="M4,1 L4,24" stroke="red" stroke-width="2"/>
+    <path d="M4,3 L4,24" stroke="red" stroke-width="2"/>
     </svg>
     </a>
 </div>
@@ -609,6 +612,21 @@ Theme = ${12:false} --true"
     </a>
 </div>
 
+<div>
+  <a class="cmd" data-snippet="\href{${1:https://github.com/Tex3rivieres/}}{${2:Github}}$0"
+  data-description="Lien">
+  <i class="fa-solid fa-link" style="font-size: 24px; color: currentColor;"></i>
+  </a>
+</div>
+
+<div>
+  <a class="cmd" data-snippet="\qrcode[height=4em]{${2:https://github.com/Tex3rivieres/}}$0"
+  data-description="QRCode">
+  <i class="fa-solid fa-qrcode" style="font-size: 24px; color: currentColor;"></i>
+  </a>
+</div>
+
+
 <h3>Math mode</h3>
 
 <div>
@@ -626,7 +644,7 @@ Theme = ${12:false} --true"
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\np[$1]{$TM_SELECTED_TEXT$2}$0"
+    <a class="cmd" data-snippet="\\np[$1]{$TM_SELECTED_TEXT$2}$0"
     data-description="Formatage nombre/unité">
     <svg width="24" height="24">  
         <text x="1" y="18"
@@ -804,7 +822,7 @@ Theme = ${12:false} --true"
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\notin"
+    <a class="cmd" data-snippet="\in"
     data-description="Appartient">
     <svg width="24" height="24">  
         <text x="0" y="20"
@@ -817,7 +835,7 @@ Theme = ${12:false} --true"
 </div>
 
 <div>
-    <a class="cmd" data-snippet="\notin"
+    <a class="cmd" data-snippet="\\notin"
     data-description="N'appartient pas">
     <svg width="24" height="24">  
         <text x="0" y="20"
@@ -1371,11 +1389,32 @@ Theme = ${12:false} --true"
 
 <div id="tkz-eucl" class="tabcontent">
     <div class="grid" > 
+
+      <h3>Environnement</h3>
+
+      <div>
+          <a class="cmd" data-snippet=
+"\begin{tikzpicture}[scale=1,rotate=0]
+  $1
+\end{tikzpicture}"
+              data-description="Environnement tkz">
+              <svg width="32" height="32">  
+                  <text x="2" y="18"
+                  font-family="calibri"
+                  font-weight="bold"
+                  font-style="normal"
+                  font-size="18">tkz</text>
+                  </svg>
+          </a>
+      </div>
+
+
         <h3>Points</h3>
 
         <div>
             <a class="cmd" data-snippet=
-                "\tkzDefPoints{${1:0/0/A}, ${2:4/0/B}}" 
+"\tkzDefPoints{${1:0/0/A}, ${2:4/0/B}}
+$0" 
                 data-description="Def points">
                 <svg width="32" height="32">  
                     <text x="2" y="18"
@@ -1419,7 +1458,8 @@ Theme = ${12:false} --true"
 
         <div>
             <a class="cmd" data-snippet=
-                "\tkzDrawPoints(${1:A, B})%[shape=strike out,rotate=10] pour un cercle" 
+"\tkzDrawPoints(${1:A, B})%[shape=strike out,rotate=10] pour un cercle
+$0" 
                 data-description="Draw points">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><circle cx="168.7" cy="351.73" r="55" fill="red"/><path fill="none" d="M168.704 310.55c22.704 0 41.175 18.472 41.175 41.175S191.408 392.9 168.704 392.9s-41.175-18.472-41.175-41.175S146 310.55 168.704 310.55m0-19.825c-33.689 0-61 27.312-61 61s27.311 61 61 61 61-27.312 61-61-27.311-61-61-61z"/><path fill="currentColor" d="M428.199 252.873h-24.755l-18.17-45.547h-82.212l-18.397 45.547h-24.073l70.63-170h25.437l71.54 170zm-52.69-65.56l-32.021-78.445-31.34 78.444h63.362z"/></svg>
             </a>
@@ -1427,7 +1467,8 @@ Theme = ${12:false} --true"
 
         <div>
             <a class="cmd" data-snippet=
-            "\tkzDefMidPoint(${1:A,B})\tkzGetPoint{${2:I}}" 
+"\tkzDefMidPoint(${1:A,B})\tkzGetPoint{${2:I}}
+$0" 
                 data-description="Mid point">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><circle cx="256.36" cy="251.99" r="40" fill="red"/><path fill ="none" d="M256.364 224.992c14.888 0 27 12.112 27 27 0 14.887-12.112 27-27 27s-27-12.113-27-27c0-14.888 12.113-27 27-27m0-13c-22.091 0-40 17.909-40 40 0 22.09 17.909 40 40 40 22.092 0 40-17.91 40-40 0-22.091-17.908-40-40-40z"/><circle cx="88.42" cy="424.31" r="35" fill="currentColor"/><path d="M88.415 397.313c14.888 0 27 12.113 27 27 0 14.888-12.112 27.001-27 27.001s-27-12.113-27-27.001c0-14.887 12.112-27 27-27m0-13c-22.091 0-40 17.91-40 40 0 22.091 17.909 40.001 40 40.001 22.092 0 40-17.91 40-40.001 0-22.09-17.908-40-40-40z"/><circle cx="423.58" cy="87.69" r="35" fill="currentColor"/><path d="M423.585 60.686c14.888 0 27 12.113 27 27 0 14.888-12.112 27.001-27 27.001s-27-12.113-27-27.001c0-14.887 12.112-27 27-27m0-13c-22.091 0-40 17.91-40 40 0 22.091 17.909 40.001 40 40.001 22.092 0 40-17.91 40-40.001 0-22.09-17.908-40-40-40z"/></svg>
             </a>
@@ -1435,7 +1476,8 @@ Theme = ${12:false} --true"
 
         <div>
             <a class="cmd" data-snippet=
-                "\tkzDefPointOnLine[pos=${1:0.2}](${2:A},${3:B}) \tkzGetPoint{${4:C}}" 
+"\tkzDefPointOnLine[pos=${1:0.2}](${2:A},${3:B}) \tkzGetPoint{${4:C}}
+$0" 
                 data-description="Def point on line">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-width="13" d="M-10.22 442.41L522.23 69.59"/><circle cx="362" cy="181.96" r="35" fill="red"/></svg>
             </a>
@@ -1443,8 +1485,8 @@ Theme = ${12:false} --true"
 
         <div>
             <a class="cmd" data-snippet=
-                "\tkzDefPointOnCircle[through = center A angle 50 point B]\tkzGetPoint{C}
-                " 
+"\tkzDefPointOnCircle[through = center A angle 50 point B]\tkzGetPoint{C}
+$0" 
                 data-description="Def point on circle">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-width="13" d="M440.11 256c0 101.502-82.429 183.785-184.11 183.785-101.681 0-184.11-82.283-184.11-183.785S154.319 72.215 256 72.215c101.682 0 184.11 82.283 184.11 183.785z"/><circle cx="406.33" cy="149.45" r="35" fill="red"/><circle cx="256" cy="256" r="35" fill="currentColor"/><path d="M278.118 240.513c8.537 12.193 5.563 29.064-6.631 37.604-12.195 8.539-29.066 5.564-37.605-6.631s-5.564-29.064 6.631-37.604 29.064-5.565 37.605 6.631m10.649-7.457c-12.672-18.096-37.615-22.492-55.709-9.822-18.096 12.67-22.496 37.613-9.824 55.709 12.672 18.098 37.613 22.494 55.709 9.824 18.095-12.672 22.495-37.614 9.824-55.711z"/></svg>
             </a>
@@ -1452,7 +1494,8 @@ Theme = ${12:false} --true"
 
         <div>
             <a class="cmd" data-snippet=
-            "\tkzLabelPoints[${1:above}](${2:A, B})%above,below,right,left" 
+"\tkzLabelPoints[${1:above}](${2:A, B})%above,below,right,left
+$0" 
                 data-description="Label points">
                 <svg width="32" height="32">  
                     <text x="2" y="18"
@@ -1468,7 +1511,8 @@ Theme = ${12:false} --true"
 
         <div>
             <a class="cmd" data-snippet=
-                "\tkzDrawSegments(${1:A,B C,D})" 
+"\tkzDrawSegments(${1:A,B C,D})
+$0" 
                 data-description="Draw segments">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><path fill="none" stroke="red" stroke-width="13" d="M120 350.3l272-189.34"/><circle cx="392" cy="160.96" r="35" fill="currentColor"/><path d="M392 133.964c14.887 0 27 12.113 27 27 0 14.888-12.113 27.001-27 27.001-14.889 0-27-12.113-27-27.001 0-14.887 12.111-27 27-27m0-13c-22.092 0-40 17.91-40 40 0 22.091 17.908 40.001 40 40.001s40-17.91 40-40.001c0-22.09-17.908-40-40-40z"/><circle cx="120" cy="350.3" r="35" fill="currentColor"/><path d="M120 323.301c14.888 0 27 12.113 27 27 0 14.888-12.112 27.001-27 27.001s-27-12.113-27-27.001c0-14.887 12.112-27 27-27m0-13c-22.091 0-40 17.91-40 40 0 22.091 17.909 40.001 40 40.001 22.092 0 40-17.91 40-40.001 0-22.09-17.908-40-40-40z"/></svg>
             </a>
@@ -1476,7 +1520,8 @@ Theme = ${12:false} --true"
 
         <div>
             <a class="cmd" data-snippet=
-                "\tkzMarkSegmentss[pos=${1:0.5},mark=${2:s||}](${3:A,B C,D})" 
+"\tkzMarkSegmentss[pos=${1:0.5},mark=${2:s||}](${3:A,B C,D})
+$0" 
                 data-description="Mark segments">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512">
                     <defs>
@@ -1510,7 +1555,8 @@ Theme = ${12:false} --true"
 
         <div>
             <a class="cmd" data-snippet=
-                "\tkzLabelSegments[pos=0.5,${1:above,sloped}](${2:A,B}){${3:$\\np[cm]{3\}$}}" 
+"\tkzLabelSegments[pos=0.5,${1:above,sloped}](${2:A,B}){${3:$\\np[cm]{3\}$}}
+$0" 
                 data-description="Label segments">
                 <svg width="32" height="32">  
                     <text x="2" y="18"
@@ -1526,7 +1572,8 @@ Theme = ${12:false} --true"
 
         <div>
             <a class="cmd" data-snippet=
-                "\tkzDefLine{}" 
+"\tkzDefLine(${1:A,B})
+$0" 
                 data-description="Def line">
                 <svg width="32" height="32">  
                     <text x="2" y="18"
@@ -1540,7 +1587,7 @@ Theme = ${12:false} --true"
 
         <div>
             <a class="cmd" data-snippet=
-                "\tkzDrawLines{}" 
+                "\tkzDrawLines(${1:A,B})" 
                 data-description="Draw lines">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><path fill="none" stroke="red" stroke-width="13" d="M-10.22 442.41L522.23 69.59"/><circle cx="362" cy="181.96" r="35" fill="currentColor"/><path d="M362 154.964c14.887 0 27 12.113 27 27 0 14.888-12.113 27.001-27 27.001-14.889 0-27-12.113-27-27.001 0-14.887 12.111-27 27-27m0-13c-22.092 0-40 17.91-40 40 0 22.091 17.908 40.001 40 40.001s40-17.91 40-40.001c0-22.09-17.908-40-40-40z"/><circle cx="150" cy="330.3" r="35" fill="currentColor"/><path d="M150 303.301c14.888 0 27 12.113 27 27 0 14.888-12.112 27.001-27 27.001s-27-12.113-27-27.001c0-14.887 12.112-27 27-27m0-13c-22.091 0-40 17.91-40 40 0 22.091 17.909 40.001 40 40.001 22.092 0 40-17.91 40-40.001 0-22.09-17.908-40-40-40z"/></svg>
             </a>
@@ -1548,7 +1595,8 @@ Theme = ${12:false} --true"
         
         <div>
             <a class="cmd" data-snippet=
-                "\tkzDefLine[orthogonal=through A](A,B)\tkzGetPoint{C}" 
+"\tkzDefLine[orthogonal=through A](A,B)\tkzGetPoint{C}
+$0" 
                 data-description="Def orthogonal">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-width="13" d="M-14.73 443.62l579.56-155.29"/><path fill="none" stroke="red" stroke-width="13" d="M344.5 537.08L189.21-42.47"/><circle cx="240.05" cy="150.04" r="35" fill="currentColor"/><path d="M240.049 123.039c14.887 0 27 12.112 27 27s-12.113 27-27 27c-14.888 0-27.001-12.112-27.001-27s12.114-27 27.001-27m0-13c-22.092 0-40.001 17.909-40.001 40s17.909 40 40.001 40c22.091 0 40-17.909 40-40s-17.908-40-40-40z"/></svg>
             </a>
@@ -1556,7 +1604,8 @@ Theme = ${12:false} --true"
 
         <div>
             <a class="cmd" data-snippet=
-                "\tkzDefLine[mediator,K=0.5](A,B)\tkzGetPoints{C}{D}" 
+"\tkzDefLine[mediator,K=0.5](A,B)\tkzGetPoints{C}{D}
+$0" 
                 data-description="Def mediator">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><path fill="none" stroke="red" stroke-width="13" d="M442.41 522.23L69.59-10.22"/><path fill="none" stroke="currentColor" stroke-width="13" d="M120 350.3l272-189.34"/><circle cx="392" cy="160.96" r="35" fill="currentColor"/><path d="M392 133.964c14.887 0 27 12.113 27 27 0 14.888-12.113 27.001-27 27.001-14.889 0-27-12.113-27-27.001 0-14.887 12.111-27 27-27m0-13c-22.092 0-40 17.91-40 40 0 22.091 17.908 40.001 40 40.001s40-17.91 40-40.001c0-22.09-17.908-40-40-40z"/><circle cx="120" cy="350.3" r="35" fill="currentColor"/><path d="M120 323.301c14.888 0 27 12.113 27 27 0 14.888-12.112 27.001-27 27.001s-27-12.113-27-27.001c0-14.887 12.112-27 27-27m0-13c-22.091 0-40 17.91-40 40 0 22.091 17.909 40.001 40 40.001 22.092 0 40-17.91 40-40.001 0-22.09-17.908-40-40-40z"/></svg>
             </a>
@@ -1564,7 +1613,8 @@ Theme = ${12:false} --true"
 
         <div>
             <a class="cmd" data-snippet=
-                "\tkzDefLine[parallel=through C](A,B) \tkzGetPoint{D}" 
+"\tkzDefLine[parallel=through C](A,B) \tkzGetPoint{D}
+$0" 
                 data-description="Def parallel">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-width="13" d="M-14.73 423.62l579.56-155.29"/><path fill="none" stroke="red" stroke-width="13" d="M-22.92 244.95L556.63 89.66"/><circle cx="176.05" cy="191.04" r="35" fill="currentColor"/><path d="M176.049 164.039c14.887 0 27 12.112 27 27s-12.113 27-27 27c-14.888 0-27.001-12.112-27.001-27s12.114-27 27.001-27m0-13c-22.092 0-40.001 17.909-40.001 40s17.909 40 40.001 40c22.091 0 40-17.909 40-40s-17.908-40-40-40z"/></svg>
             </a>
@@ -1572,7 +1622,8 @@ Theme = ${12:false} --true"
 
         <div>
             <a class="cmd" data-snippet=
-                "\tkzLabelLine[pos=${1:1.15},${2:below=3pt}](${3:A,B}){${4:$(d)$}}" 
+"\tkzLabelLine[pos=${1:1.15},${2:below=3pt}](${3:A,B}){${4:$(d)$}}
+$0" 
                 data-description="Label line">
                 <svg width="32" height="32">  
                     <text x="2" y="18"
@@ -1588,7 +1639,8 @@ Theme = ${12:false} --true"
 
         <div>
             <a class="cmd" data-snippet=
-                "\tkzMarkAngles[size=${1:1},mark=${2:||}](${3:C,A,B A,B,C})" 
+"\tkzMarkAngles[size=${1:1},mark=${2:||}](${3:C,A,B A,B,C})
+$0" 
                 data-description="Mark angles">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><path fill="red" d="M108.415 335.512l159.514 44.517s35.179-88.113-48.125-163.821L108.415 335.512z" opacity="1"/><path fill="none" stroke="red" stroke-miterlimit="10" stroke-width="13" d="M108.415 335.512l159.514 44.517s35.179-88.113-48.125-163.821L108.415 335.512z"/><path fill="none" stroke="currentColor" stroke-width="13" d="M108.42 335.51L333.8 94.11m-225.38 241.4l295.16 82.38"/><circle cx="333.8" cy="94.11" r="35" fill="currentColor"/><path d="M355.914 78.627c8.537 12.193 5.563 29.064-6.631 37.604-12.195 8.539-29.066 5.564-37.605-6.631s-5.564-29.064 6.631-37.604 29.064-5.564 37.605 6.631m10.649-7.457c-12.672-18.096-37.615-22.492-55.709-9.822-18.096 12.67-22.496 37.613-9.824 55.709 12.672 18.098 37.613 22.495 55.709 9.824 18.095-12.672 22.495-37.613 9.824-55.711z"/><circle cx="108.42" cy="335.51" r="35" fill="currentColor"/><path d="M130.533 320.025c8.537 12.193 5.563 29.064-6.631 37.604-12.195 8.539-29.066 5.564-37.605-6.631s-5.564-29.064 6.631-37.604 29.064-5.564 37.605 6.631m10.649-7.457c-12.672-18.096-37.615-22.492-55.709-9.822-18.096 12.67-22.496 37.613-9.824 55.709 12.672 18.098 37.613 22.494 55.709 9.824 18.095-12.672 22.496-37.613 9.824-55.711z"/><circle cx="403.58" cy="417.88" r="35" fill="currentColor"/><path d="M425.702 402.398c8.537 12.193 5.563 29.064-6.631 37.604-12.195 8.539-29.066 5.564-37.605-6.631s-5.564-29.064 6.631-37.604 29.064-5.564 37.605 6.631m10.649-7.457c-12.672-18.096-37.615-22.492-55.709-9.822-18.096 12.67-22.496 37.613-9.824 55.709 12.672 18.098 37.613 22.494 55.709 9.824 18.095-12.672 22.495-37.613 9.824-55.711z"/></svg>
             </a>
@@ -1596,7 +1648,8 @@ Theme = ${12:false} --true"
 
         <div>
             <a class="cmd" data-snippet=
-                "\tkzMarkRightAngles[size=${1:0.4}](${2:A,B,C D,E,F})" 
+"\tkzMarkRightAngles[size=${1:0.4}](${2:A,B,C D,E,F})
+$0" 
                 data-description="Mark right angles">
                 <svg width="32" height="32">  
                     <text x="2" y="18"
@@ -1610,7 +1663,8 @@ Theme = ${12:false} --true"
 
         <div>
             <a class="cmd" data-snippet=
-                "\tkzLabelAngles[pos=1.5](${2:A,B,C D,E,F}){$30°$}" 
+"\tkzLabelAngles[pos=1.5](${2:A,B,C D,E,F}){$30°$}
+$0" 
                 data-description="Label angle">
                 <svg width="32" height="32">  
                     <text x="2" y="18"
@@ -1626,7 +1680,8 @@ Theme = ${12:false} --true"
 
         <div>
             <a class="cmd" data-snippet=
-                "\tkzDrawCircles(${1:O,A O,B})" 
+"\tkzDrawCircles(${1:O,A O,B})
+$0" 
                 data-description="Draw circles">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><path fill="none" stroke="red" stroke-width="13" d="M440.11 256c0 101.502-82.429 183.785-184.11 183.785-101.681 0-184.11-82.283-184.11-183.785S154.319 72.215 256 72.215c101.682 0 184.11 82.283 184.11 183.785z"/><circle cx="406.33" cy="149.45" r="35" fill="currentColor"/><path d="M428.446 133.961c8.537 12.193 5.563 29.064-6.631 37.604-12.195 8.539-29.066 5.564-37.605-6.631s-5.564-29.064 6.631-37.604 29.064-5.564 37.605 6.631m10.649-7.457c-12.672-18.096-37.615-22.492-55.709-9.822-18.096 12.67-22.496 37.613-9.824 55.709 12.672 18.098 37.613 22.494 55.709 9.824 18.095-12.672 22.496-37.613 9.824-55.711z"/><circle cx="256" cy="256" r="35" fill="currentColor"/><path d="M278.118 240.513c8.537 12.193 5.563 29.064-6.631 37.604-12.195 8.539-29.066 5.564-37.605-6.631s-5.564-29.064 6.631-37.604 29.064-5.565 37.605 6.631m10.649-7.457c-12.672-18.096-37.615-22.492-55.709-9.822-18.096 12.67-22.496 37.613-9.824 55.709 12.672 18.098 37.613 22.494 55.709 9.824 18.095-12.672 22.495-37.614 9.824-55.711z"/></svg>
             </a>
@@ -1634,7 +1689,8 @@ Theme = ${12:false} --true"
 
         <div>
             <a class="cmd" data-snippet=
-                "\tkzDrawArc(O,A)(B)" 
+"\tkzDrawArc(O,A)(B)
+$0" 
                 data-description="Draw arc">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><path fill="none" stroke="red" stroke-width="13" d="M370.095 437.158c60.62-129.999 4.377-284.522-125.619-345.141"/><circle cx="134.72" cy="327.4" r="35" fill="currentColor"/><path d="M161.307 322.709c2.585 14.658-7.241 28.692-21.901 31.278-14.661 2.584-28.694-7.242-31.28-21.903-2.585-14.662 7.241-28.693 21.902-31.277 14.66-2.586 28.692 7.238 31.279 21.902m12.802-2.26c-3.837-21.754-24.586-36.281-46.339-32.445-21.754 3.836-36.284 24.582-32.447 46.338 3.836 21.759 24.583 36.282 46.338 32.448 21.756-3.838 36.284-24.582 32.448-46.341z"/><circle cx="244.3" cy="92.81" r="35" fill="currentColor"/><path d="M270.895 88.125c2.585 14.659-7.241 28.692-21.901 31.278-14.661 2.585-28.694-7.241-31.279-21.902-2.585-14.661 7.24-28.693 21.901-31.278s28.693 7.24 31.279 21.902m12.802-2.258c-3.837-21.755-24.585-36.282-46.339-32.446-21.755 3.835-36.284 24.582-32.447 46.338 3.837 21.757 24.583 36.283 46.338 32.447 21.756-3.836 36.284-24.581 32.448-46.339z"/><circle cx="378.28" cy="416.19" r="35" fill="currentColor"/><path d="M404.875 411.498c2.584 14.658-7.242 28.691-21.901 31.277-14.661 2.586-28.695-7.24-31.28-21.902s7.24-28.693 21.902-31.277c14.661-2.586 28.692 7.24 31.279 21.902m12.803-2.26c-3.838-21.754-24.586-36.281-46.339-32.445-21.755 3.836-36.284 24.582-32.447 46.338 3.836 21.758 24.583 36.283 46.338 32.447s36.284-24.582 32.448-46.34z"/></svg>
             </a>
@@ -1642,7 +1698,8 @@ Theme = ${12:false} --true"
 
         <div>
             <a class="cmd" data-snippet=
-                "\tkzDrawSemiCircles(${1:A,B C,D})" 
+"\tkzDrawSemiCircles(${1:A,B C,D})
+$0" 
                 data-description="Draw semi circles">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><path fill="none" stroke="red" stroke-width="13" d="M105.152 361.555c-58.193-83.165-37.83-197.841 45.48-256.136 83.311-58.296 198.022-38.136 256.215 45.028"/><circle cx="406.33" cy="149.45" r="35" fill="currentColor"/><path d="M428.446 133.961c8.537 12.193 5.563 29.064-6.631 37.604-12.195 8.539-29.066 5.564-37.605-6.631s-5.564-29.064 6.631-37.604 29.064-5.564 37.605 6.631m10.649-7.457c-12.672-18.096-37.615-22.492-55.709-9.822-18.096 12.67-22.496 37.613-9.824 55.709 12.672 18.098 37.613 22.494 55.709 9.824 18.095-12.672 22.496-37.613 9.824-55.711z"/><circle cx="105.33" cy="361.55" r="35" fill="currentColor"/><path d="M127.446 346.067c8.537 12.193 5.563 29.064-6.631 37.604-12.195 8.539-29.066 5.564-37.605-6.631s-5.564-29.064 6.631-37.604 29.064-5.564 37.605 6.631m10.649-7.457c-12.672-18.096-37.615-22.492-55.709-9.822-18.096 12.67-22.496 37.613-9.824 55.709 12.672 18.098 37.613 22.494 55.709 9.824 18.095-12.672 22.496-37.613 9.824-55.711z"/></svg>      
             </a>
@@ -1653,7 +1710,8 @@ Theme = ${12:false} --true"
 
         <div>
             <a class="cmd" data-snippet=
-                "\tkzDrawPolygon[fill=black!10](${1:A,B,C})" 
+"\tkzDrawPolygon[fill=black!10](${1:A,B,C})
+$0" 
                 data-description="Draw polygon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><path fill="#930" d="M95.31 431.85l320.01-150.77L135.31 80.15z" opacity=".2"/><path fill="none" stroke="#930" stroke-miterlimit="10" stroke-width="13" d="M95.31 431.85l320.01-150.77L135.31 80.15z"/><circle cx="135.31" cy="80.15" r="35" fill="currentColor"/><path d="M157.432 64.663c8.537 12.193 5.563 29.064-6.631 37.604-12.195 8.539-29.066 5.564-37.605-6.631s-5.564-29.064 6.631-37.604 29.064-5.564 37.605 6.631m10.648-7.457c-12.672-18.096-37.615-22.492-55.709-9.822-18.096 12.67-22.496 37.613-9.824 55.709 12.672 18.098 37.613 22.494 55.709 9.824 18.096-12.672 22.496-37.613 9.824-55.711z"/><circle cx="415.32" cy="281.08" r="35" fill="currentColor"/><path d="M437.442 265.596c8.537 12.193 5.563 29.064-6.631 37.604-12.195 8.539-29.066 5.564-37.605-6.631s-5.564-29.064 6.631-37.604 29.064-5.565 37.605 6.631m10.649-7.457c-12.672-18.096-37.615-22.492-55.709-9.822-18.096 12.67-22.496 37.613-9.824 55.709 12.672 18.098 37.613 22.494 55.709 9.824 18.095-12.672 22.496-37.614 9.824-55.711z"/><circle cx="95.31" cy="431.85" r="35" fill="currentColor"/><path d="M117.428 416.362c8.537 12.193 5.563 29.064-6.631 37.604-12.195 8.539-29.066 5.564-37.605-6.631s-5.564-29.064 6.631-37.604 29.064-5.564 37.605 6.631m10.648-7.457c-12.672-18.096-37.615-22.492-55.709-9.822-18.096 12.67-22.496 37.613-9.824 55.709 12.672 18.098 37.613 22.494 55.709 9.824 18.096-12.672 22.496-37.613 9.824-55.711z"/></svg>
             </a>
@@ -1676,6 +1734,470 @@ Theme = ${12:false} --true"
 <!------------------------ Fin Partie à modifier pour snippets tkz-eucl ---------------------------->
 
 
+
+<div id="scratch" class="tabcontent">
+    <div class="grid" > 
+        <h3>Événements</h3>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\begin{scratch}[scale=1,print=false]
+  \blockinit{quand \greenflag est cliqué}
+  $1
+\end{scratch}$0" 
+                data-description="">
+                <pre class="blocks">
+                    quand le drapeau vert pressé
+                </pre>
+            </a>
+        </div>
+
+        <h3>Mouvement</h3>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\blockmove{avancer de \ovalnum{$1}}
+$0" 
+                data-description="">
+                <pre class="blocks">
+                    avancer de () pas
+                </pre>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\blockmove{tourner \turnright{} de \ovalnum{$1} degrés}
+$0" 
+                data-description="">
+                <pre class="blocks">
+                    tourner droite de () degrés
+                </pre>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\blockmove{tourner \turnleft{} de \ovalnum{$1} degrés}
+$0" 
+                data-description="">
+                <pre class="blocks">
+                    tourner gauche de () degrés
+                </pre>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\blockmove{aller à  x: \ovalnum{$1} y: \ovalnum{$2}}
+$0" 
+                data-description="">
+                <pre class="blocks">
+                    aller à x: () y: ()
+                </pre>
+            </a>
+        </div>
+
+
+        <div>
+            <a class="cmd" data-snippet=
+"\blockmove{s'orienter à \ovalnum{$1}}
+$0" 
+                data-description="">
+                <pre class="blocks">
+                    s'orienter à ()
+                </pre>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\blockmove{mettre x à \ovalnum{$1}}
+$0"  
+                data-description="">
+                <pre class="blocks">
+                    mettre x à ()
+                </pre>
+            </a>
+        </div>
+        
+        <div>
+            <a class="cmd" data-snippet=
+"\blockmove{mettre y à \ovalnum{$1}}
+$0"  
+                data-description="">
+                <pre class="blocks">
+                    mettre y à ()
+                </pre>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\blockmove{ajouter \ovalnum{$1} à x}
+$0"  
+                data-description="">
+                <pre class="blocks">
+                    ajouter () à x
+                </pre>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\blockmove{ajouter \ovalnum{$1} à y}
+$0" 
+                data-description="">
+                <pre class="blocks">
+                    ajouter () à y
+                </pre>
+            </a>
+        </div>
+
+        <h3>Apparence</h3>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\blocklook{dire \ovalnum{$1}}
+$0"  
+                data-description="">
+                <pre class="blocks">
+                    dire ()
+                </pre>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\blocklook{montrer}
+$0" 
+                data-description="">
+                <pre class="blocks">
+                    montrer
+                </pre>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\blocklook{cacher}
+$0"
+                data-description="">
+                <pre class="blocks">
+                    cacher
+                </pre>
+            </a>
+        </div>
+
+        <h3>Contrôle</h3>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\blockcontrol{attendre \ovalnum{$1} secondes}
+$0"
+                data-description="">
+                <pre class="blocks">
+                    attendre () secondes
+                </pre>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\blockrepeat{répéter \ovalnum{$1} fois}
+{
+  ${2:\blockspace[0.5]}
+}
+$0"
+                data-description="">
+                <pre class="blocks">
+                    répéter () fois
+                </pre>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\blockinfloop{répéter indéfiniment}
+{
+  ${1:\blockspace[0.5]}
+}
+$0"
+                data-description="">
+                <pre class="blocks">
+                    répéter indéfiniment
+                </pre>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\blockif{si ${1:\boolempty~} alors}
+{
+${2:\blockspace[0.5]}
+}
+$0"
+                data-description="">
+                <pre class="blocks">
+                    si <> alors
+                </pre>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\blockifelse{si ${1:\boolempty~} alors}
+{
+  ${2:\blockspace[0.5]}
+}
+{
+  ${3:\blockspace[0.5]}
+}
+$0"
+                data-description="">
+                <pre class="blocks">
+                    si <> alors 
+                    sinon
+                </pre>
+            </a>
+        </div>
+
+        <h3>Capteurs</h3>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\blocksensing{demander \ovalnum{$1} et attendre}
+$0"
+                data-description="">
+                <pre class="blocks">
+                    demander () et attendre
+                </pre>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd" data-snippet=
+                "\ovalsensing{réponse}" 
+                data-description="">
+                <pre class="blocks">
+                    (réponse)
+                </pre>
+            </a>
+        </div>
+
+        <h3>Opérateurs</h3>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\ovaloperator{${1:\ovalnum{$2\}} + ${3:\ovalnum{$4\}}}"
+                data-description="">
+                <pre class="blocks">
+                    (() + ())
+                </pre>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\ovaloperator{${1:\ovalnum{$2\}} - ${3:\ovalnum{$4\}}}"
+                data-description="">
+                <pre class="blocks">
+                    (() - ())
+                </pre>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\ovaloperator{${1:\ovalnum{$2\}} * ${3:\ovalnum{$4\}}}"
+                data-description="">
+                <pre class="blocks">
+                    (() * ())
+                </pre>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\ovaloperator{${1:\ovalnum{$2\}} / ${3:\ovalnum{$4\}}}"
+                data-description="">
+                <pre class="blocks">
+                    (() / ())
+                </pre>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\booloperator{${1:\ovalnum{$2\}} ou ${3:\ovalnum{$4\}}}"
+                data-description="">
+                <pre class="blocks">
+                    <() ou ()>
+                </pre>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\booloperator{${1:\ovalnum{$2\}} et ${3:\ovalnum{$4\}}}"
+                data-description="">
+                <pre class="blocks">
+                    <() et ()>
+                </pre>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\booloperator{${1:\ovalnum{$2\}} > ${3:\ovalnum{$4\}}}"
+                data-description="">
+                <pre class="blocks">
+                    <<> > <>>
+                </pre>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\booloperator{${1:\ovalnum{$2\}} < ${3:\ovalnum{$4\}}}"
+                data-description="">
+                <pre class="blocks">
+                    <<> < <>>
+                </pre>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\booloperator{${1:\ovalnum{$2\}} = ${3:\ovalnum{$4\}}}"
+                data-description="">
+                <pre class="blocks">
+                    <<> = <>>
+                </pre>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\ovaloperator{regrouper ${1:\ovalnum{$2\}} et ${3:\ovalnum{$4\}}}"
+                data-description="">
+                <pre class="blocks">
+                    (regrouper () et ())
+                </pre>
+            </a>
+        </div>
+
+        <h3>Variables</h3>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\ovalvariable{${1:mavariable}}"
+                data-description="">
+                <pre class="blocks">
+                    (mavariable)
+                </pre>
+            </a>
+        </div>
+        
+        <div>
+            <a class="cmd" data-snippet=
+"\blockvariable{mettre \selectmenu{${1:mavariable}} à \ovalnum{$2}}
+$0"
+                data-description="">
+                <pre class="blocks">
+                    mettre [mavariable v] à ()
+                </pre>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\blockvariable{ajouter \ovalnum{$1} à \selectmenu{${2:mavariable}}}
+$0"
+                data-description="">
+                <pre class="blocks">
+                    ajouter () à [mavariable v]
+                </pre>
+            </a>
+        </div>
+
+        <h3>Stylo</h3>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\blockpen{effacer tout}
+$0"
+                data-description="">
+                <pre class="blocks">
+                    effacer tout
+                </pre>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\blockpen{stylo en position d'écriture}
+$0"
+                data-description="">
+                <pre class="blocks">
+                    stylo en position d'écriture
+                </pre>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\blockpen{relever le stylo}
+$0"
+                data-description="">
+                <pre class="blocks">
+                    relever le stylo
+                </pre>
+            </a>
+        </div>
+
+        <h3>Autres blocs</h3>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\begin{scratch}[scale=1,print=false]
+  \initmoreblocks{définir \\namemoreblocks{${1:monbloc\}}}
+  $2
+\end{scratch}$0"  
+                data-description="">
+                <pre class="blocks">
+                    définir monbloc
+                </pre>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\blockmoreblocks{${1:monbloc\}}
+$0"
+                data-description="">
+                <pre class="blocks">
+                    monbloc :: custom
+                </pre>
+            </a>
+        </div>
+    </div>
+</div>
+
+    <script>
+        scratchblocks.renderMatching('pre.blocks', {
+            style: 'scratch3',   // Optionnel, par défaut à 'scratch2'.
+            languages: ['fr'],   // Optionnel, par défaut à ['en'].
+            scale: 0.6             // Optionnel, par défaut à 1.
+        });
+
+        scratchblocks.renderMatching('code.b', {
+            inline: true,
+            style: 'scratch3',   // Optionnel, par défaut à 'scratch2'.
+            languages: ['fr'],   // Optionnel, par défaut à ['en'].
+            scale: 1             // Optionnel, par défaut à 1.
+        });
+    </script>
 
     </body>
 </html>

@@ -270,7 +270,7 @@ input[type='text']:focus {
     position: relative;
     min-width: 2ex;
     cursor: pointer;
-    border: var(--vscode-editor-background) 1px solid;
+    /* border: var(--vscode-editor-background) 1px solid; */
 }
 #TeX3R .grid div:hover {
     background-color: var(--vscode-list-hoverBackground);
@@ -298,7 +298,7 @@ input[type='text']:focus {
     position: relative;
     min-width: 2ex;
     cursor: pointer;
-    border: var(--vscode-editor-background) 1px solid;
+    /* border: var(--vscode-editor-background) 1px solid; */
 }
 #tkz-eucl .grid div:hover {
     background-color: var(--vscode-list-hoverBackground);
@@ -318,6 +318,38 @@ input[type='text']:focus {
     stroke-width: 1;
     fill: currentColor;
 }
+
+/* Fin style div */
+
+/*********************** Style div id=scratch *****************************/
+
+ #scratch .grid div {
+    /* display: inline-block; */
+    position: relative;
+    min-width: 2ex;
+    cursor: pointer;
+    /* border: var(--vscode-editor-background) 1px solid; */
+}
+#scratch .grid div:hover {
+    background-color: var(--vscode-list-hoverBackground);
+    transform: scale(1.02);
+}
+
+/*
+#scratch a.cmd {
+    position: relative;
+    display: block;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    margin-left: 0.3em;
+    font-stretch: 200%;
+    letter-spacing: 0.05em;
+    opacity: 0.8;
+    color:var(--vscode-editor-foreground);  /* couleur pour le texte */
+    /* stroke: currentColor; couleur pour les SVG */
+    /* stroke-width: 1;
+    /* fill: currentColor; */
+/* } */ 
 
 /* Fin style div */
 
