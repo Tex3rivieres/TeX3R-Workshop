@@ -10,12 +10,14 @@ body {
 
 /* Style the tab */
 .tab {
-    margin: 0;
-    margin-bottom: 0.5rem;
-    padding: 0;
+    position: fixed;
+    margin: 0px;
+    padding: 10px 0;
     border: 0;
     color: var(--vscode-list-inactiveSelectionBackground);
     width: 100%;
+    background-color: var(--vscode-editor-background);
+    z-index: 1000;
 }
 
 /* Style the buttons inside the tab */
@@ -27,11 +29,32 @@ body {
     border: none;
     border-bottom: var(--vscode-editor-background) 1px solid;
     outline: none;
-    text-align: left;
+    text-align: center;
     cursor: pointer;
     transition: 0.3s;
     font-size: 1rem;
     position: relative;
+    width: 32%;
+}
+
+/* .tab button svg {
+    vertical-align: bottom;
+    text-align: center;
+} */
+
+.tablinks{
+    vertical-align: bottom;
+    text-align: center;
+}
+
+.tablinks svg {
+    vertical-align: bottom;
+    text-align: center;
+}
+
+
+.grid {
+    margin-top: 80px; /* Marge pour la barre fixe */
 }
 
 /* Change background color of buttons on hover */

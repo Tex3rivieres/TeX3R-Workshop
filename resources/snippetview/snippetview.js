@@ -110,6 +110,7 @@ function openTab(evt, tabName) {
     }
     document.getElementById(tabName).style.display = 'block';
     evt.currentTarget.className += ' active';
+    window.scrollTo(0, 0);
 }
 
 // fonction insertion snippet TeX3R
