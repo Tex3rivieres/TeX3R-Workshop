@@ -12,11 +12,9 @@ TeX3R c'est avant tout une classe **classe-tex3R.cls** et un style **style-tex3R
 
 TeX3R c'est aussi un environnement LaTeX portable : [https://github.com/Tex3rivieres/TeX3R-Portable](https://github.com/Tex3rivieres/TeX3R-Portable)
 
-## Licence
+## Licence et crédits
 
 [MIT](https://opensource.org/licenses/MIT)
-
-## Crédits
 
 - **Vincent Crombez** et **Frédéric Léothaud** (auteurs)
 - **latex-workshop** (base de l'extension)
