@@ -10,8 +10,8 @@
 ## [3.2.0] - 19-12-2023
  - Ajout de l'onglet scratch3 dans le panel
 
-## [3.2.1] - 19-12-2023
+## [3.3.0] - 19-12-2023
  - Refonte visuelle des onglets du panel
- - Ajouts mineures dans le panel principal
+ - Ajouts mineurs dans le panel principal
  - Modification des snippets clavier
  - Ajout de l'onglet documentations dans le panel

@@ -1,9 +1,9 @@
 {
   "name": "tex3r",
   "displayName": "TeX3R",
-  "description": "Environnement basé sur latex worshop pour facilter la rédaction de cours de maths.",
+  "description": "Extension basée sur LaTeX Workshop : paramétrage et raccourcis facilitant la rédaction de cours de mathématiques.",
   "icon": "icons/icon.png",
-  "version": "3.2.1",
+  "version": "3.3.0",
   "publisher": "Tex3R",
   "license": "MIT",
   "homepage": "https://github.com/Tex3rivieres/TeX3R-Workshop",
