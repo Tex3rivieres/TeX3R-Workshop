@@ -679,7 +679,7 @@
 		"body": [
 			"\\begin{cases}",
 			"\t${1:Cas1}\\\\\\",
-			"\t ${2:Cas1}\\\\\\",
+			"\t${2:Cas2}\\\\\\",
 			"\\end{cases}"
 		],
 		"description": "Disjonction de cas en math mode"

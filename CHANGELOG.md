@@ -15,3 +15,6 @@
  - Ajouts mineurs dans le panel principal
  - Modification des snippets clavier
  - Ajout de l'onglet documentations dans le panel
+
+## [3.3.1] - XX
+ - Corrections mineures
