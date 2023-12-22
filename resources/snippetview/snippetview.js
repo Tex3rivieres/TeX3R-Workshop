@@ -150,7 +150,6 @@ function ScratchInitialise() {
         });
     });
 }
-// Fin ajout fonction tkz-eucl
-
+// Fin ajout fonction scratch
 
 document.querySelector('.tablinks.active').click();

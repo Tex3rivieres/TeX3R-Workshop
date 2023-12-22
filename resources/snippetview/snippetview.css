@@ -32,9 +32,9 @@ body {
     text-align: center;
     cursor: pointer;
     transition: 0.3s;
-    font-size: 1rem;
+    font-size: 0.9rem;
     position: relative;
-    width: 32%;
+    width: 23%;
 }
 
 /* .tab button svg {
@@ -52,9 +52,8 @@ body {
     text-align: center;
 }
 
-
 .grid {
-    margin-top: 80px; /* Marge pour la barre fixe */
+    margin-top: 64px; /* Marge pour la barre fixe */
 }
 
 /* Change background color of buttons on hover */
@@ -65,7 +64,7 @@ body {
 /* Create an active/current "tab button" class */
 .tab button.active {
     color: var(--vscode-panelTitle-activeForeground);
-    border-bottom: var(--vscode-panelTitle-activeBorder) 1px solid;
+    /* border-bottom: var(--vscode-panelTitle-activeBorder) 1px solid; */
 }
 
 /* Style the tab content */
@@ -74,8 +73,6 @@ body {
     padding: 0px 12px;
     border: 0;
     width: 100%;
-
-
     border-left: none;
 }
 
@@ -374,7 +371,39 @@ input[type='text']:focus {
     /* fill: currentColor; */
 /* } */ 
 
+
+/*********************** Style div id=doc *****************************/
+
+#doc .grid div {
+    /* display: inline-block; */
+    position: relative;
+    min-width: 2ex;
+    cursor: pointer;
+    /* border: var(--vscode-editor-background) 1px solid; */
+}
+#doc .grid div:hover {
+    background-color: var(--vscode-list-hoverBackground);
+    transform: scale(1.02);
+}
+#doc a.cmd {
+    /* position: relative; */
+    /* display: block; */
+    font-size: 0.95rem;
+    line-height: 1.4;
+    margin-left: 0.3em;
+    font-stretch: 200%;
+    letter-spacing: 0.05em;
+    opacity: 0.8;
+    color:var(--vscode-editor-foreground);  /* couleur pour le texte */
+    stroke: currentColor; /* couleur pour les SVG */
+    stroke-width: 1;
+    fill: currentColor;
+}
+
+
 /* Fin style div */
+
+
 
 a.cmd::after {
     content: attr(data-description); /* Ou utiliser var(--description-content) */
@@ -397,4 +426,13 @@ a.cmd::after {
 
 a.cmd:hover::after {
     opacity: 1;
+}
+
+h3 {
+    border-left: 3px solid rgb(0, 150, 255); /* Bordure de 3 pixels de large sur le côté gauche et de couleur noire */
+    padding-left: 3px; /* Espace à l'intérieur du bord à gauche */
+    margin-left: 0px; /* Marge à gauche pour donner de l'espace à l'élément suivant ou précédent */
+    margin-bottom: 16px;
+    margin-top: 16px;
+    color: rgb(0, 150, 255);;
 }
