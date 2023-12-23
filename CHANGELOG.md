@@ -21,3 +21,6 @@
  - Snippets de paramétrage modifiés.
  - Onglet documentations modifié
  - Snippet ```parametres``` déplacé dans lua-snippet.json
+
+## [3.3.2] - XX
+ - Modification du logo
