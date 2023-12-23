@@ -18,3 +18,6 @@
 
 ## [3.3.1] - XX
  - Corrections mineures
+ - Snippets de paramétrage modifiés.
+ - Onglet documentations modifié
+ - Snippet ```parametres``` déplacé dans lua-snippet.json

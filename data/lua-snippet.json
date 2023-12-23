@@ -1,0 +1,25 @@
+{
+	"Parametres": {
+		"prefix": "parametres",
+		"body": [
+			"\tType = '${1:basique}' --activite/bilan/corrige/cours/DM/DS/flash/interro/TD",
+			"\tCompteur = ${2:'1'}",
+			"\tImpression = ${3:false} --true",
+			"\tHeader = ${4:false} --true",
+			"\tTaille = ${5:nil} --'14pt'",
+			"\tStretch = ${6:false} --true",
+			"",
+			"\tCorrection = ${7:false} --true",
+			"\tEnonce = ${8:false} --true",
+			"\tVisible = ${9:false} --true",
+			"",
+			"\tCompetence = ${10:false} --true",
+			"\tBareme = ${11:false} --true",
+			"\tDifficulte = ${12:false} --true",
+			"\tSource = ${13:false} --true",
+			"\tTheme = ${14:false} --true",
+			"$0"
+		],
+		"description": "Paramétrage avancé"
+	}
+}

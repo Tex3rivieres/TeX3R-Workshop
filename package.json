@@ -3,7 +3,7 @@
   "displayName": "TeX3R",
   "description": "Extension basée sur LaTeX Workshop : paramétrage et raccourcis facilitant la rédaction de cours de mathématiques.",
   "icon": "icons/icon.png",
-  "version": "3.3.0",
+  "version": "3.3.1",
   "publisher": "Tex3R",
   "license": "MIT",
   "homepage": "https://github.com/Tex3rivieres/TeX3R-Workshop",
@@ -263,6 +263,10 @@
       {
         "language": "latex-expl3",
         "path": "./data/latex-snippet.json"
+      },
+      {
+        "language": "lua",
+        "path": "./data/lua-snippet.json"
       }
     ],
     "commands": [

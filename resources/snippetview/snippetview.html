@@ -61,11 +61,17 @@
 
 <div>
     <a class="cmd" data-snippet=
-"\documentclass[${1:fiche}]{classe-tex3R} %#1=diapo (optionnel)
+"\documentclass{classe-tex3R}
 \usepackage{style-tex3R}
 
-\definirchapitre{$2}{$3} %#1=nombre, #2=nom
-\definirniveau{$4} %#1=nombre ou nom
+\begin{luacode}
+  Format = '${1:fiche}' --diapo/fiche
+  Chapitre = '$2' --nom du chapitre
+  Numero = '$3' --numéro du chapitre
+  Niveau = '$4' --niveau de classe
+\end{luacode}
+\parametrage
+%FIN PARAMÉTRAGE PRÉAMBULE
 
 \begin{document}
 
@@ -73,8 +79,9 @@
   mesParametres('${5:basique}') --activite/bilan/corrige/cours/DM/DS/flash/interro/TD
 \end{luacode}
 \parametrage
+%FIN PARAMÉTRAGE DOCUMENT
 
-  ${0:%Le texte du document}
+${0:%Le texte du document}
 
 \end{document}" 
     data-description="Nouveau document">
@@ -83,21 +90,22 @@
 </div>
 <div>
 <a class="cmd" data-snippet=
-"Type = '${1:basique}' --activite/bilan/corrige/cours/DM/DS/flash/interro/TD
-Impression = ${2:false} --true
-Header = ${3:false} --true
-Taille = ${4:nil} --'14pt'
-Stretch = ${5:false} --true
+    "Type = '${1:basique}' --activite/bilan/corrige/cours/DM/DS/flash/interro/TD
+    Compteur = ${2:'1'}
+    Impression = ${3:false} --true
+    Header = ${4:false} --true
+    Taille = ${5:nil} --'14pt'
+    Stretch = ${6:false} --true
 
-Correction = ${5:false} --true
-Enonce = ${6:false} --true
-Visible = ${7:false} --true
+    Correction = ${7:false} --true
+    Enonce = ${8:false} --true
+    Visible = ${9:false} --true
 
-Bareme = ${8:false} --true
-Competence = ${9:false} --true
-Difficulte = ${10:false} --true
-Source = ${11:false} --true
-Theme = ${12:false} --true"
+    Bareme = ${10:false} --true
+    Competence = ${11:false} --true
+    Difficulte = ${12:false} --true
+    Source = ${13:false} --true
+    Theme = ${14:false} --true"
     data-description="Paramètres complets">
         <i class="fa-solid fa-sliders" style="font-size: 24px; color: currentColor;"></i>
     </a>
@@ -2362,6 +2370,130 @@ $0"
                 </svg>
         </a>
     </div>
+
+    <h3>Autres ressources</h3>
+
+      <div>
+          <a class="cmd" href="https://www.tablesgenerator.com/latex_tables"
+              data-description="">
+              <svg width="140" height="24">  
+                  <text x="2" y="18"
+                  font-family="calibri"
+                  font-weight="normal"
+                  font-style="normal"
+                  font-size="16">TablesGenerator</text>
+                  </svg>
+          </a>
+      </div>
+
+    <h3>Eduscol</h3>
+
+
+    <div>
+        <a class="cmd" href="https://eduscol.education.fr/document/50990/download"
+            data-description="">
+            <svg width="140" height="24">  
+                <text x="2" y="18"
+                font-family="calibri"
+                font-weight="normal"
+                font-style="normal"
+                font-size="16">Programme Cycle 3</text>
+                </svg>
+        </a>
+    </div>
+
+    <div>
+        <a class="cmd" href="https://eduscol.education.fr/document/621/download"
+            data-description="">
+            <svg width="140" height="24">  
+                <text x="2" y="18"
+                font-family="calibri"
+                font-weight="normal"
+                font-style="normal"
+                font-size="16">Programme Cycle 4</text>
+                </svg>
+        </a>
+    </div>
+
+
+      <div>
+          <a class="cmd" href="https://eduscol.education.fr/document/14014/download"
+              data-description="">
+              <svg width="140" height="24">  
+                  <text x="2" y="18"
+                  font-family="calibri"
+                  font-weight="normal"
+                  font-style="normal"
+                  font-size="16">Repères 6e</text>
+                  </svg>
+          </a>
+      </div>
+
+        <div>
+          <a class="cmd" href="https://eduscol.education.fr/document/14044/download"
+              data-description="">
+              <svg width="140" height="24">  
+                  <text x="2" y="18"
+                  font-family="calibri"
+                  font-weight="normal"
+                  font-style="normal"
+                  font-size="16">Repères 5e</text>
+                  </svg>
+          </a>
+      </div>
+
+      <div>
+        <a class="cmd" href="https://eduscol.education.fr/document/14056/download"
+            data-description="">
+            <svg width="140" height="24">  
+                <text x="2" y="18"
+                font-family="calibri"
+                font-weight="normal"
+                font-style="normal"
+                font-size="16">Repères 4e</text>
+                </svg>
+        </a>
+    </div>
+
+    <div>
+        <a class="cmd" href="https://eduscol.education.fr/document/14068/download"
+            data-description="">
+            <svg width="140" height="24">  
+                <text x="2" y="18"
+                font-family="calibri"
+                font-weight="normal"
+                font-style="normal"
+                font-size="16">Repères 3e</text>
+                </svg>
+        </a>
+    </div>
+
+    <div>
+        <a class="cmd" href="https://eduscol.education.fr/3049/dynamiser-l-enseignement-des-mathematiques-au-college"
+            data-description="">
+            <svg width="140" height="24">  
+                <text x="2" y="18"
+                font-family="calibri"
+                font-weight="normal"
+                font-style="normal"
+                font-size="16">Plan maths</text>
+                </svg>
+        </a>
+    </div>
+
+    <div>
+        <a class="cmd" href="https://eduscol.education.fr/document/13132/download"
+            data-description="">
+            <svg width="140" height="24">  
+                <text x="2" y="18"
+                font-family="calibri"
+                font-weight="normal"
+                font-style="normal"
+                font-size="16">Guide problèmes</text>
+                </svg>
+        </a>
+    </div>
+
 
     </div>
 </div>

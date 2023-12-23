@@ -2,11 +2,17 @@
 	"Nouveau document": {
 		"prefix": "document",
 		"body": [
-			"\\documentclass[${1:fiche}]{classe-tex3R} %#1=diapo (optionnel)",
+			"\\documentclass{classe-tex3R} %#1=diapo (optionnel)",
 			"\\usepackage{style-tex3R}",
 			"",
-			"\\definirchapitre{$2}{$3} %#1=nombre, #2=nom",
-			"\\definirniveau{$4} %#1=nombre ou nom",
+			"\\begin{luacode}",
+			"\tFormat = '${1:fiche}' --diapo/fiche",
+			"\tChapitre = '$2' --nom du chapitre",
+			"\tNumero = '$3' --numéro du chapitre",
+			"\tNiveau = '$4' --niveau de classe",
+			"\\end{luacode}",
+			"\\parametrage",
+			"%FIN PARAMÉTRAGE PRÉAMBULE",
 			"",
 			"\\begin{document}",
 			"",
@@ -14,35 +20,13 @@
 			"\tmesParametres('${5:basique}') --activite/bilan/corrige/cours/DM/DS/flash/interro/TD",
 			"\\end{luacode}",
 			"\\parametrage",
+			"%FIN PARAMÉTRAGE DOCUMENT",
 			"",
 			"${0:%Le texte du document}",
 			"",
 			"\\end{document}"
 		],
 		"description": "Permet de créer un nouveau document (avec paramètres prédéfinis)"
-	},
-
-	"Parametres": {
-		"prefix": "parametres",
-		"body": [
-			"\tType = '${4:basique}' --activite/bilan/corrige/cours/DM/DS/flash/interro/TD",
-			"\tImpression = ${5:false} --true",
-			"\tHeader = ${6:false} --true",
-			"\tTaille = ${7:nil} --'14pt'",
-			"\tStretch = ${8:false} --true",
-			"",
-			"\tCorrection = ${9:false} --true",
-			"\tEnonce = ${10:false} --true",
-			"\tVisible = ${11:false} --true",
-			"",
-			"\tCompetence = ${12:false} --true",
-			"\tBareme = ${13:false} --true",
-			"\tDifficulte = ${14:false} --true",
-			"\tSource = ${15:false} --true",
-			"\tTheme = ${16:false} --true",
-			"$0"
-		],
-		"description": "Paramétrage avancé"
 	},
 
 	"Titre personnalisé": {
