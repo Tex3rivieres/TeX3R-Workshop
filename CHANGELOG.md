@@ -16,7 +16,7 @@
  - Modification des snippets clavier
  - Ajout de l'onglet documentations dans le panel
 
-## [3.3.1] - XX
+## [3.3.1] - 23-12-2023
  - Corrections mineures
  - Snippets de paramétrage modifiés.
  - Onglet documentations modifié
