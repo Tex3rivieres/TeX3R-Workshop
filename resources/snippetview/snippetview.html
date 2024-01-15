@@ -76,7 +76,22 @@
 \begin{document}
 
 \begin{luacode}
-  mesParametres('${5:basique}') --activite/bilan/corrige/cours/DM/DS/flash/interro/TD
+  Type = '${1:basique}' --activite/bilan/corrige/cours/DM/DS/flash/interro/TD
+  Compteur = ${2:'1'} --Numérotation de l'entête
+  Impression = ${3:false} --true
+  Header = ${4:false} --true
+  Taille = ${5:nil} --'14pt'
+  Stretch = ${6:false} --true
+
+  Correction = ${7:false} --true
+  Enonce = ${8:false} --true
+  Visible = ${9:false} --true
+
+  Competence = ${10:false} --true
+  Bareme = ${11:false} --true
+  Difficulte = ${12:false} --true
+  Source = ${13:false} --true
+  Theme = ${14:false} --true
 \end{luacode}
 \parametrage
 %FIN PARAMÉTRAGE DOCUMENT
@@ -530,6 +545,16 @@ ${0:%Le texte du document}
 </div>
 
 <div>
+    <a class="cmd" data-snippet=
+"\begin{landscape}
+  $TM_SELECTED_TEXT
+\end{landscape}$0"
+    data-description="Paysage">
+    <i class="fa-solid fa-money-check" style="font-size: 24px; color: currentColor;"></i>
+    </a>
+</div>
+
+<div>
     <a class="cmd" data-snippet="\includegraphics[width=${1:1}\linewidth]{$2}$0"
     data-description="Image">
     <i class="fa-regular fa-image" style="font-size: 24px; color: currentColor;"></i>
@@ -751,8 +776,8 @@ ${0:%Le texte du document}
 </div>
 
 <div>
-    <a class="cmd" data-snippet="
-\begin{cases}
+    <a class="cmd" data-snippet=
+"\begin{cases}
   ${1:Cas1}\\\ 
   ${2:Cas2}\\\ 
 \end{cases}$0"
@@ -970,6 +995,32 @@ ${0:%Le texte du document}
         font-weight="bold"
         font-style="normal"
         font-size="24">Ç</text>
+    </svg>
+    </a>
+</div>
+
+<div>
+    <a class="cmd" data-snippet="Œ$0"
+    data-description="Œ">
+    <svg width="24" height="24">  
+        <text x="0" y="20"
+        font-family="calibri"
+        font-weight="bold"
+        font-style="normal"
+        font-size="24">Œ</text>
+    </svg>
+    </a>
+</div>
+
+<div>
+    <a class="cmd" data-snippet="œ$0"
+    data-description="œ">
+    <svg width="24" height="24">  
+        <text x="0" y="20"
+        font-family="calibri"
+        font-weight="bold"
+        font-style="normal"
+        font-size="24">œ</text>
     </svg>
     </a>
 </div>

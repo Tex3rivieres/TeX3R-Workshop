@@ -2,7 +2,7 @@
 	"Nouveau document": {
 		"prefix": "document",
 		"body": [
-			"\\documentclass{classe-tex3R} %#1=diapo (optionnel)",
+			"\\documentclass{classe-tex3R}",
 			"\\usepackage{style-tex3R}",
 			"",
 			"\\begin{luacode}",
@@ -419,6 +419,16 @@
 		"description": "Insère une image"
 	},
 
+	"Landscape": {
+		"prefix": ["paysage","landscape"],
+		"body": [
+			"\\begin{landscape}",
+			"\t$TM_SELECTED_TEXT$1",
+			"\\end{landscape}$0"
+		],
+		"description": "Insère une image"
+	},
+
 	"tikzpicture": {
 		"prefix": "tikz",
 		"body": [
@@ -480,6 +490,14 @@
 			"$$TM_SELECTED_TEXT$1$$0"
 		],
 		"description": "Environnement pour les maths"
+	},
+
+	"Math Text": {
+		"prefix": ["text"],
+		"body": [
+			"\\text{$TM_SELECTED_TEXT$1}$0"
+		],
+		"description": "Texte"
 	},
 
 	"Math Exposant": {
