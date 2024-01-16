@@ -28,4 +28,6 @@
  - Ajout de  \text dans les snippets
  - Ajout du paysage dans le  panel et les snippets
  - Paramètres complets dans nouveau document du panel au lieu de paramères simplifiés
+ - Modification du commentaire pour le snippet/panel de montitre
+ - Modification du snippet/panel de tasks
  <!-- - Ajout de interLL et interLC dans le panel tkz-euclide -->

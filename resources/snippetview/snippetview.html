@@ -130,7 +130,7 @@ ${0:%Le texte du document}
 
 <div>
     <a class="cmd" data-snippet=
-"\montitre[\hspace{-0.25em}]{$TM_SELECTED_TEXT$1} ${0:%#1=logo (optionnel), #2=contenu}"
+"\montitre[\hspace{-0.25em}]{$TM_SELECTED_TEXT$1} ${0:%[#1]=logo (optionnel), {#2\}=contenu}"
     data-description="Titre personnalisé">
         <i class="fa-solid fa-heading" style="font-size: 24px; color: currentColor;"></i>
     </a>
@@ -311,8 +311,8 @@ ${0:%Le texte du document}
 
 <div>
     <a class="cmd" data-snippet=
-"\begin{tasks}[style=enumerate](${1:1})
-  \task $2
+"\begin{tasks}[style=${1:enumerate}](${2:1}) %enumerate/itemize/label=$\empty$
+  \task $TM_SELECTED_TEXT$3
 \end{tasks}$0"
     data-description="Liste flexible">
     <i class="fa-solid fa-rectangle-list" style="font-size: 24px; color: currentColor;"></i>

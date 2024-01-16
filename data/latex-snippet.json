@@ -32,7 +32,7 @@
 	"Titre personnalisé": {
 		"prefix": "titre",
 		"body": [
-			"\\montitre[\\hspace{-0.25em}]{$TM_SELECTED_TEXT$1} ${0:%#1=logo (optionnel), #2=contenu}"
+			"\\montitre[\\hspace{-0.25em}]{$TM_SELECTED_TEXT$1} ${0:%[#1]=logo (optionnel), {#2\\}=contenu}"
 		],
 		"description": "Titre personnalisé"
 	},
@@ -225,8 +225,8 @@
 	"Tasks": {
 		"prefix": "tasks",
 		"body": [
-			"\\begin{tasks}[style=enumerate](${1:1})",
-			"\t\\task $2",
+			"\\begin{tasks}[style=${1:enumerate}](${2:1}) %enumerate/itemize/label=$\\empty$",
+			"\t\\task $TM_SELECTED_TEXT$3",
 			"\\end{tasks}$0"
 		],
 		"description": "Créé un environnement tasks (puces flexibles)"
