@@ -84,7 +84,7 @@
   Stretch = ${6:false} --true
 
   Correction = ${7:false} --true
-  Enonce = ${8:false} --true
+  Enonce = ${8:true} --false
   Visible = ${9:false} --true
 
   Competence = ${10:false} --true
@@ -311,7 +311,7 @@ ${0:%Le texte du document}
 
 <div>
     <a class="cmd" data-snippet=
-"\begin{tasks}[style=${1:enumerate}](${2:1}) %enumerate/itemize/label=$\empty$
+"\begin{tasks}[${1:style=enumerate}](${2:1}) %style=enumerate/style=itemize/label=$\empty$
   \task $TM_SELECTED_TEXT$3
 \end{tasks}$0"
     data-description="Liste flexible">
@@ -355,6 +355,7 @@ ${0:%Le texte du document}
 <div>
     <a class="cmd" data-snippet=
 "%%% DÉBUT EXERCICE %%%
+\exercice{Exercice} %Pour se repérer dans la structure
 \bareme{$1} %#1=nombre
 \competence{$2} %#1=nom
 \difficulte{$3} %#1=nombre
@@ -547,7 +548,7 @@ ${0:%Le texte du document}
 <div>
     <a class="cmd" data-snippet=
 "\begin{landscape}
-  $TM_SELECTED_TEXT
+  $TM_SELECTED_TEXT$1
 \end{landscape}$0"
     data-description="Paysage">
     <i class="fa-solid fa-money-check" style="font-size: 24px; color: currentColor;"></i>
@@ -1596,10 +1597,28 @@ $0"
 
         <div>
             <a class="cmd" data-snippet=
-"\tkzDefPointOnCircle[through = center A angle 50 point B]\tkzGetPoint{C}
+"\tkzDefPointOnCircle[through = center ${1:A} angle ${2:50} point ${3:B}]\tkzGetPoint{${4:C}}
 $0" 
                 data-description="Def point on circle">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-width="13" d="M440.11 256c0 101.502-82.429 183.785-184.11 183.785-101.681 0-184.11-82.283-184.11-183.785S154.319 72.215 256 72.215c101.682 0 184.11 82.283 184.11 183.785z"/><circle cx="406.33" cy="149.45" r="35" fill="red"/><circle cx="256" cy="256" r="35" fill="currentColor"/><path d="M278.118 240.513c8.537 12.193 5.563 29.064-6.631 37.604-12.195 8.539-29.066 5.564-37.605-6.631s-5.564-29.064 6.631-37.604 29.064-5.565 37.605 6.631m10.649-7.457c-12.672-18.096-37.615-22.492-55.709-9.822-18.096 12.67-22.496 37.613-9.824 55.709 12.672 18.098 37.613 22.494 55.709 9.824 18.095-12.672 22.495-37.614 9.824-55.711z"/></svg>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\tkzInterLL(${1:A,B})(${2:C,D})\tkzGetPoint{${3:I}}
+$0" 
+                data-description="Intersection line/line">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-width="13" d="M442.41 522.23L69.59-10.22"/><path fill="none" stroke="currentColor" stroke-width="13" d="M120 350.3l272-189.34"/><circle cx="260" cy="255" r="35" fill="red"/></svg>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd" data-snippet=
+"\tkzInterLC(${1:A,B})(${2:O,C})\tkzGetPoint{${3:I}}
+$0" 
+                data-description="Intersection line/circle">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><path d="M376.173 525.319C326.021 330.76 182.793 165.572-16.785 72.112l5.513-11.773c203.104 95.111 348.911 263.407 400.033 461.736l-12.588 3.244z"/><path fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="13" d="M-9.29 392.69l535.31-245.15"/><circle cx="252.91" cy="272.83" r="35" fill="red"/></svg>
             </a>
         </div>
 

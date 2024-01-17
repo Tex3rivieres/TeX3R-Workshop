@@ -22,12 +22,14 @@
  - Onglet documentations modifié
  - Snippet ```parametres``` déplacé dans lua-snippet.json
 
-## [3.3.2] - XX
+## [3.3.2] - 17-01-2024
  - Modification du logo
  - Ajout du Œ et du œ
  - Ajout de  \text dans les snippets
  - Ajout du paysage dans le  panel et les snippets
  - Paramètres complets dans nouveau document du panel au lieu de paramères simplifiés
+ - Snippets document1/document2 pour les paramètres normaux ou simplifiés
  - Modification du commentaire pour le snippet/panel de montitre
  - Modification du snippet/panel de tasks
- <!-- - Ajout de interLL et interLC dans le panel tkz-euclide -->
+ - Ajout de interLL et interLC dans le panel tkz-euclide
+ - Ajout de ```exercice``` pour se repérer dans la structure d'un document dans snippet/panel de ```enonce```

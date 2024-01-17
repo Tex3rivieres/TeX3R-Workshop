@@ -1375,10 +1375,10 @@
           },
           "default": [
             "part",
-            "chapter",
-            "section",
-            "subsection",
-            "subsubsection"
+            "chapter|chapitre",
+            "section|partie",
+            "subsection|souspartie",
+            "subsubsection|exercice"
           ],
           "markdownDescription": "The section names of LaTeX outline hierarchy. It is also used by the folding mechanism. This property is an array of case-sensitive strings in the order of document structure hierarchy. For multiple tags in the same level, separate the tags with `|` as delimiters, e.g., `section|alternative`."
         },
