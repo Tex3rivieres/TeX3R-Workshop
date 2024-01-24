@@ -76,22 +76,22 @@
 \begin{document}
 
 \begin{luacode}
-  Type = '${1:basique}' --activite/bilan/corrige/cours/DM/DS/flash/interro/TD
-  Compteur = ${2:'1'} --Numérotation de l'entête
-  Impression = ${3:false} --true
-  Header = ${4:false} --true
-  Taille = ${5:nil} --'14pt'
-  Stretch = ${6:false} --true
+  Type = '${5:basique}' --activite/bilan/corrige/cours/DM/DS/flash/interro/TD
+  Compteur = ${6:'1'} --Numérotation de l'entête
+  Impression = ${7:false} --true
+  Header = ${8:false} --true
+  Taille = ${9:nil} --'14pt'
+  Stretch = ${10:false} --true
 
-  Correction = ${7:false} --true
-  Enonce = ${8:true} --false
-  Visible = ${9:false} --true
+  Correction = ${11:false} --true
+  Enonce = ${12:true} --false
+  Visible = ${13:false} --true
 
-  Competence = ${10:false} --true
-  Bareme = ${11:false} --true
-  Difficulte = ${12:false} --true
-  Source = ${13:false} --true
-  Theme = ${14:false} --true
+  Competence = ${14:false} --true
+  Bareme = ${15:false} --true
+  Difficulte = ${16:false} --true
+  Source = ${17:false} --true
+  Theme = ${18:false} --true
 \end{luacode}
 \parametrage
 %FIN PARAMÉTRAGE DOCUMENT
@@ -355,7 +355,7 @@ ${0:%Le texte du document}
 <div>
     <a class="cmd" data-snippet=
 "%%% DÉBUT EXERCICE %%%
-\exercice{Exercice} %Pour se repérer dans la structure
+\structure{Exercice}
 \bareme{$1} %#1=nombre
 \competence{$2} %#1=nom
 \difficulte{$3} %#1=nombre
@@ -386,6 +386,7 @@ ${0:%Le texte du document}
 <div>
     <a class="cmd" data-snippet=
 "%%% DÉBUT APPLICATION %%%
+\structure*{Application}
 \begin{application}
   $TM_SELECTED_TEXT$1
 \end{application}
@@ -404,6 +405,7 @@ ${0:%Le texte du document}
 <div>
     <a class="cmd" data-snippet=
 "%%% DÉBUT CONVENTION %%%
+\structure*{Convention}
 \begin{convention}
   $TM_SELECTED_TEXT$1
 \end{convention}
@@ -422,6 +424,7 @@ ${0:%Le texte du document}
 <div>
     <a class="cmd" data-snippet=
 "%%% DÉBUT DÉFINITION %%%
+\structure*{Définition}
 \begin{definition}
   $TM_SELECTED_TEXT$1
 \end{definition}
@@ -440,6 +443,7 @@ ${0:%Le texte du document}
 <div>
     <a class="cmd" data-snippet=
 "%%% DÉBUT EXEMPLE %%%
+\structure*{Exemple}
 \begin{exemple}
   $TM_SELECTED_TEXT$1
 \end{exemple}
@@ -458,6 +462,7 @@ ${0:%Le texte du document}
 <div>
     <a class="cmd" data-snippet=
 "%%% DÉBUT MÉTHODE %%%
+\structure*{Méthode}
 \begin{methode}
   $TM_SELECTED_TEXT$1
 \end{methode}
@@ -477,6 +482,7 @@ ${0:%Le texte du document}
 <div>
     <a class="cmd" data-snippet=
 "%%% DÉBUT PROPRIÉTÉ %%%
+\structure*{Propriété}
 \begin{propriété}
   $TM_SELECTED_TEXT$1
 \end{propriété}
@@ -495,6 +501,7 @@ ${0:%Le texte du document}
 <div>
     <a class="cmd" data-snippet=
 "%%% DÉBUT PREUVE %%%
+\structure*{Preuve}
 \begin{preuve}
   $TM_SELECTED_TEXT$1
 \end{preuve}
@@ -514,6 +521,7 @@ ${0:%Le texte du document}
 <div>
     <a class="cmd" data-snippet=
 "%%% DÉBUT REMARQUE %%%
+\structure*{Remarque}
 \begin{remarque}
   $TM_SELECTED_TEXT$1
 \end{remarque}

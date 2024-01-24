@@ -298,11 +298,6 @@
 		"description": "Créé un environnement lstlisting"
 	},
 
-
-  
-
-
-
 "Visible": {
 		"prefix": "visible",
 		"body": [
@@ -321,6 +316,7 @@
 		"prefix": "definition",
 		"body": [
 			"%%% DÉBUT DÉFINITION %%%",
+			"\\structure*{Définition}",
 			"\\begin{definition}",
 			"\t$TM_SELECTED_TEXT$1",
 			"\\end{definition}",
@@ -333,6 +329,7 @@
 		"prefix": "convention",
 		"body": [
 			"%%% DÉBUT CONVENTION %%%",
+			"\\structure*{Convention}",
 			"\\begin{convention}",
 			"\t$TM_SELECTED_TEXT$1",
 			"\\end{convention}",
@@ -345,6 +342,7 @@
 		"prefix": "propriété",
 		"body": [
 			"%%% DÉBUT PROPRIÉTÉ %%%",
+			"\\structure*{Propriété}",
 			"\\begin{propriete}",
 			"\t$TM_SELECTED_TEXT$1",
 			"\\end{propriete}",
@@ -357,6 +355,7 @@
 		"prefix": ["méthode","methode"],
 		"body": [
 			"%%% DÉBUT MÉTHODE %%%",
+			"\\structure*{Méthode}",
 			"\\begin{methode}",
 			"\t$TM_SELECTED_TEXT$1",
 			"\\end{methode}",
@@ -369,6 +368,7 @@
 		"prefix": "application",
 		"body": [
 			"%%% DÉBUT APPLICATION %%%",
+			"\\structure*{Application}",
 			"\\begin{application}",
 			"\t$TM_SELECTED_TEXT$1",
 			"\\end{application}",
@@ -381,6 +381,7 @@
 		"prefix": "exemple",
 		"body": [
 			"%%% DÉBUT EXEMPLE %%%",
+			"\\structure*{Exemple}",
 			"\\begin{exemple}",
 			"\t$TM_SELECTED_TEXT$1",
 			"\\end{exemple}",
@@ -393,6 +394,7 @@
 		"prefix": "remarque",
 		"body": [
 			"%%% DÉBUT REMARQUE %%%",
+			"\\structure*{Remarque}",
 			"\\begin{remarque}",
 			"\t$TM_SELECTED_TEXT$1",
 			"\\end{remarque}",
@@ -405,6 +407,7 @@
 		"prefix": "preuve",
 		"body": [
 			"%%% DÉBUT PREUVE %%%",
+			"\\structure*{Preuve}",
 			"\\begin{preuve}",
 			"\t$TM_SELECTED_TEXT$1",
 			"\\end{preuve}",
@@ -414,10 +417,10 @@
 	},
 
 	"Exercice": {
-		"prefix": ["enonce","exercice","correction"],
+		"prefix": ["exercice"],
 		"body": [
 			"%%% DÉBUT EXERCICE %%%",
-			"\\exercice{Exercice} %Pour se repérer dans la structure",
+			"\\structure{Exercice}",
 			"\\bareme{$1} %#1=nombre",
 			"\\competence{$2} %#1=nom",
 			"\\difficulte{$3} %#1=nombre",
@@ -434,6 +437,26 @@
 			"%%% FIN EXERCICE %%%$0"
 		],
 		"description": "Insère un exercice constitué des commandes de paramétrage, de l'énoncé et de la correction"
+	},
+
+	"Énoncé": {
+		"prefix": ["enonce, énoncé"],
+		"body": [
+			"\\begin{enonce}",
+			"\t$TM_SELECTED_TEXT$1",
+			"\\end{enonce}$0"
+		],
+		"description": "Insère un énoncé simple."
+	},
+
+	"Correction": {
+		"prefix": ["correction"],
+		"body": [
+			"\\begin{correction}",
+			"\t$TM_SELECTED_TEXT$1",
+			"\\end{correction}$0"
+		],
+		"description": "Insère une correction simple."
 	},
 
 	"Visiblecmd": {
