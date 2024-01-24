@@ -137,6 +137,14 @@
 		"description": "Texte rayé"
 	},
 
+	"Entouré": {
+		"prefix": ["circled","entouré"],
+		"body": [
+			"\\Circled{$TM_SELECTED_TEXT$1}$0"
+		],
+		"description": "Texte entouré"
+	},
+
 	"Rouge": {
 		"prefix": "rouge",
 		"body": [

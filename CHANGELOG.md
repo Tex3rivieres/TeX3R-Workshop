@@ -39,3 +39,4 @@
  - Changement de la commande ```exercice``` en ```structure```
  - Snippets modifiés pour faire apparaître structure ou structure*
  - Snippets enonce/correction corrigés
+ - ```\Circled``` ajouté dans snippets/panel
