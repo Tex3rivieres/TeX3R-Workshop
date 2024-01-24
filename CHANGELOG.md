@@ -34,7 +34,7 @@
  - Ajout de interLL et interLC dans le panel tkz-euclide
  - Ajout de ```exercice``` pour se repérer dans la structure d'un document dans snippet/panel de ```enonce```
 
- ## [3.3.3] - XX
+ ## [3.3.3] - 24-01-2024
  - Correction d'une erreur dans le snippet document
  - Changement de la commande ```exercice``` en ```structure```
  - Snippets modifiés pour faire apparaître structure ou structure*
