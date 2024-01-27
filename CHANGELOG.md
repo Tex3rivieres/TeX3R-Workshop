@@ -40,3 +40,8 @@
  - Snippets modifiés pour faire apparaître structure ou structure*
  - Snippets enonce/correction corrigés
  - ```\Circled``` ajouté dans snippets/panel
+
+ ## [3.3.4] - XX
+
+ - Correction du snippet document1
+ - Correction du snippet enonce
