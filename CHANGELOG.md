@@ -41,7 +41,11 @@
  - Snippets enonce/correction corrigés
  - ```\Circled``` ajouté dans snippets/panel
 
- ## [3.3.4] - XX
+ ## [3.3.4] - 02/02/2024
 
  - Correction du snippet document1
  - Correction du snippet enonce
+ - Changement du miroir de la documentation ProfCollege (souci pare-feu pédagogique avec l'ancienne adresse)
+ - Raccourci center rajouté à centré dans les snippets
+ - Modification des deux blocs repeat dans le panel (ajustements)
+ - Double quotes rajoutées pour le nom du chapitre afin de permettre des apostrophes dans le nom du chapitre dans les nippets et le panel

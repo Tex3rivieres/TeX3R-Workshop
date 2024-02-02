@@ -66,7 +66,7 @@
 
 \begin{luacode}
   Format = '${1:fiche}' --diapo/fiche
-  Chapitre = '$2' --nom du chapitre
+  Chapitre = &quot;$2&quot; --nom du chapitre
   Numero = '$3' --numéro du chapitre
   Niveau = '$4' --niveau de classe
 \end{luacode}
@@ -2050,9 +2050,9 @@ $0"
 
         <div>
             <a class="cmd" data-snippet=
-"\blockrepeat{répéter \ovalnum{$1} fois}
+"\blockrepeat{répéter \ovalnum{$1} fois}%Attention à ne pas laisser d'espace à l'intérieur
 {
-  ${2:\blockspace[0.5]}
+    $TM_SELECTED_TEXT${2:\blockspace[0.5]}
 }
 $0"
                 data-description="">
@@ -2064,9 +2064,9 @@ $0"
 
         <div>
             <a class="cmd" data-snippet=
-"\blockinfloop{répéter indéfiniment}
+"\blockinfloop{répéter indéfiniment}%Attention à ne pas laisser d'espace à l'intérieur
 {
-  ${1:\blockspace[0.5]}
+    $TM_SELECTED_TEXT${1:\blockspace[0.5]}
 }
 $0"
                 data-description="">
@@ -2393,7 +2393,7 @@ $0"
     <h3>Autres documentations</h3>
 
       <div>
-          <a class="cmd" href="https://texlive.mycozy.space/macros/latex/contrib/profcollege/doc/ProfCollege-doc.pdf"
+          <a class="cmd" href="https://ctan.mines-albi.fr/macros/latex/contrib/profcollege/doc/ProfCollege-doc.pdf"
               data-description="">
               <svg width="140" height="24">  
                   <text x="2" y="18"

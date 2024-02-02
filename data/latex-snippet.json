@@ -7,7 +7,7 @@
 			"",
 			"\\begin{luacode}",
 			"\tFormat = '${1:fiche}' --diapo/fiche",
-			"\tChapitre = '$2' --nom du chapitre",
+			"\tChapitre = \"$2\" --nom du chapitre",
 			"\tNumero = '$3' --numéro du chapitre",
 			"\tNiveau = '$4' --niveau de classe",
 			"\\end{luacode}",
@@ -53,7 +53,7 @@
 			"",
 			"\\begin{luacode}",
 			"\tFormat = '${1:fiche}' --diapo/fiche",
-			"\tChapitre = '$2' --nom du chapitre",
+			"\tChapitre = \"$2\" --nom du chapitre",
 			"\tNumero = '$3' --numéro du chapitre",
 			"\tNiveau = '$4' --niveau de classe",
 			"\\end{luacode}",
@@ -200,7 +200,7 @@
 
 
 	"Centré": {
-		"prefix": ["centré"],
+		"prefix": ["centré","center"],
 		"body": [
 			"\\begin{center}",
 			"\t$TM_SELECTED_TEXT$1",
