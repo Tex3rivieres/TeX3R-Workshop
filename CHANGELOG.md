@@ -48,4 +48,4 @@
  - Changement du miroir de la documentation ProfCollege (souci pare-feu pédagogique avec l'ancienne adresse)
  - Raccourci center rajouté à centré dans les snippets
  - Modification des deux blocs repeat dans le panel (ajustements)
- - Double quotes rajoutées pour le nom du chapitre afin de permettre des apostrophes dans le nom du chapitre dans les nippets et le panel
+ - Double quotes rajoutées pour le nom du chapitre afin de permettre des apostrophes dans le nom du chapitre dans les snippets et le panel
