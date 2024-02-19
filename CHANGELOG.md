@@ -1,5 +1,11 @@
 # Changelog
 
+ ## [3.3.6] - 19/02/2024
+
+ - Ajout du bloc Scratch ```dire () pendant (2) secondes```
+ - Ajout du bloc Scratch ```quand la touche espace est pressée```
+ - Suppression de `montitre` dans la structure.
+
  ## [3.3.5] - 12/02/2024
 
  - Réorganisation du changelog

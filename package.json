@@ -3,7 +3,7 @@
   "displayName": "TeX3R",
   "description": "Extension basée sur LaTeX Workshop : paramétrage et raccourcis facilitant la rédaction de cours de mathématiques.",
   "icon": "icons/icon.png",
-  "version": "3.3.5",
+  "version": "3.3.6",
   "publisher": "Tex3R",
   "license": "MIT",
   "homepage": "https://github.com/Tex3rivieres/TeX3R-Workshop",
@@ -1375,7 +1375,7 @@
           },
           "default": [
             "part|chapitre",
-            "chapter|montitre",
+            "chapter",
             "section|partie",
             "subsection|souspartie",
             "subsubsection|structure"
