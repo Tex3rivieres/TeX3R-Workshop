@@ -1,11 +1,14 @@
 # Changelog
 
+ ## [3.3.7] - 20/02/2024
+
+  - Changement de version du viewer pdf.
+ 
  ## [3.3.6] - 20/02/2024
 
  - Ajout du bloc Scratch ```dire () pendant (2) secondes```
  - Ajout du bloc Scratch ```quand la touche espace est pressée```
  - Suppression de `montitre` dans la structure.
- - Changement de version du viewer pdf.
 
  ## [3.3.5] - 12/02/2024
 
