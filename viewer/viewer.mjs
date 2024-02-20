@@ -9062,7 +9062,7 @@ class PDFViewer {
   #scaleTimeoutId = null;
   #textLayerMode = TextLayerMode.ENABLE;
   constructor(options) {
-    const viewerVersion = '4.0.189';
+    const viewerVersion = '4.0.379';
     if (version !== viewerVersion) {
       throw new Error(`The API version "${version}" does not match the Viewer version "${viewerVersion}".`);
     }
