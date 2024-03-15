@@ -1,5 +1,9 @@
 # Changelog
 
+ ## [3.3.8] - 15/03/2024
+
+ - Modification de `propriété` par `propriete` dans le panel. 
+
  ## [3.3.7] - 20/02/2024
 
   - Changement de version du viewer pdf.
