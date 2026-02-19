@@ -1,45 +1,8 @@
-import type {PageTrimmer} from './pagetrimmer.js'
-import type {ClientRequest} from '../../types/latex-workshop-protocol-types/index'
-import type {SyncTex} from './synctex.js'
-import type {ViewerHistory} from './viewerhistory.js'
-
-export interface IDisposable {
-    dispose(): unknown
-}
-
-export interface ILatexWorkshopPdfViewer {
-    readonly documentTitle: string,
-    readonly embedded: boolean,
-    readonly encodedPdfFilePath: string,
-    readonly pageTrimmer: PageTrimmer,
-    readonly pdfFileUri: string,
-    readonly synctex: SyncTex,
-    readonly viewerHistory: ViewerHistory,
-
-    /**
-     * `cb` is called after the viewer started.
-     */
-    onDidStartPdfViewer(cb: () => unknown): IDisposable,
-
-    /**
-     * `cb` is called after a PDF document is loaded and reloaded.
-     */
-    onPagesInit(cb: () => unknown, option?: {once: boolean}): IDisposable,
-
-    /**
-     * `cb` is called after the a PDF document is rendered.
-     */
-    onPagesLoaded(cb: () => unknown, option?: {once: boolean}): IDisposable,
-
-    send(message: ClientRequest): void
-}
-
 export type PdfjsEventName
     = 'documentloaded'
     | 'pagesinit'
     | 'pagesloaded'
-    | 'updateviewarea'
-    | 'scroll'
+    | 'pagerendered'
     | 'scalechanged'
     | 'zoomin'
     | 'zoomout'
@@ -47,12 +10,38 @@ export type PdfjsEventName
     | 'scrollmodechanged'
     | 'spreadmodechanged'
     | 'pagenumberchanged'
+    | 'rotationchanging'
+    | 'sidebarviewchanged'
 
-export interface IPDFViewerApplication {
+type PDFViewerPage = {
+    viewport: {
+        rawDims: {
+            pageHeight: number,
+            pageWidth: number,
+            pageX: number,
+            pageY: number
+        },
+        rotation: number,
+        convertToViewportPoint(x: number, y: number): [number, number]
+    },
+    canvas: HTMLCanvasElement | undefined,
+    div: HTMLDivElement,
+    getPagePoint(x: number, y: number): [number, number],
+    get renderingState(): RenderingStates
+}
+
+export enum RenderingStates {
+    INITIAL = 0,
+    RUNNING = 1,
+    PAUSED = 2,
+    FINISHED = 3,
+}
+
+export type PDFViewerApplicationType = {
     eventBus: {
         on: (eventName: PdfjsEventName, listener: () => void) => void,
         off: (eventName: PdfjsEventName, listener: () => void) => void,
-        dispatch: (eventName: string) => void
+        dispatch: (eventName: string, payload: any) => void
     },
     findBar: {
         opened: boolean,
@@ -62,12 +51,9 @@ export interface IPDFViewerApplication {
     isViewerEmbedded: boolean,
     pdfViewer: {
         _currentScale: number,
-        _pages: {
-            viewport: {
-                convertToViewportPoint(x: number, y: number): [number, number]
-            },
-            getPagePoint(x: number, y: number): [number, number]
-        }[],
+        _getVisiblePages(): { first: number, last: number, views: { id: number, x: number, y: number, view: PDFViewerPage, percent: number }[], ids: Set<number> },
+        _pages: PDFViewerPage[],
+        currentPageNumber: number,
         currentScaleValue: string,
         scrollMode: number,
         spreadMode: number
@@ -78,16 +64,18 @@ export interface IPDFViewerApplication {
     pdfSidebar: {
         isOpen: boolean,
         visibleView: number,
-        switchView(view: number): void
+        switchView(view: number): void,
+        open(): void,
+        close(): void
     },
     secondaryToolbar: {
         close: () => void,
         isOpen: boolean
     },
-    open(args: {url: string}): Promise<void>
+    load(doc: any): void
 }
 
-export interface IPDFViewerApplicationOptions {
+export type PDFViewerApplicationOptionsType = {
     set(name: string, value: unknown): void,
     setAll(options: unknown): void
 }

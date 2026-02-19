@@ -2,9 +2,8 @@ import * as vscode from 'vscode'
 import * as fs from 'fs'
 import * as path from 'path'
 import * as assert from 'assert'
-import * as lw from '../../src/lw'
+import { lw } from '../../src/lw'
 import * as test from './utils'
-import { AutoCleaned } from '../../src/components/eventbus'
 
 suite('Cleaner test suite', () => {
     test.suite.name = path.basename(__filename).replace('.test.js', '')
@@ -12,6 +11,7 @@ suite('Cleaner test suite', () => {
 
     suiteSetup(async () => {
         await vscode.commands.executeCommand('latex-workshop.activate')
+        await vscode.workspace.getConfiguration('latex-workshop').update('latex.outDir', undefined)
         await vscode.workspace.getConfiguration('latex-workshop').update('latex.autoBuild.run', 'never')
     })
 
@@ -35,7 +35,7 @@ suite('Cleaner test suite', () => {
             {src: 'empty', dst: 'main.fls'},
             {src: 'empty', dst: 'sub.aux'}
         ], {skipCache: true})
-        await lw.cleaner.clean(path.resolve(fixture, 'main.tex'))
+        await lw.extra.clean(path.resolve(fixture, 'main.tex'))
         assert.ok(!fs.existsSync(path.resolve(fixture, 'main.aux')))
         assert.ok(!fs.existsSync(path.resolve(fixture, 'main.fls')))
         assert.ok(fs.existsSync(path.resolve(fixture, 'sub.aux')))
@@ -50,7 +50,7 @@ suite('Cleaner test suite', () => {
             {src: 'empty', dst: 'main.fls'},
             {src: 'empty', dst: 'sub.aux'}
         ], {skipCache: true})
-        await lw.cleaner.clean(path.resolve(fixture, 'main.tex'))
+        await lw.extra.clean(path.resolve(fixture, 'main.tex'))
         assert.ok(!fs.existsSync(path.resolve(fixture, 'main.aux')))
         assert.ok(fs.existsSync(path.resolve(fixture, 'main.fls')))
         assert.ok(!fs.existsSync(path.resolve(fixture, 'sub.aux')))
@@ -63,11 +63,11 @@ suite('Cleaner test suite', () => {
             {src: 'base.tex', dst: 'main.tex'},
             {src: 'empty', dst: 'out/main.aux'}
         ], {skipCache: true})
-        await lw.cleaner.clean(path.resolve(fixture, 'main.tex'))
+        await lw.extra.clean(path.resolve(fixture, 'main.tex'))
         assert.ok(fs.existsSync(path.resolve(fixture, 'out/main.aux')))
 
         await vscode.workspace.getConfiguration('latex-workshop').update('latex.clean.subfolder.enabled', true)
-        await lw.cleaner.clean(path.resolve(fixture, 'main.tex'))
+        await lw.extra.clean(path.resolve(fixture, 'main.tex'))
         assert.ok(!fs.existsSync(path.resolve(fixture, 'out/main.aux')))
     })
 
@@ -78,7 +78,7 @@ suite('Cleaner test suite', () => {
             {src: 'base.tex', dst: 'main.tex'},
             {src: 'empty', dst: 'main.aux'}
         ], {skipCache: true})
-        await lw.cleaner.clean()
+        await lw.extra.clean()
         assert.ok(!fs.existsSync(path.resolve(fixture, 'main.aux')))
     })
 
@@ -89,7 +89,7 @@ suite('Cleaner test suite', () => {
             {src: 'base.tex', dst: 'main.tex'},
             {src: 'empty', dst: 'aux_files/main.aux'}
         ], {skipCache: true})
-        await lw.cleaner.clean()
+        await lw.extra.clean()
         assert.ok(!fs.existsSync(path.resolve(fixture, 'aux_files/main.aux')))
     })
 
@@ -101,8 +101,8 @@ suite('Cleaner test suite', () => {
         await test.load(fixture, [
             {src: 'invalid_cmd.tex', dst: 'main.tex'}
         ], {skipCache: true})
-        await lw.cleaner.clean() // Clean up previous remainders to ensure next build to fail
-        const cleaned = test.wait(AutoCleaned).then(() => true)
+        await lw.extra.clean() // Clean up previous remainders to ensure next build to fail
+        const cleaned = test.wait(lw.event.AutoCleaned).then(() => true)
         await test.build(fixture, 'main.tex')
         const result = await Promise.any([cleaned, test.sleep(1000)])
         assert.ok(!result)
@@ -113,8 +113,8 @@ suite('Cleaner test suite', () => {
         await test.load(fixture, [
             {src: 'base.tex', dst: 'main.tex'}
         ], {skipCache: true})
-        await lw.cleaner.clean()
-        const cleaned = test.wait(AutoCleaned).then(() => true)
+        await lw.extra.clean()
+        const cleaned = test.wait(lw.event.AutoCleaned).then(() => true)
         await test.build(fixture, 'main.tex')
         const result = await Promise.any([cleaned, test.sleep(1000)])
         assert.ok(!result)
@@ -128,8 +128,8 @@ suite('Cleaner test suite', () => {
         await test.load(fixture, [
             {src: 'invalid_cmd.tex', dst: 'main.tex'}
         ], {skipCache: true})
-        await lw.cleaner.clean() // Clean up previous remainders to ensure next build to fail
-        let cleaned = test.wait(AutoCleaned).then(() => true)
+        await lw.extra.clean() // Clean up previous remainders to ensure next build to fail
+        let cleaned = test.wait(lw.event.AutoCleaned).then(() => true)
         await test.build(fixture, 'main.tex')
         let result = await Promise.any([cleaned, test.sleep(1000)])
         assert.ok(result)
@@ -137,8 +137,8 @@ suite('Cleaner test suite', () => {
         await test.load(fixture, [
             {src: 'base.tex', dst: 'main.tex'}
         ], {skipCache: true})
-        await lw.cleaner.clean() // Clean up previous remainders to ensure next build to fail
-        cleaned = test.wait(AutoCleaned).then(() => true)
+        await lw.extra.clean() // Clean up previous remainders to ensure next build to fail
+        cleaned = test.wait(lw.event.AutoCleaned).then(() => true)
         await test.build(fixture, 'main.tex')
         result = await Promise.any([cleaned, test.sleep(1000)])
         assert.ok(!result)
@@ -152,8 +152,8 @@ suite('Cleaner test suite', () => {
         await test.load(fixture, [
             {src: 'invalid_cmd.tex', dst: 'main.tex'}
         ], {skipCache: true})
-        await lw.cleaner.clean() // Clean up previous remainders to ensure next build to fail
-        let cleaned = test.wait(AutoCleaned).then(() => true)
+        await lw.extra.clean() // Clean up previous remainders to ensure next build to fail
+        let cleaned = test.wait(lw.event.AutoCleaned).then(() => true)
         await test.build(fixture, 'main.tex')
         let result = await Promise.any([cleaned, test.sleep(1000)])
         assert.ok(result)
@@ -161,8 +161,8 @@ suite('Cleaner test suite', () => {
         await test.load(fixture, [
             {src: 'base.tex', dst: 'main.tex'}
         ], {skipCache: true})
-        await lw.cleaner.clean()
-        cleaned = test.wait(AutoCleaned).then(() => true)
+        await lw.extra.clean()
+        cleaned = test.wait(lw.event.AutoCleaned).then(() => true)
         await test.build(fixture, 'main.tex')
         result = await Promise.any([cleaned, test.sleep(1000)])
         assert.ok(result)
@@ -172,19 +172,19 @@ suite('Cleaner test suite', () => {
         await vscode.workspace.getConfiguration('latex-workshop').update('latex.clean.method', 'glob')
         await vscode.workspace.getConfiguration('latex-workshop').update('latex.clean.fileTypes', ['*.aux','*.fls', '*.pdf'])
         await vscode.workspace.getConfiguration('latex-workshop').update('latex.autoBuild.cleanAndRetry.enabled', false)
-        await vscode.workspace.getConfiguration('latex-workshop').update('latex.build.forceRecipeUsage', false)
+        await vscode.workspace.getConfiguration('latex-workshop').update('latex.build.enableMagicComments', true)
         await test.load(fixture, [
             {src: 'invalid_cmd.tex', dst: 'main.tex'}
         ], {skipCache: true})
-        await lw.cleaner.clean() // Clean up previous remainders to ensure next build to fail
-        let cleaned = test.wait(AutoCleaned).then(() => true)
+        await lw.extra.clean() // Clean up previous remainders to ensure next build to fail
+        let cleaned = test.wait(lw.event.AutoCleaned).then(() => true)
         await test.build(fixture, 'main.tex')
         let result = await Promise.any([cleaned, test.sleep(1000)])
         assert.ok(!result)
 
         await vscode.workspace.getConfiguration('latex-workshop').update('latex.autoBuild.cleanAndRetry.enabled', true)
-        await lw.cleaner.clean()
-        cleaned = test.wait(AutoCleaned).then(() => true)
+        await lw.extra.clean()
+        cleaned = test.wait(lw.event.AutoCleaned).then(() => true)
         await test.build(fixture, 'main.tex')
         result = await Promise.any([cleaned, test.sleep(1000)])
         assert.ok(result)

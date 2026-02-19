@@ -32,7 +32,7 @@ class Env:
 @dataclass
 class Pkg:
     includes: Dict[str, List[str]]
-    cmds: Dict[str, Cmd]
+    macros: Dict[str, Cmd]
     envs: Dict[str, Env]
     options: List[str]
     keyvals: List[List[str]]
@@ -57,8 +57,12 @@ def create_snippet(line: str) -> str:
             snippet = re.sub(r'(\[)([^\[\$]*)(\])', p.sub, snippet)
         else:
             snippet = re.sub(r'(\{|\[)([^\{\[\$]*)(\}|\])', p.sub, snippet)
+
     snippet = re.sub(r'(?<![\{\s:\[])(\<)([a-zA-Z\s]*)(\>)', p.sub, snippet)
-    snippet = re.sub(r'(\()([^\{\}\[\]\(\)]*)(\))', p.sub, snippet)
+
+    # (x0,y0,z0)(x1,y1)
+    # snippet = re.sub(r'(\()([^\{\}\[\]\(\)]*)(\))', p.sub, snippet)
+    snippet = re.sub(r'(?<=\(|,)()([^,()]+)()(?=,|\))', p.sub, snippet)
     p.setKeepDelimiters(False)
     snippet = re.sub(r'(?<![\{:\[=-])(%\<)([a-zA-Z\s]*)(%\>)(?!})', p.sub, snippet)
 
@@ -69,6 +73,7 @@ def create_snippet(line: str) -> str:
     snippet = re.sub(r'%<([^%]*?)%:.*?%>', r'\1', snippet)
     snippet = re.sub(r'%<([^%]*?)%>', r'\1', snippet)
     snippet = re.sub(r'\$\{(\d+:.*?)%.*?\}', r'${\1}', snippet)
+    
     return snippet
 
 
@@ -130,18 +135,30 @@ class PlaceHolder:
 def apply_caption_tweaks(content: List[str]) -> List[str]:
     return [re.sub(r'#([0-9])', r'arg\1', line, flags=re.A) for line in content]
 
+def parse_keyvals(line: str):
+    i = 0
+    for i in range(len(re.findall(r'%<([^%]*?)%>', line))):
+        line = re.sub(r'%<([^%]*?)%>', '${' + str(i + 1) + r':\1}', line, count=1)
+    match = re.match(r'^([^#\n]*)', line)
+    if match is None:
+        return None
+    snippet = match[1]
+    match = re.search(r'=#([^%#]+)$', line, flags=re.M)
+    if match is not None:
+        snippet += '${' + str(i + 1) + '|' + match[1] + '|}'
+    return snippet
 
 class CwlIntel:
     """
     Parse a CWL file to generate intellisense data in JSON format
 
-    :unimath_dict: Dictionnary of unimathsymbols
+    :unimath_dict: Dictionary of unimathsymbols
     """
 
     def __init__(self, commands_file: Union[Path, str], envs_file: Union[Path, str], unimathsymbols: Union[Path, str]):
         """
-        :param commands_file: Path to the JSON file contaning the default commands
-        :param envs_file: Path to the JSON file contaning the default environments
+        :param commands_file: Path to the JSON file containing the default commands
+        :param envs_file: Path to the JSON file containing the default environments
         :param unimathsymbols: Path to unimathsymbols.txt. If the file exists, it
         is read from this location. If not, it is retrieved from
         http://milde.users.sourceforge.net/LUCR/Math/data/ and written to this location.
@@ -163,26 +180,26 @@ class CwlIntel:
 
     def compute_unimathsymbols(self) -> Dict[str, Dict[str, str]]:
         """
-        Create a dictionnary of unmimathsymbols
+        Create a dictionary of unmimathsymbols
         """
         if not self.unimathsymbols.exists():
             urllib.request.urlretrieve('http://milde.users.sourceforge.net/LUCR/Math/data/unimathsymbols.txt', self.unimathsymbols)
         with self.unimathsymbols.open(encoding='utf8') as f:
             lines = f.readlines()
         for line in lines:
-            cmds: List[str] = []
+            macros: List[str] = []
             if line[0] == '#':
                 continue
             line = line.strip()
             arry = line.split('^')
-            cmds.append(re.sub(r'^\\', '', arry[2]))
-            cmds.append(re.sub(r'^\\', '', arry[3]))
+            macros.append(re.sub(r'^\\', '', arry[2]))
+            macros.append(re.sub(r'^\\', '', arry[3]))
             for m in re.finditer(r'= \\(\w+)[ ,]', arry[-1]):
-                cmds.append(m.group(1))
+                macros.append(m.group(1))
             doc = re.sub(r'\s*[=#xt]\s*\\\w+(\{.*?\})?\s*(\(.*?\))?\s*,', '', arry[-1])
             doc = re.sub(r'\s*[=#xt]\s*\S+\s*,', '', doc)
             doc = doc.strip()
-            for c in cmds:
+            for c in macros:
                 if c == '' or re.search('{', c):
                     continue
                 self.unimath_dict[c] = {'detail': arry[1], 'documentation': doc}
@@ -203,7 +220,7 @@ class CwlIntel:
             return ({}, {})
         with file_path.open(encoding='utf8') as f:
             lines = f.readlines()
-        pkg = Pkg(includes={}, cmds={}, envs={}, options=[], keyvals=[])
+        pkg = Pkg(includes={}, macros={}, envs={}, options=[], keyvals=[])
         if file_path.name == 'caption.cwl':
             lines = apply_caption_tweaks(lines)
         
@@ -247,7 +264,9 @@ class CwlIntel:
                     name = name.strip()
                 # The name field can only contain letters, `{`, `}`, `[`, `]` and `*`.
                 # https://github.com/James-Yu/LaTeX-Workshop/issues/3264#issuecomment-1138733921
-                if re.search(r'[^A-Za-z0-9\[\]\{\}\<\>\*_^:\s]', name) is not None or '%' in name:
+                # Also include `(`, `)`, and `,`
+                # https://github.com/James-Yu/LaTeX-Workshop/issues/4313#issuecomment-2214209089
+                if re.search(r'[^A-Za-z0-9\[\]\{\}\<\>\*_^:\(\),\s]', name) is not None or '%' in name:
                     continue
                 snippet = create_snippet(match[2] if len(match.groups()) >= 2 and match[2] else '')
                 pkg.envs[name] = Env(
@@ -278,7 +297,9 @@ class CwlIntel:
                     name = name.strip()
                 # The name field can only contain letters, `{`, `}`, `[`, `]` and `*`.
                 # https://github.com/James-Yu/LaTeX-Workshop/issues/3264#issuecomment-1138733921
-                if re.search(r'[^A-Za-z\[\]\{\}\<\>\*_^:\s]', name) is not None:
+                # Also include `(`, `)`, and `,`
+                # https://github.com/James-Yu/LaTeX-Workshop/issues/4313#issuecomment-2214209089
+                if re.search(r'[^A-Za-z\[\]\{\}\<\>\*_^:\(\),\s]', name) is not None:
                     continue
                 if name in self.commands:
                     continue
@@ -291,7 +312,7 @@ class CwlIntel:
                     if (name[-1] in [')', ']', '}']):
                         name = name[:-1]
 
-                pkg.cmds[name] = Cmd(
+                pkg.macros[name] = Cmd(
                     snippet=None if name == snippet else snippet,
                     option=cwl_option,
                     keyvalindex=None,
@@ -299,17 +320,18 @@ class CwlIntel:
                     detail=detail,
                     documentation=documentation)
             elif cwl_keyval == 'PACKAGE_OPTIONS':
-                for i in range(len(re.findall(r'%<([^%]*?)%>', line))):
-                    line = re.sub(r'%<([^%]*?)%>', '${' + str(i + 1) + r':\1}', line, 1)
-                match = re.match(r'^([^#%\n]*)', line)
-                if match is None:
+                # for i in range(len(re.findall(r'%<([^%]*?)%>', line))):
+                #     line = re.sub(r'%<([^%]*?)%>', '${' + str(i + 1) + r':\1}', line, 1)
+                # match = re.match(r'^([^#%\n]*)', line)
+                # if match is None:
+                #     continue
+                keyval = parse_keyvals(line)
+                if keyval is None:
                     continue
-                pkg.options.append(match[1])
+                pkg.options.append(keyval)
             elif cwl_keyval is not None and file_path.stem not in PKGS_IGNORE_KEYVALS:
-                for i in range(len(re.findall(r'%<([^%]*?)%>', line))):
-                    line = re.sub(r'%<([^%]*?)%>', '${' + str(i + 1) + r':\1}', line, 1)
-                match = re.match(r'^([^#\n]*)', line)
-                if match is None:
+                keyval = parse_keyvals(line)
+                if keyval is None:
                     continue
                 for envcmd in cwl_keyval.split(','):
                     if envcmd.startswith('\\begin{'):
@@ -323,34 +345,36 @@ class CwlIntel:
                             if (pkg.envs[pkgenv].keyvalpos is None):
                                 pkg.envs[pkgenv].keyvalpos = len(re.findall(r'\[\]|\(\)|<>|{}', re.sub(r'\${.*?}', '', pkg.envs[pkgenv].snippet[:haskeyvals.start()])))
                             pkg.envs[pkgenv].keyvalindex = pkg.envs[pkgenv].keyvalindex or []
-                            pkg.envs[pkgenv].keyvalindex.append(match[1])
+                            pkg.envs[pkgenv].keyvalindex.append(keyval)
+                    elif envcmd.startswith('\\usepackage/'):
+                        pkg.options.append(keyval)
                     else:
                         cmd = re.match(r'\\?([^{\[#]*)', envcmd)[1]
-                        for pkgcmd in pkg.cmds:
+                        for pkgcmd in pkg.macros:
                             if (re.sub(r'\[\]|\(\)|<>|{}', '', pkgcmd) != cmd):
                                 continue
-                            haskeyvals = re.search(r':keys|:keyvals|:options|:library', pkg.cmds[pkgcmd].snippet or pkgcmd)
+                            haskeyvals = re.search(r':keys|:keyvals|:options|:library', pkg.macros[pkgcmd].snippet or pkgcmd)
                             if (haskeyvals is None):
                                 continue
-                            if (pkg.cmds[pkgcmd].keyvalpos is None):
-                                pkg.cmds[pkgcmd].keyvalpos = len(re.findall(r'\[\]|\(\)|<>|{}', re.sub(r'\${.*?}', '', pkg.cmds[pkgcmd].snippet[:haskeyvals.start()])))
-                            pkg.cmds[pkgcmd].keyvalindex = pkg.cmds[pkgcmd].keyvalindex or []
-                            pkg.cmds[pkgcmd].keyvalindex.append(match[1])
+                            if (pkg.macros[pkgcmd].keyvalpos is None):
+                                pkg.macros[pkgcmd].keyvalpos = len(re.findall(r'\[\]|\(\)|<>|{}', re.sub(r'\${.*?}', '', pkg.macros[pkgcmd].snippet[:haskeyvals.start()])))
+                            pkg.macros[pkgcmd].keyvalindex = pkg.macros[pkgcmd].keyvalindex or []
+                            pkg.macros[pkgcmd].keyvalindex.append(keyval)
         
-        for pkgcmd in pkg.cmds:
-            if pkg.cmds[pkgcmd].keyvalindex is None:
+        for pkgcmd in pkg.macros:
+            if pkg.macros[pkgcmd].keyvalindex is None:
                 continue
-            keyvalset = set(pkg.cmds[pkgcmd].keyvalindex)
+            keyvalset = set(pkg.macros[pkgcmd].keyvalindex)
             found = False
             for idx, cand in enumerate(pkg.keyvals):
                 candset = set(cand)
                 if (keyvalset == candset):
                     found = True
-                    pkg.cmds[pkgcmd].keyvalindex = idx
+                    pkg.macros[pkgcmd].keyvalindex = idx
                     break
             if not found:
-                pkg.keyvals.append(pkg.cmds[pkgcmd].keyvalindex)
-                pkg.cmds[pkgcmd].keyvalindex = len(pkg.keyvals) - 1
+                pkg.keyvals.append(pkg.macros[pkgcmd].keyvalindex)
+                pkg.macros[pkgcmd].keyvalindex = len(pkg.keyvals) - 1
         
         for pkgenv in pkg.envs:
             if pkg.envs[pkgenv].keyvalindex is None:

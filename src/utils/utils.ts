@@ -1,7 +1,7 @@
 import * as vscode from 'vscode'
 import * as path from 'path'
-import * as fs from 'fs'
 import { glob } from 'glob'
+import { lw } from '../lw'
 
 export function sleep(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms))
@@ -19,40 +19,40 @@ export function escapeRegExp(str: string) {
 }
 
 /**
- * Strip text and comments from LaTeX, leaving only commands and environments.
+ * Strip text and comments from LaTeX, leaving only macros and environments.
  *
  * @param raw The raw LaTeX content as a string
- * @returns The stripped LaTeX command barebone
+ * @returns The stripped LaTeX macro barebone
  */
 export function stripText(raw: string): string {
     const text = stripComments(raw)
     // We first create an array of empty strings, each of which corresponds to
     // one line in the original document.
     const result = Array(text.split('\n').length).fill('')
-    // The following regex defines a LaTeX command.
+    // The following regex defines a LaTeX macro.
     // We also consider a special case of verbatim "label={something}"
-    const cmdReg = /(\\(?:[^a-zA-Z@]|[a-zA-Z@]+[*=']?)\s*)|(label={[^{}]+})/gm
+    const macroReg = /(\\(?:[^a-zA-Z@]|[a-zA-Z@]+[*=']?)\s*)|(label={[^{}]+})/gm
     let match
-    while ((match = cmdReg.exec(text)) !== null) {
-        // Stores the complete command, including arguments.
+    while ((match = macroReg.exec(text)) !== null) {
+        // Stores the complete macro, including arguments.
         let matchedText = match[0]
-        // match[1]: command, null on "label={something}"
-        // There is an (optional) argument after the command. They can be many.
-        while (['{', '['].includes(text[cmdReg.lastIndex])) {
-            const isCurly = text[cmdReg.lastIndex] === '{'
-            const balanceStr = getLongestBalancedString(text.substring(cmdReg.lastIndex), isCurly ? undefined : 'square')
+        // match[1]: macro, null on "label={something}"
+        // There is an (optional) argument after the macro. They can be many.
+        while (['{', '['].includes(text[macroReg.lastIndex])) {
+            const isCurly = text[macroReg.lastIndex] === '{'
+            const balanceStr = getLongestBalancedString(text.substring(macroReg.lastIndex), isCurly ? undefined : 'square')
             if (balanceStr === undefined) { // \in[1, 2]
                 break
             }
             matchedText += isCurly ? `{${balanceStr}}` : `[${balanceStr}]`
-            cmdReg.lastIndex += balanceStr.length + 2
+            macroReg.lastIndex += balanceStr.length + 2
             // It's possible to have spaces between arguments. If so, skip them.
-            while (text[cmdReg.lastIndex] === ' ' || text[cmdReg.lastIndex] === '\t') {
-                cmdReg.lastIndex++
+            while (text[macroReg.lastIndex] === ' ' || text[macroReg.lastIndex] === '\t') {
+                macroReg.lastIndex++
             }
         }
         const line = text.substring(0, match.index).split('\n').length - 1
-        // Append each line in the command to the array.
+        // Append each line in the macro to the array.
         matchedText.split('\n').forEach((content, index) => result[line+index] += content)
     }
     return result.join('\n')
@@ -71,17 +71,23 @@ export function stripComments(text: string): string {
 }
 
 /**
- * Remove some environments
- * Note the number lines of the output matches the input
+ * Remove some verbatim-like environments.
+ * Note the number of lines of the output matches the input.
+ * Verbatim content is replaced by empty lines.
  *
  * @param text A string representing the content of a TeX file
  * @param envs An array of environments to be removed
- *
  */
 export function stripEnvironments(text: string, envs: string[]): string {
-    const envsAlt = envs.join('|')
-    const pattern = `\\\\begin{(${envsAlt})}.*?\\\\end{\\1}`
-    const reg = RegExp(pattern, 'gms')
+    if (envs.length === 0) {
+        return text
+    }
+
+    // Build alternation of environment names, each with optional star
+    const envPatterns = envs.map(env => `${env}\\*?`).join('|')
+    const pattern = `\\\\begin{(${envPatterns})}.*?\\\\end{\\1}`
+    const reg = new RegExp(pattern, 'gmsi')
+
     return text.replace(reg, (match, ..._args) => {
         const len = Math.max(match.split('\n').length, 1)
         return '\n'.repeat(len - 1)
@@ -89,15 +95,17 @@ export function stripEnvironments(text: string, envs: string[]): string {
 }
 
 /**
- * Remove comments and verbatim content
- * Note the number lines of the output matches the input
+ * Remove comments and verbatim content.
+ * Note that the positions are preserved between the input and the output:
+ *  - verbatim environments are replaced by as many empty lines
+ *  - inline verbatim content is replaced by as many white spaces
  *
  * @param text A multiline string to be stripped
  * @return the input text with comments and verbatim content removed.
  */
 export function stripCommentsAndVerbatim(text: string): string {
     let content = stripComments(text)
-    content = content.replace(/\\verb\*?([^a-zA-Z0-9]).*?\1/g, '')
+    content = content.replace(/\\verb\*?([^a-zA-Z0-9]).*?\1/g, m => ' '.repeat(m.length))
     const configuration = vscode.workspace.getConfiguration('latex-workshop')
     const verbatimEnvs = configuration.get('latex.verbatimEnvs') as string[]
     return stripEnvironments(content, verbatimEnvs)
@@ -157,25 +165,25 @@ export function getLongestBalancedString(s: string, bracket: 'curly' | 'square'=
 }
 
 /**
- * If the current position is inside command{...}, return the range of command{...} and its argument. Otherwise return undefined
+ * If the current position is inside macro{...}, return the range of macro{...} and its argument. Otherwise return undefined
  *
- * @param command the command name, with or without the leading '\\'
+ * @param macro the macro name, with or without the leading '\\'
  * @param position the current position in the document
  * @param document a TextDocument
  */
-export function getSurroundingCommandRange(command: string, position: vscode.Position, document: vscode.TextDocument): {range: vscode.Range, arg: string} | undefined {
-    if (!command.startsWith('\\')) {
-        command = '\\' + command
+export function getSurroundingMacroRange(macro: string, position: vscode.Position, document: vscode.TextDocument): {range: vscode.Range, arg: string} | undefined {
+    if (!macro.startsWith('\\')) {
+        macro = '\\' + macro
     }
     const line = document.lineAt(position.line).text
-    const regex = new RegExp('\\' + command + '{', 'g')
+    const regex = new RegExp('\\' + macro + '{', 'g')
     while (true) {
         const match = regex.exec(line)
         if (!match) {
             break
         }
         const matchPos = match.index
-        const openingBracePos = matchPos + command.length + 1
+        const openingBracePos = matchPos + macro.length + 1
         const arg = getLongestBalancedString(line.slice(openingBracePos))
         if (arg !== undefined && position.character >= openingBracePos && position.character <= openingBracePos + arg.length + 1) {
             const start = new vscode.Position(position.line, matchPos)
@@ -187,16 +195,16 @@ export function getSurroundingCommandRange(command: string, position: vscode.Pos
 }
 
 
-// export type CommandArgument = {
+// export type MacroArgument = {
 //     arg: string, // The argument we are looking for
 //     index: number // the starting position of the argument
 // }
 
 /**
- * @param text a string starting with a command call
+ * @param text a string starting with a macro call
  * @param nth the index of the argument to return
  */
-// export function getNthArgument(text: string, nth: number): CommandArgument | undefined {
+// export function getNthArgument(text: string, nth: number): MacroArgument | undefined {
 //     let arg: string = ''
 //     let index: number = 0 // start of the nth argument
 //     let offset: number = 0 // current offset of the new text to consider
@@ -223,7 +231,7 @@ export function getSurroundingCommandRange(command: string, position: vscode.Pos
  * @param suffix The suffix of the input file
  * @return an absolute path or undefined if the file does not exist
  */
-export function resolveFile(dirs: string[], inputFile: string, suffix: string = '.tex'): string | undefined {
+export async function resolveFile(dirs: string[], inputFile: string, suffix: string = '.tex'): Promise<string | undefined> {
     if (inputFile.startsWith('/')) {
         dirs.unshift('')
     }
@@ -232,10 +240,10 @@ export function resolveFile(dirs: string[], inputFile: string, suffix: string = 
         if (path.extname(inputFilePath) === '') {
             inputFilePath += suffix
         }
-        if (!fs.existsSync(inputFilePath) && fs.existsSync(inputFilePath + suffix)) {
+        if (!await lw.file.exists(inputFilePath) && await lw.file.exists(inputFilePath + suffix)) {
             inputFilePath += suffix
         }
-        if (fs.existsSync(inputFilePath)) {
+        if (await lw.file.exists(inputFilePath)) {
             return inputFilePath
         }
     }
@@ -251,7 +259,7 @@ export function resolveFileGlob(dirs: string[], inputGlob: string, suffix: strin
         if (path.extname(inputFileGlob) === '') {
             inputFileGlob += suffix
         }
-        const paths = glob.sync(inputFileGlob)
+        const paths = glob.sync(inputFileGlob.replaceAll(path.sep, '/'))
         if (paths.length > 0) {
             return paths
         }
@@ -268,7 +276,7 @@ export function resolveFileGlob(dirs: string[], inputGlob: string, suffix: strin
  */
 export function replaceArgumentPlaceholders(rootFile: string, tmpDir: string): (arg: string) => string {
     return (arg: string) => {
-        const configuration = vscode.workspace.getConfiguration('latex-workshop', vscode.Uri.file(rootFile))
+        const configuration = vscode.workspace.getConfiguration('latex-workshop', lw.file.toUri(rootFile))
         const docker = configuration.get('docker.enabled')
 
         const workspaceFolder = vscode.workspace.workspaceFolders?.[0]
@@ -302,6 +310,7 @@ export function replaceArgumentPlaceholders(rootFile: string, tmpDir: string): (
         }
         const outDirW32 = path.normalize(expandPlaceHolders(configuration.get('latex.outDir') as string))
         const outDir = outDirW32.split(path.sep).join('/')
-        return expandPlaceHolders(arg).replace(/%OUTDIR%/g, outDir).replace(/%OUTDIR_W32%/g, outDirW32)
+        const auxDir = path.normalize(expandPlaceHolders(configuration.get('latex.auxDir') as string)).split(path.sep).join('/')
+        return expandPlaceHolders(arg).replace(/%OUTDIR%/g, outDir).replace(/%OUTDIR_W32%/g, outDirW32).replace(/%AUXDIR%/g, auxDir)
     }
 }

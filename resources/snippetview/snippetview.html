@@ -4,22 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; connect-src %VSCODE_CSP%; script-src 'self' %VSCODE_CSP% 'unsafe-inline' blob: ; style-src %VSCODE_CSP% 'unsafe-inline' vscode-resource:; img-src 'self' vscode-resource:; font-src 'self' vscode-resource:;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; connect-src %CSP%; script-src %CSP% 'unsafe-inline' blob:; style-src %CSP% 'unsafe-inline'; img-src %CSP% data:; font-src %CSP%;">
 
     <script>
-        var mathSymbolsJsonUrl = '%VSCODE_RES%/snippetview/snippetpanel.json';
+        var mathSymbolsJsonUrl = '%SRC%/snippetview/snippetpanel.json';
     </script>
-    <script src="%VSCODE_RES%/snippetview/snippetview.js" defer></script>
+    <script src="%SRC%/snippetview/snippetview.js" defer></script>
     <script>
-        var pdfjsDistUri = '%VSCODE_PDFJS_DIST%';
+        var pdfjsDistUri = '%SRC%';
     </script>
-    <script src="%VSCODE_PDFJS_DIST%/build/pdf.mjs" type="module"></script>
-    <script src="%VSCODE_RES%/snippetview/pdfrenderer.js" defer></script>
-    <link rel="stylesheet" href="%VSCODE_RES%/snippetview/snippetview.css">
+    <script src="%SRC%/build/pdf.mjs" type="module"></script>
+    <script src="%SRC%/snippetview/pdfrenderer.js" defer></script>
+    <link rel="stylesheet" href="%SRC%/snippetview/snippetview.css">
     <!-- Pour font awesome -->
-    <link rel="stylesheet" href="%VSCODE_RES%/snippetview/assets/fontawesome-free/css/all.min.css">
-    <script src="%VSCODE_RES%/snippetview/assets/scratchblocks/build/scratchblocks.min.js"></script>
-    <script src="%VSCODE_RES%/snippetview/assets/scratchblocks/build/translations.js"></script>
+    <link rel="stylesheet" href="%SRC%/snippetview/assets/fontawesome-free/css/all.min.css">
+    <script src="%SRC%/snippetview/assets/scratchblocks/build/scratchblocks.min.js"></script>
+    <script src="%SRC%/snippetview/assets/scratchblocks/build/translations.js"></script>
 </head>
 
 <body>

@@ -1,11 +1,7 @@
 name: TeX Live on Windows
 env:
   cache-version: v12
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: [push, pull_request]
 
 permissions:
   contents: read
@@ -17,7 +13,7 @@ jobs:
     steps:
     - name: Prepare git
       run: git config --global core.autocrlf false
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
     - name: Set up PATH
       run: |
         echo "C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin" >> $GITHUB_PATH
@@ -25,7 +21,7 @@ jobs:
       shell: bash
     - name: Cache TeX Live
       id: cache-texlive
-      uses: actions/cache@v3
+      uses: actions/cache@v5
       with:
         path: D:\texlive
         key: ${{ env.cache-version }}-${{ runner.os }}-texlive-essential
@@ -53,9 +49,9 @@ jobs:
         curl -s -O -L http://mirrors.ctan.org/support/latexindent/bin/windows/latexindent.exe
         mv -Force "latexindent.exe" "D:\texlive\bin\windows\latexindent-binary.exe"
       if: steps.cache-texlive.outputs.cache-hit != 'true'
-    - uses: actions/setup-node@v4
+    - uses: actions/setup-node@v6
       with:
-        node-version: '16'
+        node-version: '20'
     - run: |
         perl -v
         perl -MCwd -e 'print $Cwd::VERSION."\n";'
@@ -69,7 +65,7 @@ jobs:
       run: npm run test
     - name: Archive test logs
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v6
       with:
         name: test-log
-        path: test/log/*.log
+        path: test/log/**/*.log

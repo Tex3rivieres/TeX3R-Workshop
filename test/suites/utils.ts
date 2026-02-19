@@ -3,14 +3,13 @@ import * as path from 'path'
 import * as fs from 'fs'
 import { glob } from 'glob'
 import * as os from 'os'
-import {ok, strictEqual} from 'assert'
-import * as lw from '../../src/lw'
-import { AutoBuildInitiated, DocumentChanged, EventArgs, ViewerPageLoaded, ViewerStatusChanged } from '../../src/components/eventbus'
-import type { EventName } from '../../src/components/eventbus'
-import { getCachedLog, getLogger, resetCachedLog } from '../../src/components/logger'
+import { ok, strictEqual } from 'assert'
+import { lw } from '../../src/lw'
+import { log as logModule } from '../../src/utils/logger'
+import type { EventArgs, Events } from '../../src/core/event'
 
 let testIndex = 0
-const logger = getLogger('Test')
+const logger = logModule.getLogger('Test')
 
 function getFixture() {
     if (vscode.workspace.workspaceFile) {
@@ -34,6 +33,10 @@ const suite = {
 }
 export { suite }
 
+export function skip(_testName: string, _cb: (fixturePath: string) => unknown, _platforms?: NodeJS.Platform[]) {
+    return
+}
+
 export function only(testName: string, cb: (fixturePath: string) => unknown, platforms?: NodeJS.Platform[]) {
     return run(testName, cb, platforms, true)
 }
@@ -55,12 +58,12 @@ export function run(testName: string, cb: (fixturePath: string) => unknown, plat
     }
 
     testIndex++
-    const testFunction = (process.env['LATEXWORKSHOP_CLI'] || !runonly) ? test : test.only
+    const testFunction = (process.env['LATEXWORKSHOP_CITEST'] || !runonly) ? test : test.only
 
     const label = testLabel()
     testFunction(`[${label}] ${suite.name}: ${testName}`, async () => {
         try {
-            resetCachedLog()
+            logModule.resetCachedLog()
             logger.log(`${testName}`)
             await cb(path.resolve(fixture ?? '', label))
         } finally {
@@ -75,18 +78,21 @@ export function sleep(ms: number) {
 
 export async function reset() {
     await vscode.commands.executeCommand('workbench.action.closeAllEditors')
-    await Promise.all(lw.cacher.allPromises)
-    lw.manager.rootFile = undefined
-    lw.manager.localRootFile = undefined
-    lw.completer.input.reset()
-    lw.dupLabelDetector.reset()
-    lw.cacher.reset()
+    await Promise.all(Object.values(lw.cache.promises))
+    lw.compile.lastAutoBuildTime = 0
+    lw.compile.compiledPDFPath = ''
+    lw.compile.compiledPDFWriting = 0
+    lw.root.file.path = undefined
+    lw.root.subfiles.path = undefined
+    lw.completion.input.reset()
+    lw.lint.label.reset()
+    lw.cache.reset()
     glob.sync('**/{**.tex,**.pdf,**.bib}', { cwd: getFixture() }).forEach(file => { try {fs.unlinkSync(path.resolve(getFixture(), file))} catch {} })
 }
 
 function log(fixtureName: string, testName: string, counter: string) {
     logger.log('Recording cached log messages.')
-    const cachedLog = getCachedLog()
+    const cachedLog = logModule.getCachedLog()
     const logFolder = path.resolve(__dirname, '../../../test/log')
     fs.mkdirSync(logFolder, {recursive: true})
     fs.writeFileSync(path.resolve(logFolder, `${fixtureName}-${counter}.log`),
@@ -100,9 +106,9 @@ function log(fixtureName: string, testName: string, counter: string) {
         vscode.window.activeTextEditor?.document.getText())
 }
 
-export async function wait<T extends keyof EventArgs>(event: T | EventName, arg?: EventArgs[T]) {
+export async function wait<T extends keyof EventArgs>(event: T | Events, arg?: EventArgs[T]) {
     return new Promise<EventArgs[T] | undefined>((resolve, _) => {
-        const disposable = lw.eventBus.on(event, (eventArg: EventArgs[T] | undefined) => {
+        const disposable = lw.event.on(event, (eventArg: EventArgs[T] | undefined) => {
             if (arg && (JSON.stringify(arg) !== JSON.stringify(eventArg))) {
                 return
             }
@@ -127,19 +133,21 @@ export async function load(fixture: string, files: {src: string, dst: string, ws
     if (config.root > -1) {
         wsFixture = getWsFixture(fixture, files[config.root].ws)
         logger.log(`Set root to ${path.resolve(wsFixture, files[config.root].dst)} .`)
-        lw.manager.rootFile = path.resolve(wsFixture, files[config.root].dst)
-        lw.manager.rootFileLanguageId = 'latex'
+        lw.root.file.path = path.resolve(wsFixture, files[config.root].dst)
+        lw.root.file.langId = 'latex'
+        lw.root.dir.path = path.dirname(lw.root.file.path)
     }
     if (config.local > -1) {
         wsFixture = getWsFixture(fixture, files[config.local].ws)
         logger.log(`Set local root to ${path.resolve(wsFixture, files[config.local].dst)} .`)
-        lw.manager.localRootFile = path.resolve(wsFixture, files[config.local].dst)
+        lw.root.subfiles.path = path.resolve(wsFixture, files[config.local].dst)
+        lw.root.subfiles.langId = 'latex'
     }
     if (!config.skipCache) {
         logger.log('Cache tex and bib.')
-        files.filter(file => file.dst.endsWith('.tex')).forEach(file => lw.cacher.add(path.resolve(getWsFixture(fixture, file.ws), file.dst)))
-        const texPromise = files.filter(file => file.dst.endsWith('.tex')).map(file => lw.cacher.refreshCache(path.resolve(getWsFixture(fixture, file.ws), file.dst), lw.manager.rootFile))
-        const bibPromise = files.filter(file => file.dst.endsWith('.bib')).map(file => lw.completer.citation.parseBibFile(path.resolve(getWsFixture(fixture, file.ws), file.dst)))
+        files.filter(file => file.dst.endsWith('.tex')).forEach(file => lw.cache.add(path.resolve(getWsFixture(fixture, file.ws), file.dst)))
+        const texPromise = files.filter(file => file.dst.endsWith('.tex')).map(file => lw.cache.refreshCache(path.resolve(getWsFixture(fixture, file.ws), file.dst), lw.root.file.path))
+        const bibPromise = files.filter(file => file.dst.endsWith('.bib')).map(file => lw.completion.citation.parseBibFile(path.resolve(getWsFixture(fixture, file.ws), file.dst)))
         await Promise.all([...texPromise, ...bibPromise])
     }
     if (config.open > -1) {
@@ -158,19 +166,19 @@ export async function find(fixture: string, openFile: string, ws?: string) {
     logger.log(`Open ${openFile} .`)
     await open(path.resolve(getWsFixture(fixture, ws), openFile))
     logger.log('Search for root file.')
-    await lw.manager.findRoot()
-    return {root: lw.manager.rootFile, local: lw.manager.localRootFile}
+    await lw.root.find()
+    return {root: lw.root.file.path, local: lw.root.subfiles.path}
 }
 
 export async function build(fixture: string, openFile: string, ws?: string, action?: () => Promise<void>) {
     logger.log(`Open ${openFile} .`)
     await open(path.resolve(getWsFixture(fixture, ws), openFile))
     logger.log('Initiate a build.')
-    await (action ?? lw.commander.build)()
+    await (action ?? lw.commands.build)()
 }
 
-export async function auto(fixture: string, editFile: string, noBuild = false, save = false, ws?: string): Promise<{type: 'onChange' | 'onSave', file: string}> {
-    const done = wait(AutoBuildInitiated)
+export async function auto(fixture: string, editFile: string, noBuild = false, save = false, ws?: string): Promise<{type: 'onFileChange' | 'onSave', file: string}> {
+    const done = wait(lw.event.AutoBuildInitiated)
     if (save) {
         logger.log(`Save ${editFile}.`)
         await open(path.resolve(getWsFixture(fixture, ws), editFile))
@@ -182,11 +190,11 @@ export async function auto(fixture: string, editFile: string, noBuild = false, s
     }
     if (noBuild) {
         await sleep(500)
-        strictEqual(getCachedLog().CACHED_EXTLOG.filter(line => line.includes('[Builder]')).filter(line => line.includes(editFile)).length, 0)
-        return {type: 'onChange', file: ''}
+        strictEqual(logModule.getCachedLog().CACHED_EXTLOG.filter(line => line.includes('[Builder]')).filter(line => line.includes(editFile)).length, 0)
+        return {type: 'onFileChange', file: ''}
     }
     logger.log('Wait for auto-build.')
-    const result = await Promise.any([done, sleep(3000)]) as EventArgs[typeof AutoBuildInitiated]
+    const result = await Promise.any([done, sleep(3000)]) as EventArgs[Events.AutoBuildInitiated]
     ok(result)
     ok(result.type)
     ok(result.file)
@@ -194,12 +202,12 @@ export async function auto(fixture: string, editFile: string, noBuild = false, s
 }
 
 export function suggest(row: number, col: number, isAtSuggestion = false, openFile?: string): {items: vscode.CompletionItem[], labels: string[]} {
-    ok(lw.manager.rootFile)
-    const lines = lw.cacher.get(openFile ?? lw.manager.rootFile)?.content?.split('\n')
+    ok(lw.root.file.path)
+    const lines = lw.cache.get(openFile ?? lw.root.file.path)?.content?.split('\n')
     ok(lines)
     logger.log('Get suggestion.')
-    const items = (isAtSuggestion ? lw.atSuggestionCompleter : lw.completer).provide({
-        uri: vscode.Uri.file(openFile ?? lw.manager.rootFile),
+    const items = (isAtSuggestion ? lw.completion.atProvider : lw.completion.provider).provide({
+        uri: vscode.Uri.file(openFile ?? lw.root.file.path),
         langId: 'latex',
         line: lines[row],
         position: new vscode.Position(row, col)
@@ -212,10 +220,10 @@ export async function view(fixture: string, pdfName: string, postAction?: () => 
     logger.log(`Asserting viewer for ${pdfName} .`)
     await sleep(250)
     const promise = Promise.all([
-        wait(ViewerPageLoaded),
-        wait(ViewerStatusChanged)
+        wait(lw.event.ViewerPageLoaded),
+        wait(lw.event.ViewerStatusChanged)
     ])
-    void lw.commander.view()
+    void lw.commands.view()
     if (postAction) {
         await postAction()
     }
@@ -227,7 +235,7 @@ export async function view(fixture: string, pdfName: string, postAction?: () => 
 }
 
 export async function format() {
-    const promise = wait(DocumentChanged)
+    const promise = wait(lw.event.DocumentChanged)
     await vscode.commands.executeCommand('editor.action.formatDocument')
     await promise
     const formatted = vscode.window.activeTextEditor?.document.getText()

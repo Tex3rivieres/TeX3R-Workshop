@@ -1,4 +1,20 @@
+import type { PdfViewerParams } from '../../types/latex-workshop-protocol-types/index'
+
 export const pdfFilePrefix = 'pdf..'
+
+export async function getParams(): Promise<PdfViewerParams> {
+    const storedParams = (globalThis as any).lwParams as PdfViewerParams | undefined
+    if (storedParams) {
+        return storedParams as PdfViewerParams
+    }
+    const params = await (await fetch('config.json')).json() as PdfViewerParams
+    ;(globalThis as any).lwParams = params
+    return params
+}
+
+export async function sleep(timeout: number) {
+    await new Promise((resolve) => setTimeout(resolve, timeout))
+}
 
 // We use base64url to encode the path of PDF file.
 // https://github.com/James-Yu/LaTeX-Workshop/pull/1501
@@ -16,8 +32,36 @@ export function decodePath(b64url: string): string {
   return decodeURIComponent(s)
 }
 
+let urlComponents: ReturnType<typeof parseURL>
+export function parseURL(): { encodedPath: string, pdfFileUri: string, docTitle: string } {
+    if (urlComponents) {
+        return urlComponents
+    }
+    const query = document.location.search.substring(1)
+    const parts = query.split('&')
+
+    for (let i = 0, ii = parts.length; i < ii; ++i) {
+        const param = parts[i].split('=')
+        if (['file', 'vsls'].includes(param[0].toLowerCase())) {
+            const encodedPath = param[1].replace(pdfFilePrefix, '')
+            const pdfFileUri = decodePath(encodedPath)
+            const docTitle = pdfFileUri.split(/[\\/]/).pop() ?? 'Untitled PDF'
+            urlComponents = { encodedPath, pdfFileUri, docTitle }
+            return urlComponents
+        }
+    }
+    throw new Error('file not given in the query.')
+}
+
 export function isEmbedded(): boolean {
     return window.parent !== window
+}
+
+export function isPrefersColorSchemeDark(codeColorTheme: 'light' | 'dark') {
+    if (isEmbedded()) {
+        return codeColorTheme === 'dark'
+    }
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
 }
 
 export function isPdfjsShortcut(e: Pick<KeyboardEvent, 'altKey' | 'ctrlKey' | 'metaKey' | 'shiftKey' | 'code' | 'key'>) {
@@ -67,18 +111,4 @@ export function isPdfjsShortcut(e: Pick<KeyboardEvent, 'altKey' | 'ctrlKey' | 'm
         return false
     }
     return false
-}
-
-export function elementWidth(element: HTMLElement, forceDisplay = true): number {
-    const originalDisplay = element.style.display
-    if (forceDisplay) {
-        element.style.display = 'block'
-    }
-    const style = window.getComputedStyle(element)
-    const width = element.offsetWidth
-    const margin = parseFloat(style.marginLeft) + parseFloat(style.marginRight)
-    if (forceDisplay) {
-        element.style.display = originalDisplay
-    }
-    return width + margin
 }

@@ -7,15 +7,17 @@ export function run(): Promise<void> {
     const mocha = new Mocha({
         ui: 'tdd',
         color: true,
-        timeout: process.env['LATEXWORKSHOP_CLI'] ? 10000 : 8000,
-        retries: process.env['LATEXWORKSHOP_CLI'] ? 5 : 0
+        timeout: process.env['LATEXWORKSHOP_CITEST'] ? 10000 : 5000,
+        retries: process.env['LATEXWORKSHOP_CITEST'] ? 3 : 1
     })
 
     return new Promise((resolve, reject) => {
-        try {
-            glob.sync('**/**.test.js', { cwd: __dirname })
-                .forEach(f => mocha.addFile(path.resolve(__dirname, f)))
-            // Run the mocha test
+        glob.sync('**/**.test.js', { cwd: __dirname })
+            .filter(f => process.env['LATEXWORKSHOP_SUITE'] ? process.env['LATEXWORKSHOP_SUITE'].split(',').find(candidate => f.includes(candidate)) !== undefined : true)
+            .sort()
+            .forEach(f => mocha.addFile(path.resolve(__dirname, f)))
+        // Run the mocha test
+        import('../../src/main').then(() => {
             mocha.run(failures => {
                 if (failures > 0) {
                     reject(new Error(`${failures} tests failed.`))
@@ -23,10 +25,9 @@ export function run(): Promise<void> {
                     resolve()
                 }
             })
-        }
-        catch (error) {
+        }).catch(error => {
             console.error(error)
             return reject(error)
-        }
+        })
     })
 }

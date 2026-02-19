@@ -3,13 +3,13 @@ import * as process from 'process'
 import * as tmpFile from 'tmp'
 import { runTests } from '@vscode/test-electron'
 
-async function runTestSuites(fixture: 'testground' | 'multiroot') {
+async function runTestSuites(fixture: 'testground' | 'multiroot' | 'unittest') {
     try {
         const extensionDevelopmentPath = path.resolve(__dirname, '../../')
-        const extensionTestsPath = path.resolve(__dirname, './suites/index')
+        const extensionTestsPath = fixture === 'unittest' ? path.resolve(__dirname, './units/index') : path.resolve(__dirname, './suites/index')
 
         await runTests({
-            version: '1.74.0',
+            version: '1.96.0',
             extensionDevelopmentPath,
             extensionTestsPath,
             launchArgs: [
@@ -19,7 +19,7 @@ async function runTestSuites(fixture: 'testground' | 'multiroot') {
                 '--disable-gpu'
             ],
             extensionTestsEnv: {
-                LATEXWORKSHOP_CLI: '1'
+                LATEXWORKSHOP_CITEST: '1'
             }
         })
     } catch (error) {
@@ -31,9 +31,10 @@ async function runTestSuites(fixture: 'testground' | 'multiroot') {
 
 async function main() {
     try {
+        await runTestSuites('unittest')
         await runTestSuites('testground')
         await runTestSuites('multiroot')
-    } catch (err) {
+    } catch (_) {
         console.error('Failed to run tests')
         process.exit(1)
     }

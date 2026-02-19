@@ -14,14 +14,16 @@ suite('Formatter test suite', () => {
     })
 
     setup(async () => {
+        await vscode.workspace.getConfiguration('latex-workshop').update('formatting.latex', 'latexindent')
         await vscode.workspace.getConfiguration('latex-workshop').update('bibtex-format.sort.enabled', true)
     })
 
     teardown(async () => {
         await test.reset()
 
-        await vscode.workspace.getConfiguration('latex-workshop').update('latexindent.path', undefined)
-        await vscode.workspace.getConfiguration('latex-workshop').update('latexindent.args', undefined)
+        await vscode.workspace.getConfiguration('latex-workshop').update('formatting.latex', undefined)
+        await vscode.workspace.getConfiguration('latex-workshop').update('formatting.latexindent.path', undefined)
+        await vscode.workspace.getConfiguration('latex-workshop').update('formatting.latexindent.args', undefined)
         await vscode.workspace.getConfiguration('latex-workshop').update('bibtex-format.tab', undefined)
         await vscode.workspace.getConfiguration('latex-workshop').update('bibtex-format.surround', undefined)
         await vscode.workspace.getConfiguration('latex-workshop').update('bibtex-format.case', undefined)
@@ -42,26 +44,26 @@ suite('Formatter test suite', () => {
         const original = readFileSync(path.resolve(fixture, 'main.tex')).toString()
         const formatted = await test.format()
         assert.notStrictEqual(original, formatted)
-    })
+    }, ['win32', 'linux'])
 
-    test.run('change latexindent.path on the fly', async (fixture: string) => {
-        await vscode.workspace.getConfiguration('latex-workshop').update('latexindent.path', 'echo')
+    test.run('change formatting.latexindent.path on the fly', async (fixture: string) => {
+        await vscode.workspace.getConfiguration('latex-workshop').update('formatting.latexindent.path', 'echo')
         await test.load(fixture, [
             {src: 'formatter/latex_base.tex', dst: 'main.tex'}
         ], {open: 0, skipCache: true})
         const original = readFileSync(path.resolve(fixture, 'main.tex')).toString()
         // echo add a new \n to the end of stdin
-        await vscode.workspace.getConfiguration('latex-workshop').update('latexindent.args', [original?.slice(0, -1)])
+        await vscode.workspace.getConfiguration('latex-workshop').update('formatting.latexindent.args', [original?.slice(0, -1)])
         await vscode.commands.executeCommand('editor.action.formatDocument')
         await test.sleep(250) // wait for echo finish
         const echoed = vscode.window.activeTextEditor?.document.getText()
         assert.strictEqual(original, echoed)
 
-        await vscode.workspace.getConfiguration('latex-workshop').update('latexindent.path', 'latexindent')
-        await vscode.workspace.getConfiguration('latex-workshop').update('latexindent.args', ['-c', '%DIR%/', '%TMPFILE%', '-y=defaultIndent: \'%INDENT%\''])
+        await vscode.workspace.getConfiguration('latex-workshop').update('formatting.latexindent.path', 'latexindent')
+        await vscode.workspace.getConfiguration('latex-workshop').update('formatting.latexindent.args', ['-c', '%DIR%/', '%TMPFILE%', '-y=defaultIndent: \'%INDENT%\''])
         const formatted = await test.format()
         assert.notStrictEqual(original, formatted)
-    })
+    }, ['win32', 'linux'])
 
     test.run('test bibtex formatter', async (fixture: string) => {
         await test.load(fixture, [
@@ -109,13 +111,21 @@ suite('Formatter test suite', () => {
             {src: 'formatter/bibtex_base.bib', dst: 'main.bib'}
         ], {open: 0, skipCache: true})
 
-        await vscode.workspace.getConfiguration('latex-workshop').update('bibtex-format.case', 'UPPERCASE')
+        await vscode.workspace.getConfiguration('latex-workshop').update('bibtex-format.case.field', 'UPPERCASE')
         let lines = (await test.format()).split('\n')
         assert.ok(lines[1].trim().slice(0, 1).match(/[A-Z]/))
 
-        await vscode.workspace.getConfiguration('latex-workshop').update('bibtex-format.case', 'lowercase')
+        await vscode.workspace.getConfiguration('latex-workshop').update('bibtex-format.case.field', 'lowercase')
         lines = (await test.format()).split('\n')
         assert.ok(lines[1].trim().slice(0, 1).match(/[a-z]/))
+
+        await vscode.workspace.getConfiguration('latex-workshop').update('bibtex-format.case.type', 'UPPERCASE')
+        lines = (await test.format()).split('\n')
+        assert.ok(lines[0].trim().slice(1, 2).match(/[A-Z]/))
+
+        await vscode.workspace.getConfiguration('latex-workshop').update('bibtex-format.case.type', 'lowercase')
+        lines = (await test.format()).split('\n')
+        assert.ok(lines[0].trim().slice(1, 2).match(/[a-z]/))
     })
 
     test.run('test bibtex formatter with `bibtex-format.trailingComma`', async (fixture: string) => {

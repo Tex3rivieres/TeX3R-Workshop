@@ -2,9 +2,8 @@ import * as vscode from 'vscode'
 import * as path from 'path'
 import * as assert from 'assert'
 import * as test from './utils'
-import { SurroundCommand } from '../../src/providers/completer/commandlib/surround'
-import { ICompletionItem } from '../../src/providers/completion'
-import { DocumentChanged } from '../../src/components/eventbus'
+import { lw } from '../../src/lw'
+import type { CompletionItem } from '../../src/types'
 
 suite('Snippet test suite', () => {
     test.suite.name = path.basename(__filename).replace('.test.js', '')
@@ -26,7 +25,7 @@ suite('Snippet test suite', () => {
         const active = vscode.window.activeTextEditor
         assert.ok(active)
         active.selection = new vscode.Selection(new vscode.Position(2, 0), new vscode.Position(2, 1))
-        const items: ICompletionItem[] = [{
+        const items: CompletionItem[] = [{
             label: '\\fbox{}',
             detail: '\\fbox{${1:${TM_SELECTED_TEXT:text}}}',
             documentation: 'Command \\fbox{}.',
@@ -34,13 +33,13 @@ suite('Snippet test suite', () => {
             insertText: new vscode.SnippetString('fbox{${1:${TM_SELECTED_TEXT:text}}}'),
             kind: 2
         }]
-        SurroundCommand.surround(items)
-        const promise = test.wait(DocumentChanged)
+        lw.completion.macro.surround(items)
+        const promise = test.wait(lw.event.DocumentChanged)
         await test.sleep(500)
         await vscode.commands.executeCommand('workbench.action.acceptSelectedQuickOpenItem')
         await vscode.commands.executeCommand('editor.action.formatDocument')
         await promise
         const changed = vscode.window.activeTextEditor?.document.getText()
         assert.ok(changed?.includes('\\fbox{a}bc'))
-    })
+    }, ['linux', 'darwin'])
 })

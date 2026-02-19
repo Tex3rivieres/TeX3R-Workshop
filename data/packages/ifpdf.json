@@ -1,9 +1,11 @@
 {
-  "includes": {
-    "iftex": []
-  },
-  "cmds": {},
-  "envs": {},
-  "options": [],
-  "keyvals": []
+  "deps": [
+    {
+      "name": "iftex"
+    }
+  ],
+  "macros": [],
+  "envs": [],
+  "keys": {},
+  "args": []
 }

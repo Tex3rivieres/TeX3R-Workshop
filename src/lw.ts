@@ -1,104 +1,143 @@
-import vscode from 'vscode'
-import path from 'path'
-import { Builder } from './components/builder'
-import { Cacher } from './components/cacher'
-import { Cleaner } from './components/cleaner'
-import { LaTeXCommanderTreeView } from './components/commander'
-import { Configuration } from './components/configuration'
-import { Counter } from './components/counter'
-export { dupLabelDetector } from './components/duplabeldetector'
-import { EnvPair } from './components/envpair'
-import { EventBus } from './components/eventbus'
-import { Linter } from './components/linter'
-import { Locator } from './components/locator'
-import { LwFileSystem } from './components/lwfs'
-import { Manager } from './components/manager'
-import { MathPreviewPanel } from './components/mathpreviewpanel'
-import { parser } from './components/parser'
-import { Section } from './components/section'
-import { Server } from './components/server'
-import { SnippetView } from './components/snippetview'
-import { TeXMagician } from './components/texmagician'
-import { Viewer } from './components/viewer'
-import { CodeActions } from './providers/codeactions'
-import { AtSuggestionCompleter, Completer } from './providers/completion'
-import { GraphicsPreview } from './providers/preview/graphicspreview'
-import { MathPreview } from './providers/preview/mathpreview'
-import { StructureView } from './providers/structure'
-import { getLogger } from './components/logger'
-import { TeXDoc } from './components/texdoc'
-import { MathJaxPool } from './providers/preview/mathjaxpool'
+import * as vscode from 'vscode'
+import * as fs from 'fs'
+import * as cs from 'cross-spawn'
+import type { log } from './utils/logger'
+import type { event } from './core/event'
+import type { file } from './core/file'
+import type { watcher } from './core/watcher'
+import type { cache } from './core/cache'
+import type { root } from './core/root'
+import type { compile } from './compile'
+import type { preview, server, viewer } from './preview'
+import type { locate } from './locate'
+import type { completion } from './completion'
+import type { language } from './language'
+import type { lint } from './lint'
+import type { outline } from './outline'
+import type { parser } from './parse'
+import type { extra } from './extras'
 
-let disposables: { dispose(): any }[] = []
-let context: vscode.ExtensionContext
+import type * as commands from './core/commands'
 
-export function registerDisposable(...items: vscode.Disposable[]) {
-    if (context) {
-        context.subscriptions.push(...disposables, ...items)
-        disposables = []
-    } else {
-        disposables = [...disposables, ...items]
-    }
+const wrapper = <T extends Array<any>, U>(fn: (...args: T) => U) => {
+    return (...args: T): U => fn(...args)
 }
 
-export * as commander from './commander'
+/* eslint-disable */
+export const lw = {
+    extensionRoot: '',
+    previousActive: undefined as vscode.TextEditor | undefined,
+    constant: {} as typeof constant,
+    log: {} as typeof log.getLogger,
+    event: {} as typeof event,
+    file: {} as typeof file,
+    watcher: {} as typeof watcher,
+    cache: {} as typeof cache,
+    root: {} as typeof root,
+    parser: {} as typeof parser,
+    compile: {} as typeof compile,
+    viewer: {} as typeof viewer,
+    server: {} as typeof server,
+    preview: {} as typeof preview,
+    locate: {} as typeof locate,
+    completion: {} as typeof completion,
+    language: {} as typeof language,
+    lint: {} as typeof lint,
+    outline: {} as typeof outline,
+    extra: {} as typeof extra,
+    commands: Object.create(null) as typeof commands,
+    external: {
+        spawn: wrapper(cs.spawn),
+        sync: wrapper(cs.sync),
+        stat: wrapper(vscode.workspace.fs.stat.bind(vscode.workspace.fs)),
+        mkdirSync: wrapper(fs.mkdirSync),
+        chmodSync: wrapper(fs.chmodSync)
+    },
+    onConfigChange,
+    onDispose
+}
+/* eslint-enable */
 
-export const extensionRoot = path.resolve(`${__dirname}/../../`)
-export const eventBus = new EventBus()
-export const configuration = new Configuration()
-export const lwfs = new LwFileSystem()
-export const cacher = new Cacher()
-export const manager = new Manager()
-export const builder = new Builder()
-export const viewer = new Viewer()
-export const server = new Server()
-export const locator = new Locator()
-export const completer = new Completer()
-export const atSuggestionCompleter = new AtSuggestionCompleter()
-export const linter = new Linter()
-export const cleaner = new Cleaner()
-export const counter = new Counter()
-export const texdoc = new TeXDoc()
-export const codeActions = new CodeActions()
-export const texMagician = new TeXMagician()
-export const envPair = new EnvPair()
-export const section = new Section()
-export const latexCommanderTreeView = new LaTeXCommanderTreeView()
-export const structureViewer = new StructureView()
-export const snippetView = new SnippetView()
-export const graphicsPreview = new GraphicsPreview()
-export const mathPreview = new MathPreview()
-export const mathPreviewPanel = new MathPreviewPanel()
+const constant = {
+    ACTIVE_ROOTFILE_EXT: ['.dtx', '.ltx'],
+    TEX_EXT: ['.tex', '.bib', '.ltx'],
+    TEX_NOCACHE_EXT: ['.cls', '.sty', '.bst', '.bbx', '.cbx', '.def', '.cfg'],
+    RSWEAVE_EXT: ['.rnw', '.Rnw', '.rtex', '.Rtex', '.snw', '.Snw'],
+    JLWEAVE_EXT: ['.jnw', '.jtexw'],
+    PWEAVE_EXT: ['.pnw', '.ptexw'],
+    TEX_MAGIC_PROGRAM_NAME: 'TEX_MAGIC_PROGRAM_NAME',
+    BIB_MAGIC_PROGRAM_NAME: 'BIB_MAGIC_PROGRAM_NAME',
+    MAGIC_PROGRAM_ARGS_SUFFIX: '_WITH_ARGS',
+    MAX_PRINT_LINE: '10000',
+    /**
+     * Prefix that server.ts uses to distinguish requests on pdf files from
+     * others. We use '.' because it is not converted by encodeURIComponent and
+     * other functions.
+     * See https://stackoverflow.com/questions/695438/safe-characters-for-friendly-url
+     * See https://tools.ietf.org/html/rfc3986#section-2.3
+     */
+    PDF_PREFIX: 'pdf..',
+    MATHJAX_EXT: [
+        'amscd', 'bbox', 'boldsymbol', 'braket', 'bussproofs', 'cancel',
+        'cases', 'centernot', 'colortbl', 'empheq', 'enclose', 'extpfeil',
+        'gensymb', 'html', 'mathtools', 'mhchem', 'physics', 'textcomp',
+        'textmacros', 'unicode', 'upgreek', 'verb'
+    ],
+    FILE_URI_SCHEMES: ['file', 'vsls']
+}
+lw.constant = constant
 
-const logger = getLogger('Extension')
-
-export function init(extensionContext: vscode.ExtensionContext) {
-    context = extensionContext
-    registerDisposable()
-    addLogFundamentals()
-    void parser.reset()
-    logger.initializeStatusBarItem()
-    logger.log('LaTeX Workshop initialized.')
-    return {
-        dispose: async () => {
-            cacher.reset()
-            server.dispose()
-            await parser.dispose()
-            MathJaxPool.dispose()
+let disposables: vscode.Disposable[] | undefined = undefined
+const tempDisposables: vscode.Disposable[] = []
+/**
+ * Handle configuration changes and invoke the specified callback function when
+ * relevant configurations are updated.
+ *
+ * @param {string | string[]} [configs] - Optional. A string or an array of
+ * configuration keys to monitor for changes. The leading `latex-workshop.`
+ * should be omitted. A '*' can also be passed here for wildcard.
+ * @param {Function} [callback] - Optional. The callback function to be executed
+ * when relevant configurations change.
+ * @param {vscode.ConfigurationScope} [scope] - Optional. The configuration
+ * scope to consider when checking for changes.
+ */
+function onConfigChange(configs?: string | string[], callback?: () => void, scope?: vscode.ConfigurationScope) {
+    const disposable = vscode.workspace.onDidChangeConfiguration((e: vscode.ConfigurationChangeEvent) => {
+        if (configs && callback &&
+            ([ configs ].flat().some(config => e.affectsConfiguration(`latex-workshop.${config}`, scope))
+             || configs === '*')) {
+            callback()
         }
+    })
+    if (disposables === undefined) {
+        tempDisposables.push(disposable)
+    } else {
+        disposables.push(...tempDisposables, disposable)
+        tempDisposables.length = 0
     }
 }
 
-export function addLogFundamentals() {
-    logger.log('Initializing LaTeX Workshop.')
-    logger.log(`Extension root: ${extensionRoot}`)
-    logger.log(`$PATH: ${process.env.PATH}`)
-    logger.log(`$SHELL: ${process.env.SHELL}`)
-    logger.log(`$LANG: ${process.env.LANG}`)
-    logger.log(`$LC_ALL: ${process.env.LC_ALL}`)
-    logger.log(`process.platform: ${process.platform}`)
-    logger.log(`process.arch: ${process.arch}`)
-    logger.log(`vscode.env.appName: ${vscode.env.appName}`)
-    logger.log(`vscode.env.remoteName: ${vscode.env.remoteName}`)
-    logger.log(`vscode.env.uiKind: ${vscode.env.uiKind}`)
+/**
+ * @param {vscode.Disposable[]} [extensionDisposables] - Optional. An array of
+ *   disposables associated with the extension. If provided, the function sets
+ *   the global disposables array to extensionDisposables and adds
+ *   tempDisposables to it. If not provided, the function creates a disposable
+ *   to listen for configuration changes and adds it to tempDisposables.
+ */
+function onDispose(disposable?: vscode.Disposable, extensionDisposables?: vscode.Disposable[]) {
+    if (extensionDisposables && disposable === undefined) {
+        disposables = extensionDisposables
+        disposables.push(...tempDisposables)
+        tempDisposables.length = 0
+        return
+    }
+    if (disposable === undefined) {
+        return
+    }
+    if (disposables === undefined) {
+        tempDisposables.push(disposable)
+    } else {
+        disposables.push(...tempDisposables, disposable)
+        tempDisposables.length = 0
+    }
 }

@@ -1,16 +1,4 @@
 import * as vscode from 'vscode'
-import * as lw from '../lw'
-
-export function replaceWebviewPlaceholders(content: string, webview: vscode.Webview): string {
-    const extensionRootUri = vscode.Uri.file(lw.extensionRoot)
-    const resourcesFolderUri = webview.asWebviewUri(vscode.Uri.joinPath(extensionRootUri, 'resources'))
-    const resourcesFolderLink = resourcesFolderUri.toString()
-    const pdfjsDistUri = webview.asWebviewUri(vscode.Uri.joinPath(extensionRootUri, 'node_modules', 'pdfjs-dist'))
-    const pdfjsDistLink = pdfjsDistUri.toString()
-    return content.replace(/%VSCODE_RES%/g, resourcesFolderLink)
-                  .replace(/%VSCODE_PDFJS_DIST%/g, pdfjsDistLink)
-                  .replace(/%VSCODE_CSP%/g, webview.cspSource)
-}
 
 function getMoveCommands(tabEditorGroup: string) {
     if (tabEditorGroup === 'left') {
