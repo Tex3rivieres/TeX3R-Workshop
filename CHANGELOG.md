@@ -1,5 +1,8 @@
 # Changelog
 
+ ## [3.5.1] - 20/02/2026
+- Fix liens morts documentation
+
  ## [3.5.0] - 20/02/2026
 
  ### Panneau snippets — Nouvel onglet PGF/TikZ Géométrie pure
