@@ -1022,63 +1022,50 @@
           },
           "default": [
             {
-              "name": "latexmk",
+              "name": "lualatex",
               "tools": [
-                "latexmk"
+                "lualatex"
               ]
             },
             {
-              "name": "latexmk (latexmkrc)",
+              "name": "lualatex x2",
               "tools": [
-                "latexmk_rconly"
+                "lualatex",
+                "lualatex"
               ]
             },
             {
-              "name": "latexmk (lualatex)",
+              "name": "lualatex x3",
               "tools": [
-                "lualatexmk"
+                "lualatex",
+                "lualatex",
+                "lualatex"
               ]
             },
             {
-              "name": "latexmk (xelatex)",
+              "name": "pdflatex",
               "tools": [
-                "xelatexmk"
+                "pdflatex"
               ]
             },
             {
-              "name": "pdflatex -> bibtex -> pdflatex * 2",
+              "name": "pdflatex x2",
               "tools": [
-                "pdflatex",
-                "bibtex",
                 "pdflatex",
                 "pdflatex"
               ]
             },
             {
-              "name": "Compile Rnw files",
+              "name": "xelatex",
               "tools": [
-                "rnw2tex",
-                "latexmk"
+                "xelatex"
               ]
             },
             {
-              "name": "Compile Jnw files",
+              "name": "xelatex x2",
               "tools": [
-                "jnw2tex",
-                "latexmk"
-              ]
-            },
-            {
-              "name": "Compile Pnw files",
-              "tools": [
-                "pnw2tex",
-                "latexmk"
-              ]
-            },
-            {
-              "name": "tectonic",
-              "tools": [
-                "tectonic"
+                "xelatex",
+                "xelatex"
               ]
             }
           ],
@@ -1120,6 +1107,55 @@
           },
           "default": [
             {
+              "name": "lualatexmk",
+              "command": "latexmk",
+              "args": [
+                "--shell-escape",
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-lualatex",
+                "-outdir=%OUTDIR%",
+                "%DOC%"
+              ],
+              "env": {}
+            },
+            {
+              "name": "lualatex",
+              "command": "lualatex",
+              "args": [
+                "--shell-escape",
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "%DOC%"
+              ]
+            },
+            {
+              "name": "pdflatex",
+              "command": "pdflatex",
+              "args": [
+                "--shell-escape",
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "%DOC%"
+              ],
+              "env": {}
+            },
+            {
+              "name": "xelatex",
+              "command": "xelatex",
+              "args": [
+                "--shell-escape",
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "%DOC%"
+              ],
+              "env": {}
+            },
+            {
               "name": "latexmk",
               "command": "latexmk",
               "args": [
@@ -1128,21 +1164,6 @@
                 "-file-line-error",
                 "-pdf",
                 "-outdir=%OUTDIR%",
-                "-auxdir=%AUXDIR%",
-                "%DOC%"
-              ],
-              "env": {}
-            },
-            {
-              "name": "lualatexmk",
-              "command": "latexmk",
-              "args": [
-                "-synctex=1",
-                "-interaction=nonstopmode",
-                "-file-line-error",
-                "-lualatex",
-                "-outdir=%OUTDIR%",
-                "-auxdir=%AUXDIR%",
                 "%DOC%"
               ],
               "env": {}
@@ -1151,12 +1172,12 @@
               "name": "xelatexmk",
               "command": "latexmk",
               "args": [
+                "--shell-escape",
                 "-synctex=1",
                 "-interaction=nonstopmode",
                 "-file-line-error",
                 "-xelatex",
                 "-outdir=%OUTDIR%",
-                "-auxdir=%AUXDIR%",
                 "%DOC%"
               ],
               "env": {}
@@ -1165,17 +1186,6 @@
               "name": "latexmk_rconly",
               "command": "latexmk",
               "args": [
-                "%DOC%"
-              ],
-              "env": {}
-            },
-            {
-              "name": "pdflatex",
-              "command": "pdflatex",
-              "args": [
-                "-synctex=1",
-                "-interaction=nonstopmode",
-                "-file-line-error",
                 "%DOC%"
               ],
               "env": {}

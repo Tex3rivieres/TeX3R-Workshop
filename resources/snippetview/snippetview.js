@@ -9,6 +9,8 @@ var vscodeApi;
     TeX3RInitialise(); // Ajout pour initialisation snippet TeX3R
     TkzEuclInitialise(); // Ajout pour initialisation snippet tkz-eucl
     ScratchInitialise(); // Ajout pour initialisation snippet scratch
+    FontAwesomeInitialise(); // Ajout pour initialisation snippet FontAwesome
+    GeomInitialise(); // Ajout pour initialisation snippet instruments géométriques
 })();
 
 async function loadMathSymbols() {
@@ -151,5 +153,31 @@ function ScratchInitialise() {
     });
 }
 // Fin ajout fonction scratch
+
+// fonction insertion snippet FontAwesome
+function FontAwesomeInitialise() {
+    document.querySelectorAll('#fontawesome a.cmd').forEach(elem => {
+        elem.addEventListener('click', _evt => {
+            vscodeApi.postMessage({
+                type: 'insertSnippet',
+                snippet: elem.getAttribute('data-snippet').replace(/\\n/g, '\n')
+            });
+        });
+    });
+}
+// Fin ajout fonction FontAwesome
+
+// fonction insertion snippet instruments géométriques
+function GeomInitialise() {
+    document.querySelectorAll('#geom a.cmd').forEach(elem => {
+        elem.addEventListener('click', _evt => {
+            vscodeApi.postMessage({
+                type: 'insertSnippet',
+                snippet: elem.getAttribute('data-snippet').replace(/\\n/g, '\n')
+            });
+        });
+    });
+}
+// Fin ajout fonction instruments géométriques
 
 document.querySelector('.tablinks.active').click();

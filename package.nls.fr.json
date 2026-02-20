@@ -47,7 +47,7 @@
   "command.toggleMathPreviewPanel": "Basculer le panneau d'aperçu mathématique",
   "activity.commands": "Commandes",
   "activity.structure": "Structure",
-  "activity.snippetview": "Vue des extraits",
+  "activity.snippetview": "Panneau des raccourcis",
   "activity.recipe": "Recette",
   "activity.view": "Voir le PDF LaTeX",
   "activity.viewintab": "Voir dans l'onglet VSCode",

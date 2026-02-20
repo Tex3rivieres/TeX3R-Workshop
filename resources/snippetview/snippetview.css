@@ -25,7 +25,7 @@ body {
     display: inline-block;
     background-color: inherit;
     color: var(--vscode-panelTitle-inactiveForeground);
-    padding: 0.2em 1em;
+    padding: 0.2em 0.4em;
     border: none;
     border-bottom: var(--vscode-editor-background) 1px solid;
     outline: none;
@@ -34,7 +34,7 @@ body {
     transition: 0.3s;
     font-size: 0.9rem;
     position: relative;
-    width: 23%;
+    width: calc(100% / 6);
 }
 
 /* .tab button svg {
@@ -53,7 +53,7 @@ body {
 }
 
 .grid {
-    margin-top: 64px; /* Marge pour la barre fixe */
+    padding-top: 64px; /* Marge pour la barre fixe — padding évite le collapse de marge avec le premier h3 */
 }
 
 /* Change background color of buttons on hover */
@@ -401,6 +401,55 @@ input[type='text']:focus {
 }
 
 
+/*********************** Style div id=fontawesome *****************************/
+
+#fontawesome .grid {
+    display: block;
+    align-items: baseline;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+#fontawesome .grid div {
+    display: inline-block;
+    position: relative;
+    min-width: 2ex;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+#fontawesome .grid div:hover {
+    background-color: var(--vscode-list-hoverBackground);
+    transform: scale(1.1);
+}
+
+#fontawesome a.cmd {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.4;
+    padding: 3px 4px 2px;
+    opacity: 0.85;
+    color: var(--vscode-editor-foreground);
+    fill: currentColor;
+    text-decoration: none;
+    width: 52px;
+    box-sizing: border-box;
+}
+
+#fontawesome .fa-label {
+    font-size: 8px;
+    font-family: monospace;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 50px;
+    opacity: 0.7;
+    display: block;
+}
+
 /* Fin style div */
 
 
@@ -435,4 +484,39 @@ h3 {
     margin-bottom: 16px;
     margin-top: 16px;
     color: rgb(0, 150, 255);;
+}
+
+/*********************** Style div id=geom (Instruments géométriques) *****************************/
+
+#geom .grid {
+    display: block;
+}
+
+#geom .grid div {
+    display: inline-block;
+    position: relative;
+    min-width: 2ex;
+    cursor: pointer;
+}
+
+#geom .grid div:hover {
+    background-color: var(--vscode-list-hoverBackground);
+    transform: scale(1.15);
+}
+
+#geom a.cmd {
+    position: relative;
+    display: block;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    margin-left: 0.3em;
+    font-stretch: 200%;
+    letter-spacing: 0.05em;
+    opacity: 0.8;
+    color: var(--vscode-editor-foreground);
+    stroke: currentColor;
+    stroke-width: 1.5;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
