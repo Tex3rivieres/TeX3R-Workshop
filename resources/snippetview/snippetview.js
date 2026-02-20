@@ -11,6 +11,7 @@ var vscodeApi;
     ScratchInitialise(); // Ajout pour initialisation snippet scratch
     FontAwesomeInitialise(); // Ajout pour initialisation snippet FontAwesome
     GeomInitialise(); // Ajout pour initialisation snippet instruments géométriques
+    TikzGeomInitialise(); // Ajout pour initialisation snippet PGF/TikZ géométrie pure
 })();
 
 async function loadMathSymbols() {
@@ -179,5 +180,18 @@ function GeomInitialise() {
     });
 }
 // Fin ajout fonction instruments géométriques
+
+// fonction insertion snippet PGF/TikZ géométrie pure
+function TikzGeomInitialise() {
+    document.querySelectorAll('#tikzgeom a.cmd').forEach(elem => {
+        elem.addEventListener('click', _evt => {
+            vscodeApi.postMessage({
+                type: 'insertSnippet',
+                snippet: elem.getAttribute('data-snippet').replace(/\\n/g, '\n')
+            });
+        });
+    });
+}
+// Fin ajout fonction PGF/TikZ géométrie pure
 
 document.querySelector('.tablinks.active').click();

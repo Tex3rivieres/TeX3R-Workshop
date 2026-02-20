@@ -54,6 +54,15 @@
     <button class="tablinks" onclick="openTab(event, 'geom')" title="Instruments géométriques">
         <i class="fa-solid fa-ruler-combined" style="font-size: 22px; color: currentColor;"></i>
     </button>
+    <button class="tablinks" onclick="openTab(event, 'tikzgeom')" title="PGF/TikZ — Géométrie pure">
+        <svg width="22" height="22" viewBox="0 0 22 22" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="19" x2="20" y2="19"/>
+            <polyline points="18,17 20,19 18,21"/>
+            <line x1="3" y1="19" x2="3" y2="2"/>
+            <polyline points="1,4 3,2 5,4"/>
+            <circle cx="12" cy="10" r="2" fill="currentColor" stroke="none"/>
+        </svg>
+    </button>
     <button class="tablinks" onclick="openTab(event, 'doc')" title="Documentation">
         <i class="fa-solid fa-book-medical" style="font-size: 22px; color: currentColor;"></i>
     </button>
@@ -106,6 +115,113 @@ ${0:%Le texte du document}
 \end{document}" 
     data-description="Nouveau document">
     <i class="fa-solid fa-file-circle-plus" style="font-size: 24px; color: currentColor;"></i>
+    </a>
+</div>
+<div>
+<a class="cmd" data-snippet=
+"\documentclass{classe-tex3R}
+\usepackage{style-tex3R}
+
+\begin{luacode}
+  Format = 'fiche' --diapo/fiche
+  Chapitre = &quot;${1:Titre du chapitre}&quot; --nom du chapitre
+  Numero = '${2:1}' --numéro du chapitre
+  Niveau = '${3:6}' --niveau de classe
+\end{luacode}
+\parametrage
+%FIN PARAMÉTRAGE PRÉAMBULE
+
+\begin{document}
+
+\begin{luacode}
+  Type = 'basique' --activite/bilan/corrige/cours/DM/DS/flash/interro/TD
+  Compteur = '1' --Numérotation de l'entête
+  Impression = false --true
+  Header = false --true
+  Taille = nil --'14pt'
+  Stretch = false --true
+
+  Correction = false --true
+  Enonce = true --false
+  Visible = true --false
+
+  Competence = true --false
+  Bareme = false --true
+  Difficulte = false --true
+  Source = false --true
+  Theme = false --true
+\end{luacode}
+\parametrage
+%FIN PARAMÉTRAGE DOCUMENT
+%%%%%%%% Bas de page %%%%%%%%
+\iffiche \ofoot{\mdseries\bfseries\thepage/\pageref{LastPage}} \ifoot{\contenuniveau - \contenuchapitre}   \fi
+
+%%%%%%% TITRE %%%%%%%
+{\bfseries\LARGE\faBook~}\underLine{{\bfseries\LARGE Chapitre \thepart |~}{\Large\mdseries \contenuchapitre} \hfill {\mdseries\large\contenuniveau}}\par
+
+%%%%%%%%%%%%%%  DEBUT COURS ################
+
+$0
+
+\end{document}"
+    data-description="Nouveau Cours">
+    <i class="fa-solid fa-chalkboard-user" style="font-size: 24px; color: currentColor;"></i>
+    </a>
+</div>
+<div>
+<a class="cmd" data-snippet=
+"\documentclass{classe-tex3R}
+\usepackage{style-tex3R}
+
+\begin{luacode}
+  Format = 'fiche' --diapo/fiche
+  Chapitre = &quot;${1:DS n°1}&quot; --nom du chapitre
+  Numero = '' --numéro du chapitre
+  Niveau = '${2:3}' --niveau de classe
+\end{luacode}
+\parametrage
+%FIN PARAMÉTRAGE PRÉAMBULE
+
+\begin{document}
+
+\begin{luacode}
+  Type = 'basique' --activite/bilan/corrige/cours/DM/DS/flash/interro/TD
+  Compteur = '1' --Numérotation de l'entête
+  Impression = false --true
+  Header = false --true
+  Taille = nil --'14pt'
+  Stretch = false --true
+
+  Correction = true --true
+  Enonce = false --false
+  Visible = true --false
+
+  Competence = true --false
+  Bareme = true --true
+  Difficulte = false --true
+  Source = false --true
+  Theme = false --true
+\end{luacode}
+\parametrage
+%FIN PARAMÉTRAGE DOCUMENT
+
+%%%%%%%% Bas de page %%%%%%%%
+\iffiche \ofoot{\mdseries\bfseries\thepage/\pageref{LastPage}} \ifoot{\contenuniveau - \contenuchapitre}   \fi
+
+%%%%%%% TITRE %%%%%%%
+\ifcorrection
+{\bfseries\LARGE\faEdit~}\underLine{{\bfseries\LARGE \contenuchapitre |~}{\Large\mdseries Correction} \hfill {\mdseries\large\contenuniveau}}\par
+\else
+{\bfseries\LARGE\faEdit~}\underLine{{\bfseries\LARGE \contenuchapitre |~}{\Large\mdseries NOM: \hfill Prénom:} \hfill {\mdseries\large\contenuniveau}}\par
+\fi
+
+\vspace{0.5em}
+%%% DÉBUT DU DEVOIR %%%
+$0
+
+\end{document}"
+    data-description="Nouveau Devoir">
+    <i class="fa-solid fa-file-pen" style="font-size: 24px; color: currentColor;"></i>
     </a>
 </div>
 <div>
@@ -1154,7 +1270,7 @@ ${0:%Le texte du document}
                 <small>Using <span class="tt">positioning</span> library</small>
                 <a
                     class="cmd"
-                    data-snippet="\n\\node[${3|above,below|} ${4|left,right|}=${2:dist} of ${1:node}${5|.north,.center,.south|} ${6|west,east|}] (${7:id}) {${8:label}};"
+                    data-snippet="\\node[${3|above,below|} ${4|left,right|}=${2:dist} of ${1:node}${5|.north,.center,.south|} ${6|west,east|}] (${7:id}) {${8:label}};"
                     data-description="Position new node 1cm above existing anchor"
                     >\node[above=1cm of node.north]</a
                 >
@@ -1879,6 +1995,497 @@ $0"
 <!-- tkzDefSpcTriangle, -->
 <!-- tkzDefTriangleCenter, -->
 <!-- tkzDefEquilateral, -->
+
+
+<!-- ========== ONGLET PGF/TikZ Géométrie pure ========== -->
+<div id="tikzgeom" class="tabcontent">
+    <div class="grid">
+
+        <h3>Environnement</h3>
+
+        <div>
+            <a class="cmd"
+               data-snippet="\begin{tikzpicture}
+\usetikzlibrary{calc,intersections,through,angles,quotes}
+
+$0
+
+\end{tikzpicture}"
+               data-description="tikzpicture avec bibliothèques géométriques">
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                    <line x1="5" y1="27" x2="5" y2="5"/>
+                    <polyline points="3,9 5,5 7,9"/>
+                    <line x1="5" y1="27" x2="27" y2="27"/>
+                    <polyline points="23,25 27,27 23,29"/>
+                    <text x="8" y="23" font-size="8" fill="currentColor" stroke="none" font-family="monospace">TikZ</text>
+                </svg>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd"
+               data-snippet="\draw[help lines, xstep=${1:1}, ystep=${2:1}] (${3:-3},${4:-3}) grid (${5:3},${6:3}) ;"
+               data-description="\draw[help lines] grid — grille d'arrière-plan">
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                    <line x1="4" y1="4" x2="4" y2="28" stroke-width="0.8" stroke-opacity="0.5"/>
+                    <line x1="12" y1="4" x2="12" y2="28" stroke-width="0.8" stroke-opacity="0.5"/>
+                    <line x1="20" y1="4" x2="20" y2="28" stroke-width="0.8" stroke-opacity="0.5"/>
+                    <line x1="28" y1="4" x2="28" y2="28" stroke-width="0.8" stroke-opacity="0.5"/>
+                    <line x1="4" y1="4" x2="28" y2="4" stroke-width="0.8" stroke-opacity="0.5"/>
+                    <line x1="4" y1="12" x2="28" y2="12" stroke-width="0.8" stroke-opacity="0.5"/>
+                    <line x1="4" y1="20" x2="28" y2="20" stroke-width="0.8" stroke-opacity="0.5"/>
+                    <line x1="4" y1="28" x2="28" y2="28" stroke-width="0.8" stroke-opacity="0.5"/>
+                </svg>
+            </a>
+        </div>
+
+        <h3>Points &amp; Étiquettes</h3>
+
+        <div>
+            <a class="cmd"
+               data-snippet="\coordinate (${1:A}) at (${2:0,0}) ;"
+               data-description="\coordinate (A) at (x,y) — point nommé">
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                    <line x1="5" y1="27" x2="5" y2="8"/>
+                    <line x1="5" y1="27" x2="26" y2="27"/>
+                    <circle cx="16" cy="16" r="2.5" fill="currentColor" stroke="none"/>
+                    <text x="19" y="14" font-size="11" fill="currentColor" stroke="none" font-family="serif" font-style="italic">A</text>
+                </svg>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd"
+               data-snippet="\draw (${1:A}) +(-${2:3pt},0) -- +(${2:3pt},0) (${1:A}) +(0,-${2:3pt}) -- +(0,${2:3pt}) ;"
+               data-description="\draw + — croix droite (orthogonale)">
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                    <line x1="16" y1="6" x2="16" y2="26"/>
+                    <line x1="6" y1="16" x2="26" y2="16"/>
+                </svg>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd"
+               data-snippet="\draw (${1:A}) +(-${2:2pt},-${2:2pt}) -- +(${2:2pt},${2:2pt}) (${1:A}) +(-${2:2pt},${2:2pt}) -- +(${2:2pt},-${2:2pt}) ;"
+               data-description="\draw × — croix oblique (diagonale)">
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                    <line x1="8" y1="8" x2="24" y2="24"/>
+                    <line x1="8" y1="24" x2="24" y2="8"/>
+                </svg>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd"
+               data-snippet="\\node[${1:above}] at (${2:A}) {$${3:A}$} ;"
+               data-description="\node[above] at (A) {$A$} — étiquette">
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                    <circle cx="16" cy="24" r="2.5" fill="currentColor" stroke="none"/>
+                    <text x="11" y="16" font-size="13" fill="currentColor" stroke="none" font-family="serif" font-style="italic">A</text>
+                    <line x1="16" y1="21" x2="16" y2="17"/>
+                </svg>
+            </a>
+        </div>
+
+        <h3>Bibliothèque <code style="font-size:11px">calc</code></h3>
+
+        <div>
+            <a class="cmd"
+               data-snippet="\coordinate (${4:M}) at ($ (${1:A})!0.5!(${2:B}) $) ;"
+               data-description="Milieu de [AB] — ($ (A)!0.5!(B) $)">
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                    <line x1="4" y1="20" x2="28" y2="20"/>
+                    <circle cx="4" cy="20" r="2" fill="currentColor" stroke="none"/>
+                    <circle cx="28" cy="20" r="2" fill="currentColor" stroke="none"/>
+                    <circle cx="16" cy="20" r="3" fill="currentColor" stroke="none"/>
+                    <line x1="16" y1="14" x2="16" y2="20"/>
+                    <text x="13" y="13" font-size="9" fill="currentColor" stroke="none" font-family="serif">½</text>
+                </svg>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd"
+               data-snippet="\coordinate (${4:P}) at ($ (${1:A})!${2:0.3}!(${3:B}) $) ;"
+               data-description="Point intermédiaire à fraction t — ($ (A)!t!(B) $)">
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                    <line x1="4" y1="20" x2="28" y2="20"/>
+                    <circle cx="4" cy="20" r="2" fill="currentColor" stroke="none"/>
+                    <circle cx="28" cy="20" r="2" fill="currentColor" stroke="none"/>
+                    <circle cx="12" cy="20" r="3" fill="currentColor" stroke="none"/>
+                    <text x="5" y="15" font-size="9" fill="currentColor" stroke="none" font-family="monospace">t</text>
+                    <line x1="9" y1="17" x2="12" y2="20"/>
+                </svg>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd"
+               data-snippet="\coordinate (${4:P}) at ($ (${1:A})!${2:1cm}!(${3:B}) $) ;"
+               data-description="Point à distance fixe de A dans la direction de B">
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                    <line x1="4" y1="20" x2="28" y2="20"/>
+                    <circle cx="4" cy="20" r="2" fill="currentColor" stroke="none"/>
+                    <circle cx="28" cy="20" r="2" fill="currentColor" stroke="none"/>
+                    <circle cx="14" cy="20" r="3" fill="currentColor" stroke="none"/>
+                    <line x1="4" y1="26" x2="14" y2="26"/>
+                    <line x1="4" y1="23" x2="4" y2="29"/>
+                    <line x1="14" y1="23" x2="14" y2="29"/>
+                </svg>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd"
+               data-snippet="\coordinate (${5:P}) at ($ (${1:A})!${2:1}!${3:90}:(${4:B}) $) ;"
+               data-description="Rotation — ($ (A)!facteur!angle:(B) $)">
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                    <circle cx="16" cy="22" r="2" fill="currentColor" stroke="none"/>
+                    <line x1="16" y1="22" x2="27" y2="22"/>
+                    <circle cx="27" cy="22" r="2" fill="currentColor" stroke="none"/>
+                    <line x1="16" y1="22" x2="16" y2="11"/>
+                    <circle cx="16" cy="11" r="2.5" fill="currentColor" stroke="none"/>
+                    <path d="M 25,22 A 9 9 0 0 0 16,13"/>
+                    <polyline points="14,12 16,13 17,15"/>
+                </svg>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd"
+               data-snippet="\path let \p1=($ (${2:B})-(${1:A}) $), \n1={veclen(\x1,\y1)} in $0 ;"
+               data-description="Distance |AB| via let/veclen — \n1 contient la longueur">
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                    <line x1="5" y1="26" x2="26" y2="6"/>
+                    <circle cx="5" cy="26" r="2" fill="currentColor" stroke="none"/>
+                    <circle cx="26" cy="6" r="2" fill="currentColor" stroke="none"/>
+                    <line x1="7" y1="28" x2="28" y2="8"/>
+                    <line x1="5" y1="26" x2="7" y2="28"/>
+                    <line x1="26" y1="6" x2="28" y2="8"/>
+                    <text x="10" y="24" font-size="7" fill="currentColor" stroke="none" font-family="monospace">|AB|</text>
+                </svg>
+            </a>
+        </div>
+
+        <h3>Bibliothèque <code style="font-size:11px">intersections</code></h3>
+
+        <div>
+            <a class="cmd"
+               data-snippet="\draw[name path=${1:droite}] (${2:A})--(${3:B}) ;"
+               data-description="\draw[name path=droite] — dessine et nomme un segment">
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                    <line x1="4" y1="24" x2="28" y2="8"/>
+                    <circle cx="4" cy="24" r="2" fill="currentColor" stroke="none"/>
+                    <circle cx="28" cy="8" r="2" fill="currentColor" stroke="none"/>
+                    <text x="9" y="20" font-size="7" fill="currentColor" stroke="none" font-family="monospace">n=</text>
+                </svg>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd"
+               data-snippet="\draw[name path=${1:cercle}] (${2:O}) circle [radius=${3:2cm}] ;"
+               data-description="\draw[name path=cercle] — dessine et nomme un cercle">
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                    <circle cx="16" cy="16" r="12"/>
+                    <circle cx="16" cy="16" r="2" fill="currentColor" stroke="none"/>
+                    <text x="8" y="30" font-size="7" fill="currentColor" stroke="none" font-family="monospace">n=</text>
+                </svg>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd"
+               data-snippet="\path[name path=${1:nom}] $0 ;"
+               data-description="Chemin quelconque nommé — name path=nom (général)">
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                    <path d="M 4,22 C 10,5 20,28 28,10" stroke-dasharray="4,3"/>
+                    <text x="8" y="30" font-size="7" fill="currentColor" stroke="none" font-family="monospace">path</text>
+                </svg>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd"
+               data-snippet="\path[name intersections={of=${1:droite} and ${2:cercle}, by=${3:I}}] ;"
+               data-description="Point d'intersection entre deux chemins nommés">
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                    <line x1="4" y1="24" x2="28" y2="8"/>
+                    <circle cx="16" cy="16" r="11"/>
+                    <circle cx="7" cy="22" r="2.5" fill="currentColor" stroke="none"/>
+                    <circle cx="25" cy="10" r="2.5" fill="currentColor" stroke="none"/>
+                </svg>
+            </a>
+        </div>
+
+        <h3>Tracés</h3>
+
+        <div>
+            <a class="cmd"
+               data-snippet="\draw (${1:A})--(${2:B}) ;"
+               data-description="\draw (A)--(B) — segment">
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                    <line x1="5" y1="27" x2="27" y2="5"/>
+                    <circle cx="5" cy="27" r="2.5" fill="currentColor" stroke="none"/>
+                    <circle cx="27" cy="5" r="2.5" fill="currentColor" stroke="none"/>
+                </svg>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd"
+               data-snippet="\draw[name path=${4:rayon}] (${1:A}) -- ($ (${1:A})!${3:6cm}!(${2:B}) $) ;"
+               data-description="\draw[name path=] — demi-droite nommée">
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                    <line x1="5" y1="27" x2="26" y2="6"/>
+                    <circle cx="5" cy="27" r="2.5" fill="currentColor" stroke="none"/>
+                    <circle cx="16" cy="17" r="2" fill="currentColor" stroke="none"/>
+                    <polyline points="21,9 26,6 23,12"/>
+                    <text x="15" y="28" font-size="7" fill="currentColor" stroke="none" font-family="monospace">n=</text>
+                </svg>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd"
+               data-snippet="\draw[->] (${1:A}) -- ($ (${1:A})!${3:6cm}!(${2:B}) $) ;"
+               data-description="Demi-droite [AB) — depuis A dans la direction de B, longueur fixée via calc">
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                    <line x1="5" y1="27" x2="26" y2="6"/>
+                    <circle cx="5" cy="27" r="2.5" fill="currentColor" stroke="none"/>
+                    <circle cx="16" cy="17" r="2" fill="currentColor" stroke="none"/>
+                    <polyline points="21,9 26,6 23,12"/>
+                </svg>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd"
+               data-snippet="\draw[name path=${3:droite}] ($ (${1:A})!-0.2!(${2:B}) $)--($ (${1:A})!1.2!(${2:B}) $) ;"
+               data-description="\draw[name path=] — droite (AB) prolongée et nommée">
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                    <line x1="4" y1="28" x2="28" y2="4"/>
+                    <circle cx="10" cy="22" r="2" fill="currentColor" stroke="none"/>
+                    <circle cx="22" cy="10" r="2" fill="currentColor" stroke="none"/>
+                    <text x="15" y="28" font-size="7" fill="currentColor" stroke="none" font-family="monospace">n=</text>
+                </svg>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd"
+               data-snippet="\draw ($ (${1:A})!-0.2!(${2:B}) $)--($ (${1:A})!1.2!(${2:B}) $) ;"
+               data-description="Droite (AB) prolongée au-delà de A et B via calc">
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                    <line x1="4" y1="28" x2="28" y2="4"/>
+                    <circle cx="10" cy="22" r="2" fill="currentColor" stroke="none"/>
+                    <circle cx="22" cy="10" r="2" fill="currentColor" stroke="none"/>
+                </svg>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd"
+               data-snippet="\draw (${1:A}) arc[start angle=${2:0}, end angle=${3:120}, radius=${4:2cm}] ;"
+               data-description="\draw arc[...] — arc de cercle à partir d'un point de départ">
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                    <path d="M 4,16 A 12 12 0 0 1 16,4"/>
+                    <circle cx="4" cy="16" r="2" fill="currentColor" stroke="none"/>
+                    <circle cx="16" cy="4" r="2" fill="currentColor" stroke="none"/>
+                    <circle cx="16" cy="16" r="1.5" fill="currentColor" stroke="none"/>
+                    <line x1="16" y1="16" x2="4" y2="16" stroke-dasharray="2,2"/>
+                    <line x1="16" y1="16" x2="16" y2="4" stroke-dasharray="2,2"/>
+                </svg>
+            </a>
+        </div>
+
+        <h3>Cercles</h3>
+
+        <div>
+            <a class="cmd"
+               data-snippet="\draw (${1:O}) circle [radius=${2:2cm}] ;"
+               data-description="\draw (O) circle [radius=r] — cercle par centre et rayon">
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                    <circle cx="16" cy="16" r="12"/>
+                    <circle cx="16" cy="16" r="2" fill="currentColor" stroke="none"/>
+                    <line x1="16" y1="16" x2="28" y2="16"/>
+                    <text x="20" y="14" font-size="8" fill="currentColor" stroke="none" font-family="serif" font-style="italic">r</text>
+                </svg>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd"
+               data-snippet="\node (${1:cercle}) [name path=${1:cercle}, draw, circle through=(${3:A})] at (${2:O}) {} ;"
+               data-description="\node (name) [name path=name, circle through] — cercle passant par A, nommé (bibliothèque through)">
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                    <circle cx="16" cy="16" r="12"/>
+                    <circle cx="16" cy="16" r="2" fill="currentColor" stroke="none"/>
+                    <circle cx="28" cy="16" r="3" fill="currentColor" stroke="none"/>
+                    <line x1="16" y1="16" x2="28" y2="16" stroke-dasharray="3,2"/>
+                    <text x="8" y="30" font-size="7" fill="currentColor" stroke="none" font-family="monospace">n=</text>
+                </svg>
+            </a>
+        </div>
+
+        <h3>Triangles</h3>
+
+        <div>
+            <a class="cmd"
+               data-snippet="\draw (${1:A})--(${2:B})--(${3:C})--cycle ;"
+               data-description="Triangle par 3 sommets nommés existants">
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                    <polygon points="16,4 28,27 4,27"/>
+                    <circle cx="16" cy="4" r="2.5" fill="currentColor" stroke="none"/>
+                    <circle cx="28" cy="27" r="2.5" fill="currentColor" stroke="none"/>
+                    <circle cx="4" cy="27" r="2.5" fill="currentColor" stroke="none"/>
+                </svg>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd"
+               data-snippet="\coordinate (auxA) at ($ (${1:A})!1!{${3:45}}:(${2:B}) $) ;
+\coordinate (auxB) at ($ (${2:B})!1!{-${4:60}}:(${1:A}) $) ;
+\path[name path=rayA] (${1:A}) -- ($ (${1:A})!10cm!(auxA) $) ;
+\path[name path=rayB] (${2:B}) -- ($ (${2:B})!10cm!(auxB) $) ;
+\path[name intersections={of=rayA and rayB, by=${5:C}}] ;
+\draw (${1:A})--(${2:B})--(${5:C})--cycle ;"
+               data-description="Triangle par un côté AB et les angles α (en A) et β (en B) → 3e sommet C par intersection de demi-droites">
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                    <polygon points="16,4 28,27 4,27"/>
+                    <circle cx="4" cy="27" r="2" fill="currentColor" stroke="none"/>
+                    <circle cx="28" cy="27" r="2" fill="currentColor" stroke="none"/>
+                    <path d="M 9,27 A 5 5 0 0 0 6,22"/>
+                    <path d="M 26,22 A 5 5 0 0 0 23,27"/>
+                    <text x="8" y="26" font-size="7" fill="currentColor" stroke="none" font-family="serif" font-style="italic">α</text>
+                    <text x="20" y="26" font-size="7" fill="currentColor" stroke="none" font-family="serif" font-style="italic">β</text>
+                </svg>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd"
+               data-snippet="\draw (${1:0,0})--(${2:4,0})--(${3:2,3})--cycle ;"
+               data-description="Triangle par coordonnées directes">
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                    <polygon points="16,4 28,27 4,27"/>
+                    <text x="10" y="11" font-size="6" fill="currentColor" stroke="none" font-family="monospace">(x,y)</text>
+                    <text x="17" y="30" font-size="6" fill="currentColor" stroke="none" font-family="monospace">(x,y)</text>
+                    <text x="0" y="30" font-size="6" fill="currentColor" stroke="none" font-family="monospace">(x,y)</text>
+                </svg>
+            </a>
+        </div>
+
+        <h3>Angles</h3>
+
+        <div>
+            <a class="cmd"
+               data-snippet="\pic[draw, angle radius=${4:8mm}] {angle=${1:A}--${2:O}--${3:B}} ;"
+               data-description="\pic {angle=A--O--B} — arc d'angle (bibliothèque angles)">
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                    <line x1="16" y1="26" x2="28" y2="26"/>
+                    <line x1="16" y1="26" x2="8" y2="8"/>
+                    <path d="M 24,26 A 8 8 0 0 0 13,19"/>
+                    <circle cx="16" cy="26" r="2" fill="currentColor" stroke="none"/>
+                </svg>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd"
+               data-snippet="\pic[draw, &quot;$${4:\alpha}$&quot;, angle radius=${5:8mm}, angle eccentricity=1.5] {angle=${1:A}--${2:O}--${3:B}} ;"
+               data-description="\pic {angle} avec étiquette α — bibliothèques angles + quotes">
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                    <line x1="16" y1="26" x2="28" y2="26"/>
+                    <line x1="16" y1="26" x2="8" y2="8"/>
+                    <path d="M 24,26 A 8 8 0 0 0 13,19"/>
+                    <circle cx="16" cy="26" r="2" fill="currentColor" stroke="none"/>
+                    <text x="23" y="22" font-size="10" fill="currentColor" stroke="none" font-family="serif" font-style="italic">α</text>
+                </svg>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd"
+               data-snippet="\draw ($ (${2:O})!${4:4mm}!(${1:A}) $) -- ($ ($ (${2:O})!${4:4mm}!(${1:A}) $)!${4:4mm}!-90:(${2:O}) $) -- ($ (${2:O})!${4:4mm}!(${3:B}) $) ;"
+               data-description="Marque d'angle droit entre OA et OB via calc">
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                    <line x1="16" y1="26" x2="28" y2="26"/>
+                    <line x1="16" y1="26" x2="16" y2="8"/>
+                    <polyline points="22,26 22,20 16,20"/>
+                    <circle cx="16" cy="26" r="2" fill="currentColor" stroke="none"/>
+                </svg>
+            </a>
+        </div>
+
+        <h3>Droites remarquables</h3>
+
+        <div>
+            <a class="cmd"
+               data-snippet="\coordinate (pA) at ($ (${2:O})!1cm!(${1:A}) $) ;
+\coordinate (pB) at ($ (${2:O})!1cm!(${3:B}) $) ;
+\coordinate (bisDir) at ($ (pA)!0.5!(pB) $) ;
+\draw[name path=${5:bisect}] (${2:O}) -- ($ (${2:O})!${4:6cm}!(bisDir) $) ;
+\coordinate (bisEnd) at ($ (${2:O})!3cm!(bisDir) $) ;
+\pic[draw, angle radius=${6:6mm}] {angle=${1:A}--${2:O}--bisEnd} ;
+\pic[draw, angle radius=${7:5mm}] {angle=bisEnd--${2:O}--${3:B}} ;"
+               data-description="Bissectrice de ∠AOB — angles égaux marqués">
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                    <line x1="5" y1="27" x2="28" y2="27"/>
+                    <line x1="5" y1="27" x2="16" y2="5"/>
+                    <line x1="5" y1="27" x2="22" y2="17" stroke-dasharray="4,2"/>
+                    <path d="M 14,27 A 9 9 0 0 0 13,22"/>
+                    <path d="M 13,22 A 9 9 0 0 0 9,19"/>
+                    <circle cx="5" cy="27" r="2" fill="currentColor" stroke="none"/>
+                </svg>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd"
+               data-snippet="\coordinate (${3:M}) at ($ (${1:A})!0.5!(${2:B}) $) ;
+\coordinate (perpDir) at ($ (${3:M})!1!90:(${1:A}) $) ;
+\draw[name path=${5:mediatrice}] ($ (${3:M})!-${4:3cm}!(perpDir) $) -- ($ (${3:M})!${4:3cm}!(perpDir) $) ;
+\draw ($ (${3:M})!3mm!(${1:A}) $) -- ($ ($ (${3:M})!3mm!(${1:A}) $)!3mm!-90:(${3:M}) $) -- ($ (${3:M})!3mm!-90:(${2:B}) $) ;
+\coordinate (tickAM) at ($ (${1:A})!0.5!(${3:M}) $) ;
+\coordinate (tickMB) at ($ (${3:M})!0.5!(${2:B}) $) ;
+\draw ($ (tickAM)!2mm!90:(${1:A}) $) -- ($ (tickAM)!2mm!-90:(${1:A}) $) ;
+\draw ($ (tickMB)!2mm!90:(${2:B}) $) -- ($ (tickMB)!2mm!-90:(${2:B}) $) ;"
+               data-description="Médiatrice de [AB] — milieu M, perpendiculaire, angle droit et marques AM=MB">
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                    <line x1="4" y1="20" x2="28" y2="20"/>
+                    <circle cx="4" cy="20" r="2" fill="currentColor" stroke="none"/>
+                    <circle cx="28" cy="20" r="2" fill="currentColor" stroke="none"/>
+                    <circle cx="16" cy="20" r="2" fill="currentColor" stroke="none"/>
+                    <line x1="16" y1="5" x2="16" y2="29"/>
+                    <polyline points="16,16 20,16 20,20"/>
+                    <line x1="10" y1="18" x2="10" y2="22"/>
+                    <line x1="22" y1="18" x2="22" y2="22"/>
+                </svg>
+            </a>
+        </div>
+
+        <div>
+            <a class="cmd"
+               data-snippet="\coordinate (${4:H}) at ($ (${2:B})!(${1:A})!(${3:C}) $) ;
+\draw (${1:A})--(${4:H}) ;
+\draw ($ (${4:H})!4mm!(${1:A}) $) -- ($ ($ (${4:H})!4mm!(${1:A}) $)!4mm!-90:(${4:H}) $) -- ($ (${4:H})!4mm!(${3:C}) $) ;"
+               data-description="Hauteur depuis A — pied H = projection (B)!(A)!(C), angle droit en H">
+                <svg width="32" height="32" viewBox="0 0 32 32">
+                    <polygon points="16,4 4,28 28,28"/>
+                    <line x1="16" y1="4" x2="16" y2="28"/>
+                    <polyline points="16,24 20,24 20,28"/>
+                    <circle cx="16" cy="28" r="2" fill="currentColor" stroke="none"/>
+                    <circle cx="16" cy="4" r="2" fill="currentColor" stroke="none"/>
+                </svg>
+            </a>
+        </div>
+
+    </div>
+</div>
+<!-- ========== Fin Onglet PGF/TikZ Géométrie ========== -->
 
 
 

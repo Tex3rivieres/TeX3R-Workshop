@@ -1,5 +1,26 @@
 # Changelog
 
+ ## [3.5.0] - 20/02/2026
+
+ ### Panneau snippets — Nouvel onglet PGF/TikZ Géométrie pure
+ - Onglet dédié aux constructions géométriques en TikZ pur (sans package externe)
+ - **Environnement** : `tikzpicture` avec `usetikzlibrary{calc,intersections,through,angles,quotes}` + grille `help lines`
+ - **Points & Étiquettes** : `\coordinate`, marques de point `+` et `×` (croix droite/oblique via `+`), `\node` étiquette
+ - **Bibliothèque `calc`** : milieu `!0.5!`, point intermédiaire `!t!`, distance fixe `!1cm!`, rotation `!1!90:`, distance via `veclen`
+ - **Bibliothèque `intersections`** : chemins nommés segment/cercle/générique (`\draw[name path=]`, `\path[name path=]`), calcul d'intersection
+ - **Tracés** : segment, demi-droite `[->]`, droite prolongée — variantes nommées inline `[name path=]`
+ - **Cercles** : `circle [radius]`, `\node circle through` avec nommage inline `(name) [name path=name, ...]`
+ - **Triangles** : par 3 sommets, par côté + 2 angles (intersection de demi-droites), par coordonnées
+ - **Angles** : `\pic {angle}`, `\pic` avec étiquette α (bibliothèques `angles` + `quotes`), angle droit via `calc`
+ - **Droites remarquables** : bissectrice (barycentre des vecteurs unitaires + angles égaux), médiatrice (perpendiculaire + marques d'égalité AM=MB + angle droit), hauteur (projection orthogonale `(B)!(A)!(C)` + angle droit)
+
+ ### Panneau snippets — Onglet TeX3R
+ - Ajout des templates **Nouveau Cours** et **Nouveau Devoir** dans la catégorie Général
+
+ ### Corrections et améliorations
+ - Infobulles (`title=`) sur tous les boutons de la barre d'onglets
+ - Correction des marques de points : utilisation de `+` (relatif fixe) au lieu de `++` (déplaçant le point courant)
+
  ## [3.3.8] - 15/03/2024
 
  - Modification de `propriété` par `propriete` dans le panel. 
