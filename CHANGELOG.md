@@ -1,5 +1,10 @@
 # Changelog
 
+ ## [3.5.2] - 20/02/2026
+
+ ### Corrections
+ - Fix onglets **FontAwesome** et **Instruments géométriques** vides : un `</div>` manquant à la fin de l'onglet `#doc` causait l'imbrication de `#geom` et `#fontawesome` à l'intérieur de `#doc` — ces onglets étaient invisibles car leur parent était masqué par `openTab()`
+
  ## [3.5.1] - 20/02/2026
 - Fix liens morts documentation
 
