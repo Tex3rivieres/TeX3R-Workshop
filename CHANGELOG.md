@@ -1,5 +1,10 @@
 # Changelog
 
+ ## [3.5.4] - 22/02/2026
+
+ ### Ajustements
+ - Modifications manuelles du panneau snippets (snippetview.html)
+
  ## [3.5.3] - 22/02/2026
 
  ### Améliorations
