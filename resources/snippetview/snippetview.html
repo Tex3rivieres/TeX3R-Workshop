@@ -711,6 +711,29 @@ $0
 
 <div>
     <a class="cmd" data-snippet=
+"\begin{tabular}{|c|c|c|} %l|c|r|p{1cm}|P{1cm}
+  \hline
+  ${1:Cellule 11} & ${2:Cellule 12} & ${3:Cellule 13} \pt{P1} \\\
+  \hline
+  ${4:Cellule 21} & ${5:Cellule 22} & ${6:Cellule 23} \pt{P2} \\\
+  \hline
+\end{tabular}
+
+\oparrow[color=${7:red}, bend left=${8:45}, transform canvas={xshift=${9:0.5cm}}]{P1}{P2}{${10:\times 3}}%color=Green, bend right=30, yshift=-4pt$0"
+    data-description="Tableau proportionnalité">
+    <svg width="32" height="24" viewBox="0 0 32 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="1" y="4" width="21" height="16" rx="1"/>
+        <line x1="1" y1="12" x2="22" y2="12"/>
+        <line x1="8" y1="4" x2="8" y2="20"/>
+        <line x1="15" y1="4" x2="15" y2="20"/>
+        <path d="M25,7 L30,7 M29,5 L31,7 L29,9"/>
+        <path d="M25,17 L30,17 M29,15 L31,17 L29,19"/>
+    </svg>
+    </a>
+</div>
+
+<div>
+    <a class="cmd" data-snippet=
 "\begin{landscape}
   $TM_SELECTED_TEXT$1
 \end{landscape}$0"

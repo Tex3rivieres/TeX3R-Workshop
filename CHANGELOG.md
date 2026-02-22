@@ -1,5 +1,10 @@
 # Changelog
 
+ ## [3.5.5] - 22/02/2026
+
+### Ajouts
+- Snippet **Tableau proportionnalité** dans l'onglet TeX3R, catégorie Insertion : tableau `tabular` 2×3 avec labels `\pt{}` et flèche `\oparrow` pour représenter un tableau de proportionnalité
+
  ## [3.5.4] - 22/02/2026
 
  ### Ajustements
