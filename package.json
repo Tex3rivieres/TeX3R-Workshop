@@ -3,7 +3,7 @@
   "displayName": "TeX3R",
   "description": "Extension basée sur LaTeX Workshop : paramétrage et raccourcis facilitant la rédaction de cours de mathématiques.",
   "icon": "icons/icon.png",
-  "version": "3.5.2",
+  "version": "3.5.3",
   "publisher": "Tex3R",
   "license": "MIT",
   "homepage": "https://github.com/fleothaud/FLCorpLatexVscode",
@@ -1654,7 +1654,7 @@
             "chapter",
             "section",
             "subsection",
-            "subsubsection"
+            "subsubsection|structure"
           ],
           "markdownDescription": "The section names of LaTeX outline hierarchy. It is also used by the folding mechanism. This property is an array of case-sensitive strings in the order of document structure hierarchy. For multiple tags in the same level, separate the tags with `|` as delimiters, e.g., `section|alternative`."
         },

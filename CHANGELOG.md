@@ -1,5 +1,10 @@
 # Changelog
 
+ ## [3.5.3] - 22/02/2026
+
+ ### Améliorations
+ - `\structure` ajouté au niveau `subsubsection` dans `view.outline.sections` par défaut : la commande apparaît désormais dans l'outline VSCode sans configuration supplémentaire
+
  ## [3.5.2] - 20/02/2026
 
  ### Corrections
